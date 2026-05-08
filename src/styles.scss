@@ -2,7 +2,7 @@
 @use '@angular/material' as mat;
 
 // ─── Google Fonts ────────────────────────────────────────────────────────────
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Outfit:wght@300;400;500;600;700&display=swap');
 @include mat.core();
 
 $keys-theme: mat.define-theme((
@@ -12,8 +12,8 @@ $keys-theme: mat.define-theme((
     tertiary: mat.$cyan-palette,
   ),
   typography: (
-    brand-family: 'Inter, sans-serif',
-    plain-family: 'Inter, sans-serif',
+    brand-family: 'Outfit, sans-serif',
+    plain-family: 'Outfit, sans-serif',
   ),
   density: (scale: 0),
 ));
@@ -24,35 +24,36 @@ $keys-theme: mat.define-theme((
 
 // ─── Design Tokens ───────────────────────────────────────────────────────────
 :root {
-  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-sans: 'Outfit', system-ui, sans-serif;
+  --font-display: 'Orbitron', system-ui, sans-serif;
 
   // background gradient
-  --bg-grad-start: #0d0d1a;
-  --bg-grad-mid:   #0a1628;
-  --bg-grad-end:   #0d1a2e;
+  --bg-grad-start: #040609;
+  --bg-grad-mid:   #09101a;
+  --bg-grad-end:   #05080c;
 
-  // frosted glass
-  --glass-bg:      rgba(255, 255, 255, 0.06);
-  --glass-bg-hover:rgba(255, 255, 255, 0.10);
-  --glass-border:  rgba(255, 255, 255, 0.12);
-  --glass-shadow:  0 8px 32px rgba(0, 0, 0, 0.4);
-  --glass-blur:    blur(18px) saturate(180%);
+  // frosted glass - sleeker for game UI
+  --glass-bg:      rgba(15, 20, 30, 0.4);
+  --glass-bg-hover:rgba(25, 30, 45, 0.6);
+  --glass-border:  rgba(255, 255, 255, 0.08);
+  --glass-shadow:  0 8px 32px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255,255,255,0.05);
+  --glass-blur:    blur(20px) saturate(180%);
 
-  // phase accent palette
-  --phase-1:  #8b7ef8;  // purple
-  --phase-2:  #34d399;  // teal
-  --phase-3:  #fbbf24;  // amber
-  --phase-4:  #fb7185;  // coral
-  --phase-5:  #60a5fa;  // blue
+  // phase accent palette (neon)
+  --phase-1:  #a78bfa;  // purple neon
+  --phase-2:  #34d399;  // neon teal
+  --phase-3:  #fbbf24;  // neon amber
+  --phase-4:  #fb7185;  // neon pink
+  --phase-5:  #60a5fa;  // neon blue
 
   --text-primary:   rgba(255,255,255,0.95);
-  --text-secondary: rgba(255,255,255,0.65);
-  --text-muted:     rgba(255,255,255,0.38);
+  --text-secondary: rgba(255,255,255,0.7);
+  --text-muted:     rgba(255,255,255,0.4);
 
-  --radius-sm:  8px;
-  --radius-md:  12px;
-  --radius-lg:  16px;
-  --radius-xl:  24px;
+  --radius-sm:  4px;
+  --radius-md:  8px;
+  --radius-lg:  12px;
+  --radius-xl:  16px;
 }
 
 // ─── Reset & Base ─────────────────────────────────────────────────────────────
@@ -67,6 +68,12 @@ html, body {
   color: var(--text-primary);
   background: linear-gradient(135deg, var(--bg-grad-start) 0%, var(--bg-grad-mid) 50%, var(--bg-grad-end) 100%);
   min-height: 100vh;
+}
+
+h1, h2, h3, .phase-badge, .num, .brand-title, .phase-num {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 // ─── Scrollbar ────────────────────────────────────────────────────────────────

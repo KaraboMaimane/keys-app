@@ -2,14 +2,14 @@ import { Component, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { trigger, transition, style, animate, query, stagger } from '@angular/animations';
 import { MatChipsModule } from '@angular/material/chips';
-import { MatExpansionModule } from '@angular/material/expansion';
+import { MatTabsModule } from '@angular/material/tabs';
 import { MatRippleModule } from '@angular/material/core';
 import { PHASES } from './data/phases.data';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, MatChipsModule, MatExpansionModule, MatRippleModule],
+  imports: [CommonModule, MatChipsModule, MatTabsModule, MatRippleModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   animations: [

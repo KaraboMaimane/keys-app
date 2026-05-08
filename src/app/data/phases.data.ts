@@ -88,7 +88,7 @@ export const PHASES: Phase[] = [
               'Name every white key by sight: C D E F G A B (and back)',
               'Learn the C major scale with right hand, then left hand, then both in parallel (fingering: 1 2 3 | 1 2 3 4 5 — thumb crosses under after E)',
               'Curved fingers, relaxed wrists — no flat fingers, no tension',
-              'Play the scale ascending and descending at 60 BPM with a metronome',
+              'Play the scale ascending and descending at 60 BPM with a metronome (Ideal practice BPM)',
             ]
           },
           {
@@ -111,12 +111,12 @@ export const PHASES: Phase[] = [
             type: 'tag-list',
             heading: 'The 7 diatonic triads of C major',
             items: [
-              '<span class="tag tag-purple">C maj</span> C–E–G',
-              '<span class="tag tag-teal">D min</span> D–F–A',
-              '<span class="tag tag-teal">E min</span> E–G–B',
-              '<span class="tag tag-purple">F maj</span> F–A–C',
-              '<span class="tag tag-purple">G maj</span> G–B–D',
-              '<span class="tag tag-teal">A min</span> A–C–E',
+              '<span class="tag tag-purple">C maj</span> C–E–G (Fingering: 1-3-5)',
+              '<span class="tag tag-teal">D min</span> D–F–A (Fingering: 1-3-5)',
+              '<span class="tag tag-teal">E min</span> E–G–B (Fingering: 1-3-5)',
+              '<span class="tag tag-purple">F maj</span> F–A–C (Fingering: 1-3-5)',
+              '<span class="tag tag-purple">G maj</span> G–B–D (Fingering: 1-3-5)',
+              '<span class="tag tag-teal">A min</span> A–C–E (Fingering: 1-3-5)',
               '<span class="tag tag-amber">B dim</span> B–D–F (avoid for now)',
             ]
           },
@@ -198,12 +198,12 @@ export const PHASES: Phase[] = [
             type: 'tag-list',
             heading: 'Add the 7th — the deep house sound',
             items: [
-              '<span class="tag tag-purple">Cmaj7</span> C–E–G–B',
-              '<span class="tag tag-teal">Dm7</span> D–F–A–C',
-              '<span class="tag tag-teal">Em7</span> E–G–B–D',
-              '<span class="tag tag-purple">Fmaj7</span> F–A–C–E',
-              '<span class="tag tag-amber">G7</span> G–B–D–F (dominant 7th — the "tension" chord)',
-              '<span class="tag tag-teal">Am7</span> A–C–E–G',
+              '<span class="tag tag-purple">Cmaj7</span> C–E–G–B (Fingering: 1-2-3-5 or 1-2-4-5)',
+              '<span class="tag tag-teal">Dm7</span> D–F–A–C (Fingering: 1-2-3-5 or 1-2-4-5)',
+              '<span class="tag tag-teal">Em7</span> E–G–B–D (Fingering: 1-2-3-5 or 1-2-4-5)',
+              '<span class="tag tag-purple">Fmaj7</span> F–A–C–E (Fingering: 1-2-3-5 or 1-2-4-5)',
+              '<span class="tag tag-amber">G7</span> G–B–D–F (dominant 7th) (Fingering: 1-2-3-5)',
+              '<span class="tag tag-teal">Am7</span> A–C–E–G (Fingering: 1-2-3-5 or 1-2-4-5)',
             ],
             body: 'These 4-note chords are the backbone of deep house. Fmaj7 and Cmaj7 especially appear in almost every deep house and amapiano track.'
           },
@@ -602,7 +602,7 @@ export const PHASES: Phase[] = [
             type: 'list',
             heading: 'Amapiano piano exercise',
             items: [
-              'Set your DAW to 112 BPM',
+              'Set your DAW to 112 BPM (Ideal BPM for Amapiano)',
               'Lay down a basic log drum pattern (kick on 1 and 3, snare on 2 and 4, 8th note sub-bass)',
               'Record this riff over Am: A–C–E–D–C (use your Phase 2 patterns!)',
               'Add an Am9 chord stab on beat 2 and the "and" of 3',

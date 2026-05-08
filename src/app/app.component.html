@@ -70,84 +70,82 @@
 
       <!-- Sections -->
       <div class="sections-wrap" [@staggerCards]="activeIndex()">
-        <mat-expansion-panel
-          *ngFor="let section of phase.sections; let si = index; trackBy: trackByIndex"
-          [expanded]="si === 0"
-          class="section-panel"
-        >
-          <mat-expansion-panel-header>
-            <mat-panel-title>
+        <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" class="section-tabs" dynamicHeight>
+          <mat-tab *ngFor="let section of phase.sections; let si = index; trackBy: trackByIndex">
+            <ng-template mat-tab-label>
               <i class="ti {{ section.icon }}" style="margin-right:8px;font-size:16px;opacity:0.7"></i>
               {{ section.title }}
-            </mat-panel-title>
-          </mat-expansion-panel-header>
+            </ng-template>
 
-          <ng-container *ngFor="let card of section.cards; trackBy: trackByIndex">
+            <div class="tab-content" style="padding-top: 20px;">
+              <ng-container *ngFor="let card of section.cards; trackBy: trackByIndex">
 
-            <!-- Studio Milestone -->
-            <div *ngIf="card.type === 'studio-milestone'" class="glass-card milestone-card">
-              <h3>{{ card.heading }}</h3>
-              <ul>
-                <li *ngFor="let item of card.items">{{ item }}</li>
-              </ul>
-            </div>
+                <!-- Studio Milestone -->
+                <div *ngIf="card.type === 'studio-milestone'" class="glass-card milestone-card animate-in">
+                  <h3>{{ card.heading }}</h3>
+                  <ul>
+                    <li *ngFor="let item of card.items">{{ item }}</li>
+                  </ul>
+                </div>
 
-            <!-- Text -->
-            <div *ngIf="card.type === 'text'" class="glass-card">
-              <h3 *ngIf="card.heading">{{ card.heading }}</h3>
-              <p *ngIf="card.intro" class="card-intro" [innerHTML]="card.intro"></p>
-              <ng-container *ngIf="card.body">
-                <p *ngFor="let para of card.body!.split('\n\n')" style="margin-bottom:8px" [innerHTML]="para"></p>
+                <!-- Text -->
+                <div *ngIf="card.type === 'text'" class="glass-card animate-in">
+                  <h3 *ngIf="card.heading">{{ card.heading }}</h3>
+                  <p *ngIf="card.intro" class="card-intro" [innerHTML]="card.intro"></p>
+                  <ng-container *ngIf="card.body">
+                    <p *ngFor="let para of card.body!.split('\n\n')" style="margin-bottom:8px" [innerHTML]="para"></p>
+                  </ng-container>
+                </div>
+
+                <!-- List -->
+                <div *ngIf="card.type === 'list'" class="glass-card animate-in">
+                  <h3 *ngIf="card.heading">{{ card.heading }}</h3>
+                  <p *ngIf="card.intro" class="card-intro">{{ card.intro }}</p>
+                  <ul>
+                    <li *ngFor="let item of card.items">{{ item }}</li>
+                  </ul>
+                  <p *ngIf="card.body" style="margin-top:8px;font-size:13px;color:var(--text-secondary)">{{ card.body }}</p>
+                </div>
+
+                <!-- Tag-list (HTML items) -->
+                <div *ngIf="card.type === 'tag-list'" class="glass-card animate-in">
+                  <h3 *ngIf="card.heading">{{ card.heading }}</h3>
+                  <p *ngIf="card.intro" class="card-intro" [innerHTML]="card.intro"></p>
+                  <ul style="padding-left:0">
+                    <li *ngFor="let item of card.items" [innerHTML]="item" style="margin-bottom:6px;list-style:none"></li>
+                  </ul>
+                  <p *ngIf="card.body" style="margin-top:8px;font-size:13px;color:var(--text-secondary)" [innerHTML]="card.body"></p>
+                </div>
+
+                <!-- Two-col Drill Grid -->
+                <div *ngIf="card.type === 'two-col-drill'" class="glass-card animate-in">
+                  <h3 *ngIf="card.heading">{{ card.heading }}</h3>
+                  <p *ngIf="card.intro" class="card-intro">{{ card.intro }}</p>
+                  <div class="drill-grid">
+                    <div class="drill-item" *ngFor="let item of $any(card.items)">
+                      <p>{{ item.title }}</p>
+                      <span>{{ item.detail }}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Numeral Grid -->
+                <div *ngIf="card.type === 'numeral-grid'" class="glass-card animate-in">
+                  <h3 *ngIf="card.heading">{{ card.heading }}</h3>
+                  <p *ngIf="card.intro" class="card-intro">{{ card.intro }}</p>
+                  <div class="numeral-grid">
+                    <div class="numeral-cell" *ngFor="let n of card.numerals" [style]="n.style">
+                      <div class="num">{{ n.label }}</div>
+                      <div class="chord">{{ n.chord }}</div>
+                    </div>
+                  </div>
+                  <p *ngIf="card.body" style="margin-top:10px;font-size:13px;color:var(--text-secondary)">{{ card.body }}</p>
+                </div>
+
               </ng-container>
             </div>
-
-            <!-- List -->
-            <div *ngIf="card.type === 'list'" class="glass-card">
-              <h3 *ngIf="card.heading">{{ card.heading }}</h3>
-              <p *ngIf="card.intro" class="card-intro">{{ card.intro }}</p>
-              <ul>
-                <li *ngFor="let item of card.items">{{ item }}</li>
-              </ul>
-              <p *ngIf="card.body" style="margin-top:8px;font-size:13px;color:var(--text-secondary)">{{ card.body }}</p>
-            </div>
-
-            <!-- Tag-list (HTML items) -->
-            <div *ngIf="card.type === 'tag-list'" class="glass-card">
-              <h3 *ngIf="card.heading">{{ card.heading }}</h3>
-              <p *ngIf="card.intro" class="card-intro" [innerHTML]="card.intro"></p>
-              <ul style="padding-left:0">
-                <li *ngFor="let item of card.items" [innerHTML]="item" style="margin-bottom:6px;list-style:none"></li>
-              </ul>
-              <p *ngIf="card.body" style="margin-top:8px;font-size:13px;color:var(--text-secondary)" [innerHTML]="card.body"></p>
-            </div>
-
-            <!-- Two-col Drill Grid -->
-            <div *ngIf="card.type === 'two-col-drill'" class="glass-card">
-              <h3 *ngIf="card.heading">{{ card.heading }}</h3>
-              <p *ngIf="card.intro" class="card-intro">{{ card.intro }}</p>
-              <div class="drill-grid">
-                <div class="drill-item" *ngFor="let item of $any(card.items)">
-                  <p>{{ item.title }}</p>
-                  <span>{{ item.detail }}</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Numeral Grid -->
-            <div *ngIf="card.type === 'numeral-grid'" class="glass-card">
-              <h3 *ngIf="card.heading">{{ card.heading }}</h3>
-              <p *ngIf="card.intro" class="card-intro">{{ card.intro }}</p>
-              <div class="numeral-grid">
-                <div class="numeral-cell" *ngFor="let n of card.numerals" [style]="n.style">
-                  <div class="num">{{ n.label }}</div>
-                  <div class="chord">{{ n.chord }}</div>
-                </div>
-              </div>
-              <p *ngIf="card.body" style="margin-top:10px;font-size:13px;color:var(--text-secondary)">{{ card.body }}</p>
-            </div>
-
-          </ng-container>
-        </mat-expansion-panel>
+          </mat-tab>
+        </mat-tab-group>
 
         <!-- Readiness Check -->
         <div *ngIf="phase.checkList" class="glass-card readiness-card">
