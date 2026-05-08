@@ -1,0 +1,172 @@
+<!-- ─── Background orbs ─────────────────────────────────────────────────── -->
+<div class="bg-orbs" aria-hidden="true">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+</div>
+
+<!-- ─── App Shell ───────────────────────────────────────────────────────── -->
+<div class="app-shell">
+
+  <!-- Header -->
+  <header class="site-header glass">
+    <div class="header-inner">
+      <div class="header-brand">
+        <span class="brand-icon">🎹</span>
+        <div>
+          <h1 class="brand-title">Keys Lessons</h1>
+          <p class="brand-sub">Your keyboard roadmap to deep house &amp; amapiano</p>
+        </div>
+      </div>
+      <div class="header-meta">
+        <span class="meta-chip"><i class="ti ti-clock"></i> 6–8 months</span>
+        <span class="meta-chip"><i class="ti ti-music"></i> 5 phases</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Phase Navigation -->
+  <div class="progress-strip">
+    <div class="progress-inner">
+      <ng-container *ngFor="let p of phases; let i = index; trackBy: trackByIndex">
+        <button
+          class="phase-btn"
+          [class.active]="activeIndex() === i"
+          [style.--accent]="p.accentColor"
+          (click)="setPhase(i)"
+          matRipple
+          [matRippleColor]="'rgba(255,255,255,0.08)'"
+          [attr.aria-label]="'Go to ' + p.label"
+        >
+          <span class="phase-num"
+                [style.background]="activeIndex() === i ? p.accentColor : 'transparent'"
+                [style.color]="activeIndex() === i ? '#000' : p.accentColor"
+                [style.border-color]="p.accentColor">{{ p.id }}</span>
+          <span class="phase-label">{{ p.label }}</span>
+        </button>
+        <div *ngIf="i < phases.length - 1"
+             class="phase-connector"
+             [style.background]="activeIndex() > i ? phases[i].accentColor : 'rgba(255,255,255,0.1)'">
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="content-area">
+    <div class="phase-panel" [@phaseIn] *ngIf="activePhase() as phase">
+
+      <!-- Phase Header -->
+      <div class="phase-header glass">
+        <div class="phase-badge" [style]="phase.badgeStyle">{{ phase.id }}</div>
+        <div class="phase-info">
+          <h2 class="phase-title">{{ phase.title }}</h2>
+          <p class="phase-desc">{{ phase.description }}</p>
+          <span class="timeline-chip">
+            <i class="ti ti-clock"></i> {{ phase.timeline }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Sections -->
+      <div class="sections-wrap" [@staggerCards]="activeIndex()">
+        <mat-expansion-panel
+          *ngFor="let section of phase.sections; let si = index; trackBy: trackByIndex"
+          [expanded]="si === 0"
+          class="section-panel"
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <i class="ti {{ section.icon }}" style="margin-right:8px;font-size:16px;opacity:0.7"></i>
+              {{ section.title }}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <ng-container *ngFor="let card of section.cards; trackBy: trackByIndex">
+
+            <!-- Studio Milestone -->
+            <div *ngIf="card.type === 'studio-milestone'" class="glass-card milestone-card">
+              <h3>{{ card.heading }}</h3>
+              <ul>
+                <li *ngFor="let item of card.items">{{ item }}</li>
+              </ul>
+            </div>
+
+            <!-- Text -->
+            <div *ngIf="card.type === 'text'" class="glass-card">
+              <h3 *ngIf="card.heading">{{ card.heading }}</h3>
+              <p *ngIf="card.intro" class="card-intro" [innerHTML]="card.intro"></p>
+              <ng-container *ngIf="card.body">
+                <p *ngFor="let para of card.body!.split('\n\n')" style="margin-bottom:8px" [innerHTML]="para"></p>
+              </ng-container>
+            </div>
+
+            <!-- List -->
+            <div *ngIf="card.type === 'list'" class="glass-card">
+              <h3 *ngIf="card.heading">{{ card.heading }}</h3>
+              <p *ngIf="card.intro" class="card-intro">{{ card.intro }}</p>
+              <ul>
+                <li *ngFor="let item of card.items">{{ item }}</li>
+              </ul>
+              <p *ngIf="card.body" style="margin-top:8px;font-size:13px;color:var(--text-secondary)">{{ card.body }}</p>
+            </div>
+
+            <!-- Tag-list (HTML items) -->
+            <div *ngIf="card.type === 'tag-list'" class="glass-card">
+              <h3 *ngIf="card.heading">{{ card.heading }}</h3>
+              <p *ngIf="card.intro" class="card-intro" [innerHTML]="card.intro"></p>
+              <ul style="padding-left:0">
+                <li *ngFor="let item of card.items" [innerHTML]="item" style="margin-bottom:6px;list-style:none"></li>
+              </ul>
+              <p *ngIf="card.body" style="margin-top:8px;font-size:13px;color:var(--text-secondary)" [innerHTML]="card.body"></p>
+            </div>
+
+            <!-- Two-col Drill Grid -->
+            <div *ngIf="card.type === 'two-col-drill'" class="glass-card">
+              <h3 *ngIf="card.heading">{{ card.heading }}</h3>
+              <p *ngIf="card.intro" class="card-intro">{{ card.intro }}</p>
+              <div class="drill-grid">
+                <div class="drill-item" *ngFor="let item of $any(card.items)">
+                  <p>{{ item.title }}</p>
+                  <span>{{ item.detail }}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Numeral Grid -->
+            <div *ngIf="card.type === 'numeral-grid'" class="glass-card">
+              <h3 *ngIf="card.heading">{{ card.heading }}</h3>
+              <p *ngIf="card.intro" class="card-intro">{{ card.intro }}</p>
+              <div class="numeral-grid">
+                <div class="numeral-cell" *ngFor="let n of card.numerals" [style]="n.style">
+                  <div class="num">{{ n.label }}</div>
+                  <div class="chord">{{ n.chord }}</div>
+                </div>
+              </div>
+              <p *ngIf="card.body" style="margin-top:10px;font-size:13px;color:var(--text-secondary)">{{ card.body }}</p>
+            </div>
+
+          </ng-container>
+        </mat-expansion-panel>
+
+        <!-- Readiness Check -->
+        <div *ngIf="phase.checkList" class="glass-card readiness-card">
+          <div class="section-title">
+            <i class="ti ti-checkbox"></i>
+            Readiness check — move to the next phase when:
+          </div>
+          <ul class="check-list">
+            <li *ngFor="let item of phase.checkList">
+              <span class="check-icon"><i class="ti ti-check"></i></span>
+              {{ item }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>Practice consistently · Trust the process · Make music 🎶</p>
+  </footer>
+</div>
