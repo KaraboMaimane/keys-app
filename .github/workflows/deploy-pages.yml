@@ -16,7 +16,45 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium webkit
+
+      - name: Run E2E tests
+        run: npm run e2e:smoke
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: deploy-playwright-report
+          path: playwright-report/
+          retention-days: 7
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: deploy-playwright-test-results
+          path: test-results/
+          retention-days: 7
+
   build:
+    needs: e2e
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
