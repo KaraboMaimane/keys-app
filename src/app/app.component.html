@@ -258,6 +258,13 @@
               </ng-template>
 
               <div class="tab-content" style="padding-top: 20px;">
+
+                <!-- Practice HUD: metronome + session timer (practice sections only) -->
+                <app-practice-hud *ngIf="isPracticeSection(section)"></app-practice-hud>
+
+                <!-- Scale Quiz (Week 1 and A natural minor sections) -->
+                <app-scale-quiz *ngIf="isScaleSection(section)" style="display:block;margin-bottom:16px"></app-scale-quiz>
+
                 <ng-container *ngFor="let card of section.cards; trackBy: trackByIndex">
 
                   <!-- Studio Milestone -->
@@ -323,6 +330,14 @@
                   </div>
 
                 </ng-container>
+
+                <!-- Drill Timer (practice sections with L1-L4 ladders) -->
+                <app-drill-timer
+                  *ngIf="isPracticeSection(section) && getDrillItems(section).length > 0"
+                  [phaseId]="activePhase().id"
+                  [sectionTitle]="section.title"
+                  [levels]="getDrillItems(section)">
+                </app-drill-timer>
 
                 <div *ngIf="section.checkList?.length" class="glass-card readiness-card section-readiness-card animate-in">
                   <div class="readiness-header">
