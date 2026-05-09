@@ -104,6 +104,120 @@ export const PHASES: Phase[] = [
         ]
       },
       {
+        icon: 'ti-moon',
+        title: 'The A natural minor scale — your second home',
+        cards: [
+          {
+            type: 'list',
+            heading: 'Why A minor matters immediately',
+            items: [
+              'A minor and C major share the same 7 notes — A B C D E F G. No new notes to memorize.',
+              'The difference is emotional centre: start and resolve on A instead of C, and the same notes sound dark, searching, introspective.',
+              'Nearly all SA deep house and amapiano tracks live in A minor or a related minor key — you need this as a home base, not an afterthought.',
+            ]
+          },
+          {
+            type: 'tag-list',
+            heading: 'A natural minor scale',
+            intro: 'Notes: A – B – C – D – E – F – G – A',
+            items: [
+              '<span class="tag tag-purple">Fingering (RH)</span> 1–2–3–1–2–3–4–5 (same thumb-under technique as C major)',
+              '<span class="tag tag-teal">Fingering (LH)</span> 5–4–3–2–1–3–2–1',
+              '<span class="tag tag-blue">Starting note</span> A is the white key immediately to the left of any group of three black keys',
+            ],
+            body: 'Practice ascending and descending at 60 BPM. Say each note name aloud. Notice how landing on A feels "home" — a different emotional colour than landing on C.'
+          },
+          {
+            type: 'two-col-drill',
+            heading: 'Daily drill (10 min)',
+            items: [
+              { title: 'C major scale', detail: 'Up + down, 4x — land on C, feel resolved' },
+              { title: 'A minor scale', detail: 'Up + down, 4x — land on A, feel the shift in mood' },
+              { title: 'Same notes, different home', detail: 'Play both back to back. Identical notes — opposite emotional centre.' },
+            ]
+          }
+        ]
+      },
+      {
+        icon: 'ti-ruler-measure',
+        title: 'Intervals — the building blocks of all harmony',
+        cards: [
+          {
+            type: 'text',
+            heading: 'What is an interval?',
+            body: 'An interval is the distance between two notes. Every chord, every scale, every melody is built from intervals. Once you understand intervals, you can construct any chord in any key without memorising shapes — you just count the gaps. This is the single most important theory concept for understanding why chords sound the way they do.'
+          },
+          {
+            type: 'tag-list',
+            heading: 'The essential intervals (from C upward, counting every key)',
+            items: [
+              '<span class="tag tag-purple">2 semitones — Major 2nd (M2)</span> C to D. Open, unresolved. Found in sus2 chords.',
+              '<span class="tag tag-teal">3 semitones — Minor 3rd (m3)</span> C to E♭. Dark, sad, minor. The defining interval of all minor chords.',
+              '<span class="tag tag-teal">4 semitones — Major 3rd (M3)</span> C to E. Bright, happy, major. The defining interval of all major chords.',
+              '<span class="tag tag-blue">5 semitones — Perfect 4th (P4)</span> C to F. Open, neutral. Used in sus4 chords and bass movement.',
+              '<span class="tag tag-blue">6 semitones — Tritone (dim5)</span> C to F#. Maximum tension. Used in dominant 7th chords.',
+              '<span class="tag tag-blue">7 semitones — Perfect 5th (P5)</span> C to G. Stable, powerful. The anchor in all triads.',
+              '<span class="tag tag-amber">10 semitones — Minor 7th (m7)</span> C to B♭. Bluesy tension. Used in dominant and minor 7th chords.',
+              '<span class="tag tag-amber">11 semitones — Major 7th (M7)</span> C to B. Dreamy, floating. Used in maj7 chords.',
+              '<span class="tag tag-coral">8 semitones — Minor 6th / Aug 5th</span> C to A♭. Used in augmented chords. Cinematic.',
+              '<span class="tag tag-purple">12 semitones — Octave (P8)</span> C to C. Same note, higher register. Perfect resolution.',
+            ]
+          },
+          {
+            type: 'two-col-drill',
+            heading: 'Ear association — learn to hear intervals',
+            intro: 'Associate each interval with its emotional quality:',
+            items: [
+              { title: 'Minor 3rd (m3)', detail: 'C to E♭ — the "sad" step. Every minor chord opens with this.' },
+              { title: 'Major 3rd (M3)', detail: 'C to E — the "happy" step. Every major chord opens with this.' },
+              { title: 'Perfect 5th (P5)', detail: 'C to G — the stable anchor. Present in almost every chord.' },
+              { title: 'Minor 7th (m7)', detail: 'C to B♭ — the blues/tension sound. Defines dominant and minor 7th chords.' },
+              { title: 'Major 7th (M7)', detail: 'C to B — the floating, dreamy sound. Defines maj7 chords.' },
+            ]
+          }
+        ]
+      },
+      {
+        icon: 'ti-calculator',
+        title: 'Chord construction — building chords from intervals',
+        cards: [
+          {
+            type: 'text',
+            heading: 'The stacking principle',
+            body: 'Every chord is built by stacking intervals on top of a root note. You don\'t need to memorise every chord shape separately — you just need to know the interval formula. The same formula works from any root note in any key.'
+          },
+          {
+            type: 'tag-list',
+            heading: 'The 4 essential chord formulas',
+            items: [
+              '<span class="tag tag-purple">Major triad</span> Root + Major 3rd (4 semitones) + Perfect 5th (7 semitones) → C + E + G = C major. Bright, stable.',
+              '<span class="tag tag-teal">Minor triad</span> Root + Minor 3rd (3 semitones) + Perfect 5th (7 semitones) → A + C + E = A minor. Dark, expressive.',
+              '<span class="tag tag-amber">Diminished triad</span> Root + Minor 3rd (3 semitones) + Diminished 5th (6 semitones) → B + D + F = B diminished. Tense, unstable.',
+              '<span class="tag tag-coral">Augmented triad</span> Root + Major 3rd (4 semitones) + Augmented 5th (8 semitones) → C + E + G# = C augmented. Floating, unresolved.',
+            ]
+          },
+          {
+            type: 'tag-list',
+            heading: '7th chord formulas — adding the 4th note',
+            items: [
+              '<span class="tag tag-purple">Major 7th (maj7)</span> Major triad + Major 7th (11 semitones from root) → C–E–G–B = Cmaj7. The deep house sound.',
+              '<span class="tag tag-teal">Minor 7th (m7)</span> Minor triad + Minor 7th (10 semitones from root) → A–C–E–G = Am7. Dark and soulful.',
+              '<span class="tag tag-amber">Dominant 7th (7)</span> Major triad + Minor 7th (10 semitones from root) → G–B–D–F = G7. Maximum tension before resolution.',
+            ]
+          },
+          {
+            type: 'two-col-drill',
+            heading: 'Build-a-chord drills — construct from the formula, not memory',
+            items: [
+              { title: 'D major triad', detail: 'D + M3 (F#) + P5 (A) = D–F#–A' },
+              { title: 'G minor triad', detail: 'G + m3 (B♭) + P5 (D) = G–B♭–D' },
+              { title: 'E dominant 7th', detail: 'E + M3 (G#) + P5 (B) + m7 (D) = E7 = E–G#–B–D' },
+              { title: 'Fmaj7', detail: 'F + M3 (A) + P5 (C) + M7 (E) = F–A–C–E ✓' },
+            ]
+          }
+        ]
+      },
+      {
         icon: 'ti-music',
         title: 'Week 2 — triads in root position',
         cards: [
@@ -226,8 +340,9 @@ export const PHASES: Phase[] = [
       'You can play all 7 triads in all 3 inversions',
       'You can play all 6 seventh chords (Cmaj7, Dm7, Em7, Fmaj7, G7, Am7)',
       'You can transition between C–F–G–Am smoothly at 70 BPM without pausing',
-      'Both hands can play the C major scale cleanly in parallel',
-    ]
+      'Both hands can play the C major scale cleanly in parallel',      'You can play the A natural minor scale with both hands at 60 BPM',
+      'You can name the interval between any two white keys in C major (e.g. C to E = Major 3rd)',
+      'You can construct any major or minor triad from its root using the interval formula — no memorisation',    ]
   },
 
   // ─── PHASE 2 ──────────────────────────────────────────────────────────────
@@ -392,6 +507,90 @@ export const PHASES: Phase[] = [
           }
         ]
       },
+      {
+        icon: 'ti-wave-square',
+        title: 'Syncopation — the heartbeat of house music',
+        cards: [
+          {
+            type: 'text',
+            heading: 'What is syncopation?',
+            body: 'Syncopation means placing emphasis on beats or subdivisions that are normally weak — the "ands" and "e\'s" between the main beats. In 4/4 time, beats 1, 2, 3, 4 are the strong grid. The "and" of each beat (the 8th note in between) is off-beat. Playing notes that land on these off-beats creates forward momentum, tension, and groove — the engine of amapiano and deep house alike.'
+          },
+          {
+            type: 'tag-list',
+            heading: 'Rhythmic subdivisions you need to know',
+            items: [
+              '<span class="tag tag-purple">Quarter note</span> 1 beat. "1 – 2 – 3 – 4". 4 per bar. The basic pulse.',
+              '<span class="tag tag-teal">8th note</span> Half a beat. "1 and 2 and 3 and 4 and". 8 per bar. Standard amapiano sub-bass pump.',
+              '<span class="tag tag-blue">16th note</span> Quarter of a beat. "1 e and a, 2 e and a…". 16 per bar. Where amapiano piano riffs live.',
+              '<span class="tag tag-amber">Dotted 8th</span> 3/4 of a beat. Creates the "skip" feel. Deep house chord stab rhythm.',
+            ]
+          },
+          {
+            type: 'two-col-drill',
+            heading: 'Syncopation patterns to practice',
+            intro: 'Set your DAW to 112 BPM. Record these into MIDI and listen before playing:',
+            items: [
+              { title: 'On-beat stab', detail: 'Chord on beat 1 and beat 3 only. Straight, formal — notice how stiff it feels.' },
+              { title: 'Syncopated stab', detail: 'Chord on the "and" of beat 2 and "and" of beat 4. Feels like it pulls you forward.' },
+              { title: 'Amapiano push', detail: 'Chord on beat 2, then on the "e" of beat 3 (a 16th note early). That forward lean is the signature.' },
+              { title: 'Ghost + accent', detail: 'Light chord on beat 1, strong chord on the "and" of 2. Question–answer feel.' },
+            ]
+          },
+          {
+            type: 'list',
+            heading: 'DAW exercise — feel vs grid',
+            items: [
+              'Open your DAW and lay a kick on beats 1 and 3, snare on 2 and 4',
+              'Record a chord on every beat (on-beat) — note how it feels locked and stiff',
+              'Now shift each chord forward by one 16th note (early) — hear the groove emerge',
+              'Quantize to 16th notes but set swing to 55–65% — this is the amapiano timing feel',
+            ]
+          }
+        ]
+      },
+      {
+        icon: 'ti-music-bolt',
+        title: 'Suspended chords — sus2 and sus4',
+        cards: [
+          {
+            type: 'text',
+            heading: 'What are suspended chords?',
+            body: 'A suspended chord replaces the 3rd of a triad with either the 2nd (sus2) or the 4th (sus4). Because the 3rd is what determines major or minor quality, suspended chords are ambiguous — they belong to neither. This creates tension that resolves beautifully when the 3rd returns. Suspended chords add anticipation before a chord resolves and create that floating, breathless moment before the drop.'
+          },
+          {
+            type: 'tag-list',
+            heading: 'The formulas',
+            items: [
+              '<span class="tag tag-purple">sus2</span> Root + Major 2nd (2 semitones) + Perfect 5th (7 semitones). Csus2 = C–D–G. Open, airy, unresolved.',
+              '<span class="tag tag-teal">sus4</span> Root + Perfect 4th (5 semitones) + Perfect 5th (7 semitones). Gsus4 = G–C–D. Tense, anticipatory.',
+              '<span class="tag tag-blue">Resolution</span> Gsus4 → G major: the C (suspended 4th) moves down one step to B (the natural 3rd). This one-note move creates enormous satisfying resolution.',
+            ]
+          },
+          {
+            type: 'two-col-drill',
+            heading: 'Sus chord applications in house music',
+            items: [
+              { title: 'Gsus4 → G7 → Cmaj7', detail: 'Classic sus resolution into the dominant, then home. Very common house move.' },
+              { title: 'Asus4 → Am7', detail: 'Adds anticipation before your minor tonic arrives. Use at section changes.' },
+              { title: 'Csus2 vamp', detail: 'Hold Csus2 for 4 bars, resolve to Cmaj7 on bar 5. Creates intro tension.' },
+              { title: 'Fsus2 → Fmaj7', detail: 'F–G–C → F–A–C. The A arrives and the chord blooms.' },
+            ]
+          },
+          {
+            type: 'tag-list',
+            heading: 'White-key sus chords in C major / A minor',
+            items: [
+              '<span class="tag tag-purple">Csus2</span> C–D–G',
+              '<span class="tag tag-purple">Fsus2</span> F–G–C',
+              '<span class="tag tag-teal">Gsus4</span> G–C–D',
+              '<span class="tag tag-teal">Asus4</span> A–D–E',
+              '<span class="tag tag-blue">Dsus2</span> D–E–A',
+              '<span class="tag tag-blue">Esus4</span> E–A–B',
+            ]
+          }
+        ]
+      },
     ],
     checkList: [
       'C major scale, both hands, clean at 100 BPM (16th notes)',
@@ -399,6 +598,8 @@ export const PHASES: Phase[] = [
       'You can play all 4 amapiano patterns from memory, in time',
       '5-finger hanon drill clean at 90 BPM both hands',
       'You\'ve recorded at least one melodic riff into your DAW that you\'re happy with',
+      'You can play all sus2 and sus4 chords in C major / A minor (Csus2, Gsus4, Asus4, Dsus2) and resolve each one',
+      'You can place a chord stab on the "and" of beat 2 in your DAW at 112 BPM — it feels right, not stiff',
     ]
   },
 
@@ -430,6 +631,98 @@ export const PHASES: Phase[] = [
               { label: 'vii°', chord: 'B dim', style: 'background:rgba(251,191,36,0.15);border:1px solid rgba(251,191,36,0.3)' },
             ],
             body: 'Upper case = major. Lower case = minor. The pattern I–ii–iii–IV–V–vi–vii° is the same in every major key. Learn this pattern, not just C major\'s notes.'
+          }
+        ]
+      },
+      {
+        icon: 'ti-circle-dot',
+        title: 'The circle of fifths — how all keys relate',
+        cards: [
+          {
+            type: 'text',
+            heading: 'The map of all keys',
+            body: 'The circle of fifths is a diagram showing all 12 major keys arranged so that each key is a perfect 5th (7 semitones) away from its neighbours. Moving clockwise = up a 5th (C → G → D → A…). Moving anticlockwise = up a 4th (C → F → B♭ → E♭…). Keys next to each other share almost all the same notes — easy to modulate between. Keys on opposite sides share almost nothing.'
+          },
+          {
+            type: 'tag-list',
+            heading: 'Clockwise from C (sharps)',
+            items: [
+              '<span class="tag tag-purple">C major</span> 0 sharps — all white keys. Your home base.',
+              '<span class="tag tag-blue">G major</span> 1 sharp (F#) — warm, slightly brighter.',
+              '<span class="tag tag-blue">D major</span> 2 sharps (F#, C#) — open and confident.',
+              '<span class="tag tag-teal">A major</span> 3 sharps — bright, afro-house feel.',
+              '<span class="tag tag-teal">E major</span> 4 sharps — bright, tense.',
+            ]
+          },
+          {
+            type: 'tag-list',
+            heading: 'Anticlockwise from C (flats)',
+            items: [
+              '<span class="tag tag-teal">F major</span> 1 flat (B♭) — warm, soulful. Common SA house key.',
+              '<span class="tag tag-teal">B♭ major</span> 2 flats (B♭, E♭) — deep, gospel-friendly.',
+              '<span class="tag tag-blue">E♭ major</span> 3 flats — dark, cinematic. Common in neo-soul.',
+              '<span class="tag tag-blue">A♭ major</span> 4 flats — lush, filmic.',
+            ]
+          },
+          {
+            type: 'tag-list',
+            heading: 'Relative minor keys (share the same notes)',
+            items: [
+              '<span class="tag tag-purple">C major ↔ A minor</span> Same notes, different emotional centre. Your primary pair.',
+              '<span class="tag tag-teal">G major ↔ E minor</span> One sharp. E minor is harder, more urgent.',
+              '<span class="tag tag-teal">F major ↔ D minor</span> One flat. D minor is deep, melancholic — very common in SA house.',
+              '<span class="tag tag-blue">B♭ major ↔ G minor</span> Two flats. G minor is dark and gospel-heavy.',
+            ]
+          },
+          {
+            type: 'two-col-drill',
+            heading: 'Apply the same progression across near keys',
+            items: [
+              { title: 'i–VII–VI–VII in Am', detail: 'Am–G–F–G (your home key, all white)' },
+              { title: 'i–VII–VI–VII in Dm', detail: 'Dm–C–B♭–C (one step anticlockwise — adds B♭)' },
+              { title: 'i–VII–VI–VII in Em', detail: 'Em–D–C–D (one step clockwise — adds F#)' },
+              { title: 'I–vi–IV–V in C', detail: 'C–Am–F–G (home major)' },
+              { title: 'I–vi–IV–V in G', detail: 'G–Em–C–D (one step clockwise, add F# on Em)' },
+            ]
+          }
+        ]
+      },
+      {
+        icon: 'ti-arrow-up-circle',
+        title: 'Harmonic minor — the raised 7th and why it matters',
+        cards: [
+          {
+            type: 'text',
+            heading: 'The problem with natural minor\'s V chord',
+            body: 'In A natural minor, the V chord is Em (E–G–B). Em has a weak pull back to Am — the resolution feels soft and unconvincing. This is because G is only a whole step below A. The harmonic minor scale fixes this by raising the 7th note (G → G#), creating a semitone leading tone that urgently wants to resolve up to A. This transforms Em into E major (E–G#–B) — a powerful V chord.'
+          },
+          {
+            type: 'tag-list',
+            heading: 'A harmonic minor scale',
+            intro: 'A – B – C – D – E – F – G# – A',
+            items: [
+              '<span class="tag tag-coral">The change</span> G is raised to G# — one black key. Everything else stays the same as natural minor.',
+              '<span class="tag tag-purple">Effect on the V chord</span> Em becomes E major (E–G#–B). G# is the leading tone — it pulls forcefully up to A.',
+              '<span class="tag tag-teal">Characteristic interval</span> F to G# is an augmented 2nd (3 semitones) — gives harmonic minor its dramatic, slightly exotic quality.',
+            ]
+          },
+          {
+            type: 'two-col-drill',
+            heading: 'Where to use harmonic minor',
+            items: [
+              { title: 'Fmaj7 → E7 → Am7', detail: 'E7 (with G#) creates urgent pull to Am. Gospel and neo-soul move.' },
+              { title: 'Dm7 → E7 → Am7', detail: 'Full ii–V–i in minor using harmonic minor V. Jazz-house cadence.' },
+              { title: 'Am vamp with E7 at phrase ends', detail: 'Keep natural minor through the loop, bring E7 on the last bar for resolution emphasis.' },
+            ]
+          },
+          {
+            type: 'list',
+            heading: 'Natural minor vs harmonic minor — the key difference',
+            items: [
+              'A natural minor: V chord = Em (minor) — soft resolution',
+              'A harmonic minor: V chord = E major / E7 (major/dominant) — strong, dramatic resolution',
+              'In practice: play natural minor for most of the progression, switch to E7 just before resolving back to Am',
+            ]
           }
         ]
       },
@@ -538,9 +831,11 @@ export const PHASES: Phase[] = [
     checkList: [
       'You can recite I–ii–iii–IV–V–vi–vii° and their chord qualities from memory',
       'Given any number (e.g. "play the IV chord in G major"), you can find it within 5 seconds',
-      'You can play I–vi–IV–V in at least 3 different keys',
-      'You can listen to a song and roughly identify where the I chord is',
+      'You can play I–vi–IV–V in at least 3 different keys using the circle of fifths as your map',
+      'You can listen to a track and roughly identify where the I chord is and whether it is major or minor',
       'You\'ve built at least one original chord progression using numbers in your DAW',
+      'You can explain why E7 (not Em) is used as the V chord in A harmonic minor progressions',
+      'You can name the relative minor of any major key you work in (e.g. F major → D minor)',
     ]
   },
 
@@ -678,12 +973,107 @@ export const PHASES: Phase[] = [
           }
         ]
       },
+      {
+        icon: 'ti-octagon',
+        title: 'Diminished 7th chords — the tension tool',
+        cards: [
+          {
+            type: 'text',
+            heading: 'Beyond the vii° triad',
+            body: 'In Phase 1 the B diminished triad was flagged as "avoid for now". Here is now. A fully diminished 7th chord (dim7) stacks four minor 3rds on top of each other, creating equal tension in all directions. It can resolve to a chord a semitone above or below any of its notes — which makes it one of the most flexible passing chords in gospel, neo-soul, and SA house.'
+          },
+          {
+            type: 'tag-list',
+            heading: 'Dim7 chords you will actually use',
+            items: [
+              '<span class="tag tag-amber">Bdim7</span> B–D–F–A♭ — resolves naturally to Cmaj7 (semitone below C). The built-in one in C major.',
+              '<span class="tag tag-amber">G#dim7</span> G#–B–D–F — resolves to Am7. Adds dramatic tension before the minor tonic. Very gospel.',
+              '<span class="tag tag-amber">C#dim7</span> C#–E–G–B♭ — resolves to Dm7. Use as a passing chord between Cmaj7 and Dm7.',
+            ]
+          },
+          {
+            type: 'two-col-drill',
+            heading: 'Producer applications',
+            intro: 'These are drop-in passing chords — use them for one beat or half a bar between two chords you already know:',
+            items: [
+              { title: 'Cmaj7 → C#dim7 → Dm7', detail: 'Chromatic bass descent C → C# → D. Cinematic, smooth.' },
+              { title: 'G#dim7 → Am7', detail: 'Maximum tension, dramatic resolution. Gospel turnaround.' },
+              { title: 'Fmaj7 → Bdim7 → Cmaj7', detail: 'The Bdim7 acts as a vii° — pulls urgently to I.' },
+              { title: 'Dim7 as a fill chord', detail: 'Play dim7 for the last beat of a bar before a chord change. Adds colour without rewriting the progression.' },
+            ]
+          }
+        ]
+      },
+      {
+        icon: 'ti-anchor',
+        title: 'Pedal tones — static bass under moving chords',
+        cards: [
+          {
+            type: 'text',
+            heading: 'What is a pedal tone?',
+            body: 'A pedal tone is a sustained or repeated bass note that stays the same while the chords above it change. The harmonic tension between the static bass and the moving chords creates floating, hypnotic energy — one of the most used textures in deep house and amapiano intros, build-ups, and breakdowns. You do not need to play complex basslines. You need one note, held with conviction.'
+          },
+          {
+            type: 'tag-list',
+            heading: 'The three pedal tone contexts',
+            items: [
+              '<span class="tag tag-purple">Tonic pedal</span> Hold A (the root of Am) in the bass while chords above change: Am7 → Fmaj7 → Gsus4 → G7, all over a sustained A. Creates a grounded, meditative pull.',
+              '<span class="tag tag-teal">Dominant pedal</span> Hold E (the 5th) in the bass while chords shift above it. Very common in build-up sections — tension mounts because the E wants to resolve.',
+              '<span class="tag tag-blue">Chromatic pedal</span> Hold a bass note that does not belong to the key — e.g. hold B♭ while Am–G–Fmaj7 plays above. Creates an unsettled, searching feel. Use in breakdowns.',
+            ]
+          },
+          {
+            type: 'list',
+            heading: 'DAW exercise — pedal tone drop',
+            items: [
+              'Set up your i–VII–VI–VII progression (Am–G–F–G) with full chord MIDI',
+              'Add a separate bass track: draw in a sustained A note for the full 8 bars — no movement',
+              'Play it back. Notice how F and G chords create tension against the A bass — they want to resolve',
+              'Now duplicate the section and give the bass normal root movement for comparison',
+              'The pedal version is your intro or breakdown; the moving bass version is your main loop',
+            ]
+          }
+        ]
+      },
+      {
+        icon: 'ti-arrows-exchange',
+        title: 'Modulation — changing key inside a track',
+        cards: [
+          {
+            type: 'text',
+            heading: 'What is modulation and why it matters in production?',
+            body: 'Modulation is changing the musical key within a track. You are not just transposing the whole track — you are moving the emotional home base to create lift, tension, or a fresh feel at a specific moment. In SA house and amapiano, modulation is often used between the intro/verse and the main drop, or when a track needs to build energy without adding more instruments. Even a move of a semitone or a tone upward creates a powerful sense of elevation.'
+          },
+          {
+            type: 'tag-list',
+            heading: '3 modulation techniques producers actually use',
+            items: [
+              '<span class="tag tag-purple">Direct modulation (truck driver shift)</span> End a section in Am, start the next section in Bm or B♭m — no transition chord. Cut and move. Simple, effective, used in gospel and amapiano drops constantly.',
+              '<span class="tag tag-teal">Pivot chord modulation</span> Find a chord that belongs to both the current key and the target key, use it as the bridge. E.g. moving from C major to G major: Dm7 exists in both (ii in C, vi in G). Hold Dm7, then treat the next chord as if you are in G major.',
+              '<span class="tag tag-blue">Dominant pivot</span> Play a V7 chord of your target key right before the modulation. Moving to Dm? Play A7 (the V7 of D minor) just before. The ear hears the dominant and expects the new key to resolve.',
+            ]
+          },
+          {
+            type: 'two-col-drill',
+            heading: 'Practical modulation moves for your tracks',
+            items: [
+              { title: 'Am → Bm (up a tone)', detail: 'Play your Am loop for 8 bars, cut to Bm loop. Instant lift for the drop. Used in countless amapiano tracks.' },
+              { title: 'C major → F major (pivot: Gm7)', detail: 'Gm7 = v in C (borrowed) and ii in F major. Hold it 1 bar, resolve to Fmaj7 as the new I.' },
+              { title: 'Am → Dm (dominant pivot)', detail: 'Play A7 for 1 bar before Dm. The A7 points directly to Dm as V7–i.' },
+              { title: 'Direct shift up a semitone', detail: 'End loop on Am, begin new section on B♭m. No prep needed. Raw and powerful.' },
+            ]
+          }
+        ]
+      },
     ],
     checkList: [
       'You\'ve finished at least one complete deep house demo (verse + chorus chord loop, melody, bass)',
       'You\'ve recorded a full amapiano piano riff section at 112 BPM with chord stabs',
       'When you hear a track, you can roughly say "that\'s a i–VII–VI progression"',
-      'You can transpose a chord progression to a new key in under 30 seconds',
+      'You can transpose a chord progression to a new key in under 30 seconds using the circle of fifths',
+      'You\'ve used at least one pedal tone in a production — sustained bass note while chords move above it',
+      'You\'ve modulated between two keys in a DAW project (even a simple direct shift up a tone)',
+      'You can use a dim7 chord as a passing chord between two diatonic chords in C major or A minor',
     ]
   },
 
@@ -840,13 +1230,260 @@ export const PHASES: Phase[] = [
           }
         ]
       },
+      {
+        icon: 'ti-mood-smile',
+        title: 'Modes — what they are and the two you need',
+        cards: [
+          {
+            type: 'text',
+            heading: 'Modes without the theory overload',
+            body: 'Modes are just the same notes of a major scale starting from a different note. C major has 7 notes — if you start on each one and call that note "home", you get 7 different modes. You do not need all 7. As a producer making SA house and amapiano, two modes matter practically: Dorian and Mixolydian. Both are already inside the white keys you know.'
+          },
+          {
+            type: 'tag-list',
+            heading: 'Dorian — the SA house minor mode',
+            intro: 'A Dorian = A B C D E F# G A (same as G major, but home is A)',
+            items: [
+              '<span class="tag tag-teal">What changes vs A natural minor</span> F becomes F# — one black key. This raised 6th gives Dorian a slightly brighter, more hopeful quality than natural minor, while still feeling dark and grounded.',
+              '<span class="tag tag-blue">Why it matters</span> The IV chord in Dorian is D major (D–F#–A) instead of D minor. That sudden brightness from a major IV in a minor context is one of the most recognisable sounds in afro-house, amapiano, and neo-soul.',
+              '<span class="tag tag-purple">The signature sound</span> Am7–Gmaj7–D major–Am7. The D major chord (with F#) feels like sunlight breaking through clouds. You have heard this in dozens of tracks.',
+            ]
+          },
+          {
+            type: 'tag-list',
+            heading: 'Mixolydian — the gospel/blues major mode',
+            intro: 'G Mixolydian = G A B C D E F G (same as C major, but home is G)',
+            items: [
+              '<span class="tag tag-amber">What changes vs G major</span> F# becomes F natural — the 7th is flattened. This gives it a bluesy, less-resolved feel compared to standard major.',
+              '<span class="tag tag-amber">Why it matters</span> The ♭VII chord (F major over G Mixolydian) is that flat-seven borrowed chord already in P2 (Am7–Gmaj7–Fmaj7–Gmaj7). When Gmaj7 feels like home and Fmaj7 is the ♭VII, you are in G Mixolydian. You already know this sound.',
+              '<span class="tag tag-amber">In practice</span> Any time a major chord feels like home but uses ♭VII as a colour chord — that is Mixolydian thinking. No need to analyse further.',
+            ]
+          },
+          {
+            type: 'two-col-drill',
+            heading: 'Dorian production exercise',
+            intro: 'Build this loop entirely in A Dorian (use F# instead of F natural):',
+            items: [
+              { title: 'Am7 (Dorian)', detail: 'A–C–E–G — standard Am7' },
+              { title: 'Gmaj7', detail: 'G–B–D–F# — note: F#, not F' },
+              { title: 'D major', detail: 'D–F#–A — the Dorian IV chord. The bright moment.' },
+              { title: 'Am7', detail: 'Return home. 4 bars each at 112 BPM.' },
+            ]
+          }
+        ]
+      },
+      {
+        icon: 'ti-sparkles',
+        title: 'Augmented chords — tension that floats',
+        cards: [
+          {
+            type: 'text',
+            heading: 'What is an augmented chord?',
+            body: 'An augmented chord (aug or +) is a major chord with the 5th raised by one semitone. The interval formula: Root + Major 3rd (4 semitones) + Augmented 5th (8 semitones). Because it stacks two equal major 3rds, it creates ambiguous, floating tension. It does not urgently resolve like a dominant 7th — it hovers. This makes it useful for cinematic build-ups, modulation bridges, and neo-soul colour.'
+          },
+          {
+            type: 'tag-list',
+            heading: 'Augmented chords in your keys',
+            items: [
+              '<span class="tag tag-coral">Caug</span> C–E–G# — use between Cmaj7 and Am7 for a floating, cinematic moment.',
+              '<span class="tag tag-coral">Faug</span> F–A–C# — use between Fmaj7 and G7 to add colour mid-loop.',
+              '<span class="tag tag-coral">Aaug</span> A–C#–F — use between Am and Dm for an unexpected lift.',
+            ]
+          },
+          {
+            type: 'two-col-drill',
+            heading: 'Augmented chord applications',
+            items: [
+              { title: 'Cmaj7 → Caug → Am7', detail: 'Hold C in the bass, raise the 5th G to G# — creates a tense landing on Am.' },
+              { title: 'Faug as a passing chord', detail: 'Fmaj7 → Faug → G7 → Cmaj7. The Faug bridges IV and V with floating energy.' },
+              { title: 'In your DAW', detail: 'Use augmented for exactly 1 beat or 1 bar. Any longer and the ambiguity becomes uncomfortable. It is a transit chord, not a destination.' },
+            ]
+          }
+        ]
+      },
     ],
     checkList: [
       'You can use at least 3 different borrowed chords within a C major or A minor progression and describe what each one does emotionally',
       'You can identify a secondary dominant by ear — "that chord felt like it was pulling hard toward the next one"',
-      'You can play at least one ii–V–I progression with smooth voice leading (no jumps) at 80 BPM',
-      'You can improvise a 4-bar phrase using the A blues scale over an Am7 vamp, using E♭ as a passing tone only',
+      'You can improvise a short melodic phrase using the A blues scale over an Am7 vamp, using E♭ as a passing tone',
       'You can play the i–VII–VI–VII progression in both A minor AND D minor from memory, with 7th chord voicings',
+      'You can build an A Dorian loop (Am7–Gmaj7–D–Am7) and describe what makes the D major chord sound different',
+      'You can use an augmented chord as a 1-bar passing chord in a progression without it feeling out of place',
+      'You can describe in plain language what Mixolydian means and point to an existing progression in this course that uses it',
+    ]
+  },
+
+  // ─── PHASE 6 ──────────────────────────────────────────────────────────────
+  {
+    id: 6,
+    label: 'Phase 6',
+    title: 'Ear training — hear what you already know',
+    description: 'You have built the theory toolkit. This phase trains your ears to recognise what you have learned — so you can pull from reference tracks, respond to producers in real time, and translate what you hear in your head directly to the keys. No perfect pitch required. Just pattern recognition.',
+    timeline: 'Ongoing — run alongside any other phase (10 min/day)',
+    badgeStyle: 'background:rgba(168,85,247,0.2);color:#d8b4fe;border:1px solid rgba(168,85,247,0.3)',
+    accentColor: '#a855f7',
+    sections: [
+      {
+        icon: 'ti-ear',
+        title: 'Why ear training matters for producers',
+        cards: [
+          {
+            type: 'text',
+            heading: 'The gap between theory and music',
+            body: 'You can know every chord in this course and still struggle to recreate a progression you hear in a track. Ear training closes that gap. It is not about being able to name every note in real time — it is about building pattern recognition so that when you hear a chord change, a chord type, or a melodic interval, something in your body says "I know that". Then your hands find it. As a DAW-based producer, the most valuable ear skill is recognising chord quality (major vs minor vs dominant), progression shape (does it resolve or loop?), and melodic intervals (how far is this jump?). Nothing more.'
+          },
+          {
+            type: 'list',
+            heading: 'What you are training (and what you are not)',
+            items: [
+              'Training: chord quality by ear (major, minor, dominant, diminished)',
+              'Training: progression feel (resolved vs unresolved, looping vs arriving)',
+              'Training: melodic interval recognition (small vs large jumps, direction)',
+              'Training: identifying the I chord in a track you are listening to',
+              'NOT training: perfect pitch, real-time transcription, hearing all 4 notes in a chord instantly',
+            ]
+          }
+        ]
+      },
+      {
+        icon: 'ti-headphones',
+        title: 'Interval recognition — the practical set',
+        cards: [
+          {
+            type: 'text',
+            heading: 'The producer shortlist (only 5 intervals to start)',
+            body: 'You do not need to recognise all 12 intervals instantly. Start with the 5 that appear most often in SA house and amapiano melodic lines. Each one has a consistent emotional quality you can feel before you can name it.'
+          },
+          {
+            type: 'tag-list',
+            heading: 'The 5 priority intervals',
+            items: [
+              '<span class="tag tag-teal">Minor 3rd (m3)</span> Dark, stepping down into minor. A to C. E to G. The first move in most minor riffs.',
+              '<span class="tag tag-purple">Major 3rd (M3)</span> Bright, open, lifting. C to E. G to B. The first move in major chords.',
+              '<span class="tag tag-blue">Perfect 4th (P4)</span> Strong, anchoring, slightly hollow. C to F. A to D. Bass jumps often use this.',
+              '<span class="tag tag-blue">Perfect 5th (P5)</span> Stable and confident. C to G. A to E. The most grounded leap.',
+              '<span class="tag tag-amber">Octave (P8)</span> Same note, different register. Immediately recognisable — used in octave pump bass patterns.',
+            ]
+          },
+          {
+            type: 'two-col-drill',
+            heading: 'Daily interval drill (5 min)',
+            intro: 'Play these pairs on your Launchkey every session. Say the interval name aloud after hearing it:',
+            items: [
+              { title: 'Play C → E', detail: 'Major 3rd. Say: "Major 3rd — bright".' },
+              { title: 'Play A → C', detail: 'Minor 3rd. Say: "Minor 3rd — dark".' },
+              { title: 'Play C → G', detail: 'Perfect 5th. Say: "Perfect 5th — stable".' },
+              { title: 'Play A → D', detail: 'Perfect 4th. Say: "Perfect 4th — anchored".' },
+              { title: 'Play A → A (octave)', detail: 'Octave. Say: "Octave — same note, doubled".' },
+            ]
+          }
+        ]
+      },
+      {
+        icon: 'ti-music',
+        title: 'Chord quality recognition',
+        cards: [
+          {
+            type: 'text',
+            heading: 'Hearing major vs minor vs dominant',
+            body: 'The most useful ear skill in production is hearing chord quality. Play a chord you do not know — major sounds open and bright, minor sounds dark and expressive, dominant 7th sounds tense and unresolved. These are feelings before they are names. Your job is to connect the feeling to the label, then to the shape on your keyboard.'
+          },
+          {
+            type: 'tag-list',
+            heading: 'Emotional signatures to memorise',
+            items: [
+              '<span class="tag tag-purple">Major chord</span> Confident, open, resolved. The 3rd sits a major 3rd above the root. Sounds "complete".',
+              '<span class="tag tag-teal">Minor chord</span> Dark, expressive, searching. The 3rd sits a minor 3rd above the root. Sounds "weighted".',
+              '<span class="tag tag-amber">Dominant 7th</span> Tense, restless, wants to move. The added ♭7 creates pull. Sounds "urgent" or "bluesy".',
+              '<span class="tag tag-coral">Major 7th</span> Dreamy, floating, sophisticated. The added natural 7 lifts the chord. Sounds "suspended in air".',
+              '<span class="tag tag-blue">Minor 7th</span> Dark but smoother than a plain minor triad. The added ♭7 softens the edges. Sounds "deep" and "wide".',
+            ]
+          },
+          {
+            type: 'list',
+            heading: 'Reference track exercise (10 min)',
+            items: [
+              'Pick any SA deep house or amapiano track from your playlist',
+              'Listen through once just for feel — do not analyse, just receive',
+              'On a second listen: identify whether the overall key is major (bright) or minor (dark)',
+              'On a third listen: count how many distinct chords you hear in one loop. Is it 2 chords? 4?',
+              'Load a MIDI instrument in your DAW and try to find just the first chord by ear — trial and error is the method',
+              'You are not aiming for a perfect transcription. You are training the habit of listening analytically.',
+            ]
+          }
+        ]
+      },
+      {
+        icon: 'ti-eye',
+        title: 'Progression recognition — hearing the shape',
+        cards: [
+          {
+            type: 'text',
+            heading: 'Resolved vs unresolved progressions',
+            body: 'Some progressions feel complete — they land and rest. Others feel circular and keep moving. Learning to hear this distinction tells you how a producer is using tension in a track. A resolved progression ends on the I (tonic) chord — it breathes, it settles. An unresolved progression ends on V, ii, or loops without landing — it pushes forward, keeps energy moving. Deep house build-ups often use unresolved loops; drops often resolve.'
+          },
+          {
+            type: 'tag-list',
+            heading: 'The 3 progression shapes to recognise by ear',
+            items: [
+              '<span class="tag tag-purple">The loop (circular)</span> Progression repeats without clearly landing. Feels like it is always moving. Example: i–VII–VI–VII. Common in SA house main loops.',
+              '<span class="tag tag-teal">The cadence (resolved)</span> Progression arrives at rest. V → I is the clearest. Feels like a sentence ending with a full stop. Common at section transitions.',
+              '<span class="tag tag-amber">The half-cadence (suspended)</span> Progression ends on V but does not resolve. Feels like a question without an answer. Common at the end of a 4-bar phrase before the loop repeats.',
+            ]
+          },
+          {
+            type: 'list',
+            heading: 'Active listening exercise',
+            items: [
+              'Choose a track from your reference playlist',
+              'At each section boundary (intro → verse, verse → drop), ask: did that feel like it resolved, or did it keep moving?',
+              'If it resolved: which chord did it land on? Try to find that note on your Launchkey',
+              'If it kept moving: what was the last chord before the new section? Was it tense or open?',
+              'Write down your observations. You are building a language for what you hear.',
+            ]
+          }
+        ]
+      },
+      {
+        icon: 'ti-pencil',
+        title: 'Transcription basics — lifting a progression from a track',
+        cards: [
+          {
+            type: 'text',
+            heading: 'The process (no perfect pitch needed)',
+            body: 'Transcription for producers is not writing out every note on a score. It is finding the chord root and quality of each chord in a loop so you can recreate the harmonic skeleton. You use the reference track, your keyboard, and your ear in a back-and-forth loop. This is the actual skill used in every studio session.'
+          },
+          {
+            type: 'list',
+            heading: 'The 5-step transcription method',
+            items: [
+              'Step 1 — Find the root of the first chord. Play single notes on your Launchkey while the track plays. The note that sounds "at home" with the bass is the root.',
+              'Step 2 — Identify the quality. Play a major triad from that root. If it clashes, try minor. One of them will blend.',
+              'Step 3 — Listen for how many chords are in the loop. A loop has a rhythm — count the changes.',
+              'Step 4 — Repeat steps 1–2 for each chord in the loop.',
+              'Step 5 — Assign numbers. Now that you have the chords, label them I, ii, IV, V etc. You now own the progression — transpose it, remix it, use it.',
+            ]
+          },
+          {
+            type: 'two-col-drill',
+            heading: 'Good tracks to start transcribing (approachable harmony)',
+            items: [
+              { title: 'Black Coffee — Drive', detail: 'Simple 2-chord loop. Start here. Identify whether it is major–minor or minor–major.' },
+              { title: 'Sun-El Musician — Akanamali', detail: '4-chord loop. Common minor-key SA house movement. Find the root of each chord.' },
+              { title: 'Kabza De Small — Sponono', detail: 'Amapiano piano line. Find the notes of the melodic riff, not just the chords.' },
+              { title: 'Any track you already love', detail: 'Starting with music you know emotionally makes the ear connection stronger.' },
+            ]
+          }
+        ]
+      },
+    ],
+    checkList: [
+      'You can hear whether a chord is major or minor without looking — just by the emotional quality',
+      'You can identify the 5 priority intervals (m3, M3, P4, P5, octave) by ear when played on a keyboard',
+      'You have transcribed the harmonic skeleton (chord roots + quality) of at least one SA house or amapiano track',
+      'You can listen to a reference track and identify whether the overall feel is major or minor within 10 seconds',
+      'You can identify whether a progression loop resolves (lands) or cycles (keeps moving) while listening',
     ]
   }
 ];
+
