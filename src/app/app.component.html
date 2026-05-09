@@ -323,6 +323,27 @@
                   </div>
 
                 </ng-container>
+
+                <div *ngIf="section.checkList?.length" class="glass-card readiness-card section-readiness-card animate-in">
+                  <div class="readiness-header">
+                    <div class="section-title" style="margin-bottom:0">
+                      <i class="ti ti-flag-3"></i>
+                      Ready to move on when...
+                    </div>
+                    <div class="section-readiness-pill">
+                      {{ section.checkList!.length }} checks
+                    </div>
+                  </div>
+                  <p class="section-readiness-hint">Use this section gate before you advance to the next skill.</p>
+                  <ul class="check-list section-check-list" style="margin-top: 14px;">
+                    <li *ngFor="let item of section.checkList" class="check-item section-check-item">
+                      <span class="check-icon section-check-icon">
+                        <i class="ti ti-check"></i>
+                      </span>
+                      {{ item }}
+                    </li>
+                  </ul>
+                </div>
               </div>
             </mat-tab>
           </mat-tab-group>

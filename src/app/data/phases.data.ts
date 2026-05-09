@@ -477,7 +477,28 @@ export const PHASES: Phase[] = [
               'Use fingering: 1-2-3-1-2-3-4-1-2-3-1-2-3-4-5',
               'Start at 50 BPM, goal is 100 BPM cleanly',
             ]
+          },
+          {
+            type: 'two-col-drill',
+            heading: 'Technique ladder (15 min/day)',
+            intro: 'Build control first, then speed. Only increase tempo after two clean rounds in a row.',
+            items: [
+              { title: 'L1 — Even fingers', detail: '5-finger pattern only at 60 BPM, one hand at a time. Goal: every note equal volume.' },
+              { title: 'L2 — Add both hands', detail: 'Same pattern with both hands in parallel at 70 BPM. Goal: no uneven accents.' },
+              { title: 'L3 — Chromatic control', detail: 'Chromatic scale up and down one octave at 60 BPM. Goal: no fingering panic on black keys.' },
+              { title: 'L4 — Speed without tension', detail: 'Alternate 5-finger and chromatic patterns at 80–90 BPM while shoulders and wrists stay relaxed.' },
+            ]
+          },
+          {
+            type: 'text',
+            heading: '✓ Pass mark — you are ready to move on when:',
+            body: 'You can play the 5-finger drill and one-octave chromatic drill with both hands at 80 BPM, evenly and without hand tension, in 2 sessions in a row.'
           }
+        ],
+        checkList: [
+          'Both hands stay relaxed while playing 5-finger patterns at 80 BPM.',
+          'Chromatic fingering feels deliberate, not guessed.',
+          'Volume stays even across weak and strong fingers for a full minute.',
         ]
       },
       {
@@ -510,6 +531,11 @@ export const PHASES: Phase[] = [
             heading: '✓ Pass mark — you are ready to move on when:',
             body: 'You can improvise freely over an Am chord in your DAW for 2 minutes using only pentatonic notes, without running out of ideas or repeating the same 3-note riff. Your phrases should start and end on A or C.'
           }
+        ],
+        checkList: [
+          'You can find the 5 pentatonic notes instantly without hunting.',
+          'You can keep time at 100 BPM while improvising.',
+          'Your phrases resolve intentionally to A or C instead of ending randomly.',
         ]
       },
       {
@@ -535,14 +561,25 @@ export const PHASES: Phase[] = [
           },
           {
             type: 'two-col-drill',
-            heading: 'Root bass drill — your starting point',
+            heading: 'Bass fundamentals ladder',
+            intro: 'Only add motion after the root feels automatic. Keep the groove clean before making it clever.',
             items: [
-              { title: 'Over Am7–Gmaj7–Fmaj7–Gmaj7', detail: 'Play: A . . . | G . . . | F . . . | G . . .' },
-              { title: 'Root + 5th over Am', detail: 'Play: A – E – A – E (the 5th of Am is E)' },
-              { title: 'Root + 5th over Dm', detail: 'Play: D – A – D – A (the 5th of Dm is A)' },
-              { title: 'Root + 5th over Fmaj7', detail: 'Play: F – C – F – C (the 5th of F is C)' },
+              { title: 'L1 — Root only', detail: 'Over Am7–Gmaj7–Fmaj7–Gmaj7, play one root note per bar at 90 BPM. Goal: land every change exactly.' },
+              { title: 'L2 — Root + 5th', detail: 'Over Am, Dm, and Fmaj7, alternate root and 5th at 95 BPM. Goal: movement without confusion.' },
+              { title: 'L3 — Octave pump', detail: 'Play root then octave over one chord at 100 BPM. Goal: keep the pulse even while jumping registers.' },
+              { title: 'L4 — Walking connection', detail: 'Connect two chord roots with one scale step in between at 100 BPM. Goal: line still clearly targets the next root.' },
             ]
+          },
+          {
+            type: 'text',
+            heading: '✓ Pass mark — you are ready to move on when:',
+            body: 'You can play a stable 8-bar bass part at 100 BPM that switches between root, root+5th, and octave motion without losing the chord target or the beat.'
           }
+        ],
+        checkList: [
+          'You can hit the correct root on every chord change with no hesitation.',
+          'Root + 5th patterns feel steady in time, not rushed.',
+          'Octave shifting on your keyboard no longer breaks the groove.',
         ]
       },
       {
@@ -565,15 +602,26 @@ export const PHASES: Phase[] = [
             ]
           },
           {
-            type: 'list',
-            heading: '4 practice patterns',
+            type: 'two-col-drill',
+            heading: 'Blues ladder',
+            intro: 'Treat E♭ as colour, not home base. The goal is control of tension, not just memorising a black key.',
             items: [
-              'Pattern 1: A–C–D–E♭–E–G–E–D (ascending blues, resolve down)',
-              'Pattern 2: A–C–D–E♭–E–G (ascending, land on G for open feel)',
-              'Pattern 3: E–D–E♭–D–C–A (descending with blue note passing)',
-              'Pattern 4: A–C–E♭–E–G–E–E♭–D–A (full resolution arc)',
+              { title: 'L1 — Find the note', detail: 'Play A–C–D–E♭–E–G slowly at 65 BPM. Goal: locate E♭ without looking confused.' },
+              { title: 'L2 — Passing-tone control', detail: 'Practice D → E♭ → E and E → E♭ → D at 70 BPM. Goal: E♭ feels like a quick passing note, never a landing.' },
+              { title: 'L3 — Fixed lick shapes', detail: 'Play 4 short licks using E♭ over Am at 75 BPM. Goal: hear the tension resolve correctly.' },
+              { title: 'L4 — Improvised colour', detail: 'Improvise for 2 minutes over Am while using E♭ only as a passing or ghost note. Goal: no accidental resting on the blue note.' },
             ]
+          },
+          {
+            type: 'text',
+            heading: '✓ Pass mark — you are ready to move on when:',
+            body: 'You can use E♭ in short phrases over Am without it sounding like a wrong note, because you consistently resolve it onward.'
           }
+        ],
+        checkList: [
+          'You can find E♭ instantly between D and E.',
+          'You use the blue note as motion, not as a resting note.',
+          'Your blues phrases resolve back into A minor cleanly.',
         ]
       },
       {
@@ -609,6 +657,11 @@ export const PHASES: Phase[] = [
             heading: '✓ Pass mark — you are ready to move on when:',
             body: 'You can play all 4 patterns from memory at 110 BPM, and chain at least 2 of them together over a simple Am–F–C–G loop in your DAW without stopping to think about the notes.'
           }
+        ],
+        checkList: [
+          'All four patterns are memorised without looking at notes.',
+          'You can attach the right chord underneath each pattern.',
+          'Two-pattern transitions stay in time inside a DAW loop.',
         ]
       },
       {
@@ -634,13 +687,13 @@ export const PHASES: Phase[] = [
           },
           {
             type: 'two-col-drill',
-            heading: 'Groove drill — DAW exercise (15 min)',
-            intro: 'Set your DAW to 110 BPM. You need a simple Am–F loop (2 bars each) playing. Do these steps in order:',
+            heading: 'Groove ladder — DAW exercise (15 min)',
+            intro: 'One layer at a time: timing first, then placement, then velocity, then the combined feel.',
             items: [
-              { title: 'Step 1 — On-beat', detail: 'Play Am7 on every beat 1 only. Note: sounds stiff and empty.' },
-              { title: 'Step 2 — Push it early', detail: 'Move the chord 1 16th note earlier than beat 1. Same chord, different feel — notice it now pulls forward.' },
-              { title: 'Step 3 — Velocity shape', detail: 'Play the chord 4x per bar but ghost beats 2 and 4 (velocity 40), accent beats 1 and 3 (velocity 85). Hear the dynamic shape.' },
-              { title: 'Step 4 — Combine', detail: 'Push the accented stabs 1 16th early, ghost the in-between hits on the beat. This is the amapiano groove template.' },
+              { title: 'L1 — Straight grid', detail: 'Play Am7 on beat 1 only at 110 BPM. Hear how square it feels.' },
+              { title: 'L2 — Early push', detail: 'Move the stab 1/16 early. Goal: hear the forward pull without losing the pocket.' },
+              { title: 'L3 — Velocity contour', detail: 'Accent beats 1 and 3, ghost beats 2 and 4. Goal: make the same rhythm feel human.' },
+              { title: 'L4 — Full groove', detail: 'Combine early placement with velocity shaping over a 4-bar loop. Goal: groove feels intentional, not random.' },
             ] as any
           },
           {
@@ -648,6 +701,11 @@ export const PHASES: Phase[] = [
             heading: '✓ Pass mark — you are ready to move on when:',
             body: 'You can record a 4-bar Am7 chord part in your DAW at 110 BPM where the groove feels pulled forward (stabs pushed early) and the velocity variation makes it sound like a real performance, not a robot. Play it to someone — if they nod or move, you\'re done.'
           }
+        ],
+        checkList: [
+          'You can hear the difference between stiff on-grid and pushed groove.',
+          'Velocity accents change feel without changing notes.',
+          'Your DAW recording sounds like a performance, not a typed-in block.',
         ]
       },
       {
@@ -672,13 +730,13 @@ export const PHASES: Phase[] = [
           },
           {
             type: 'two-col-drill',
-            heading: 'Syncopation patterns to practice',
-            intro: 'Set your DAW to 112 BPM. Record these into MIDI and listen before playing:',
+            heading: 'Syncopation ladder',
+            intro: 'Start with obvious contrast. Then train your ear to feel off-beat placement as intentional groove.',
             items: [
-              { title: 'On-beat stab', detail: 'Chord on beat 1 and beat 3 only. Straight, formal — notice how stiff it feels.' },
-              { title: 'Syncopated stab', detail: 'Chord on the "and" of beat 2 and "and" of beat 4. Feels like it pulls you forward.' },
-              { title: 'Amapiano push', detail: 'Chord on beat 2, then on the "e" of beat 3 (a 16th note early). That forward lean is the signature.' },
-              { title: 'Ghost + accent', detail: 'Light chord on beat 1, strong chord on the "and" of 2. Question–answer feel.' },
+              { title: 'L1 — On-beat control', detail: 'Chord on beat 1 and 3 only. Feel the square grid at 112 BPM.' },
+              { title: 'L2 — Off-beat stab', detail: 'Chord on the "and" of 2 and "and" of 4. Goal: feel the pull forward.' },
+              { title: 'L3 — 16th-note push', detail: 'Place one chord on the "e" of beat 3. Goal: hear the amapiano lean clearly.' },
+              { title: 'L4 — Ghost + accent', detail: 'Combine soft on-beat support with a strong off-beat answer. Goal: groove speaks like a phrase.' },
             ]
           },
           {
@@ -691,6 +749,11 @@ export const PHASES: Phase[] = [
               'Quantize to 16th notes but set swing to 55–65% — this is the amapiano timing feel',
             ]
           }
+        ],
+        checkList: [
+          'You can place stabs on off-beats without losing count.',
+          'You can hear when a syncopated pattern pulls better than an on-beat one.',
+          'Your DAW loop keeps groove after quantizing and swing adjustment.',
         ]
       },
       {
@@ -713,16 +776,6 @@ export const PHASES: Phase[] = [
             ]
           },
           {
-            type: 'two-col-drill',
-            heading: 'Sus chord applications in house music',
-            items: [
-              { title: 'Gsus4 → G7 → Cmaj7', detail: 'Classic sus resolution into the dominant, then home. Very common house move.' },
-              { title: 'Asus4 → Am7', detail: 'Adds anticipation before your minor tonic arrives. Use at section changes.' },
-              { title: 'Csus2 vamp', detail: 'Hold Csus2 for 4 bars, resolve to Cmaj7 on bar 5. Creates intro tension.' },
-              { title: 'Fsus2 → Fmaj7', detail: 'F–G–C → F–A–C. The A arrives and the chord blooms.' },
-            ]
-          },
-          {
             type: 'tag-list',
             heading: 'White-key sus chords in C major / A minor',
             items: [
@@ -734,6 +787,29 @@ export const PHASES: Phase[] = [
               '<span class="tag tag-blue">Esus4</span> E–A–B',
             ]
           }
+        ]
+      },
+      {
+        icon: 'ti-music-bolt',
+        title: 'Suspended chord drill ladder',
+        sectionType: 'practice',
+        cards: [
+          {
+            type: 'two-col-drill',
+            heading: 'Suspended chord ladder',
+            intro: 'First hear the suspension, then hear the release. The release is the point.',
+            items: [
+              { title: 'L1 — Single shape', detail: 'Play Csus2 and Gsus4 slowly at 60 BPM. Goal: know the shape instantly.' },
+              { title: 'L2 — Resolve the note', detail: 'Move Csus2 → Cmaj and Gsus4 → G major at 60 BPM. Goal: hear the exact note that resolves.' },
+              { title: 'L3 — Cadence use', detail: 'Play Gsus4 → G7 → Cmaj7 and Asus4 → Am7 at 70 BPM. Goal: hear tension then release inside a progression.' },
+              { title: 'L4 — Intro texture', detail: 'Hold a sus chord for 4 bars in your DAW, then resolve on bar 5. Goal: create intentional anticipation before release.' },
+            ]
+          }
+        ],
+        checkList: [
+          'You can play sus2 and sus4 shapes without mixing them up.',
+          'You can hear and execute the resolving note clearly.',
+          'You can use a sus chord as setup, not as a random substitute.',
         ]
       },
     ],
@@ -1008,16 +1084,29 @@ export const PHASES: Phase[] = [
               '<span class="tag tag-coral">V/vi = E7</span> E–G#–B–D (G# borrowed) → used before Am7. Dramatic, urgent — makes Am feel like a powerful landing.',
             ]
           },
+        ]
+      },
+      {
+        icon: 'ti-arrow-right-circle',
+        title: 'Secondary dominant drill ladder',
+        sectionType: 'practice',
+        cards: [
           {
             type: 'two-col-drill',
-            heading: 'Drill',
+            heading: 'Secondary dominant ladder',
+            intro: 'Start by hearing one borrowed note create pull. Then place it inside real progressions.',
             items: [
-              { title: 'C7 → Fmaj7', detail: 'Hear the B♭ resolve down to A' },
-              { title: 'D7 → G7 → Cmaj7', detail: 'Chain of two dominants, one resolution' },
-              { title: 'E7 → Am7', detail: 'G# pulls urgently up to A' },
-              { title: 'Add one to any P1–P8 progression', detail: 'This is how neo-soul composers think' },
+              { title: 'L1 — Single resolution', detail: 'Play C7 → Fmaj7, D7 → G7, and E7 → Am7 slowly at 65 BPM. Goal: hear the borrowed note resolve.' },
+              { title: 'L2 — Two-step chain', detail: 'Play D7 → G7 → Cmaj7 at 70 BPM. Goal: hear how one dominant points to the next.' },
+              { title: 'L3 — Add to a known loop', detail: 'Insert E7 into an Am-based progression at 75 BPM. Goal: the borrowed chord sounds like an arrival setup, not a mistake.' },
+              { title: 'L4 — DAW reharmonisation', detail: 'Take one of P1–P8 and add a secondary dominant before one target chord in your DAW. Goal: the colour feels intentional.' },
             ]
           }
+        ],
+        checkList: [
+          'You can hear the borrowed note inside a secondary dominant.',
+          'You can resolve at least three secondary dominants cleanly by ear and by hand.',
+          'You can add one secondary dominant to a familiar progression without breaking the feel.',
         ]
       },
       {
@@ -1205,6 +1294,11 @@ export const PHASES: Phase[] = [
             heading: '✓ Pass mark — you are ready to move on when:',
             body: 'You can play one 8-bar bass part in two versions — deep house and amapiano — over the same chord loop, in time, at 110–115 BPM, for 2 sessions in a row without losing the root target on any chord change.'
           }
+        ],
+        checkList: [
+          'You can switch between deep house and amapiano bass feel on the same loop.',
+          'Approach notes still resolve to the correct root target.',
+          'Your bassline stays locked to the groove at 110 BPM or above.',
         ]
       },
       {
@@ -1226,17 +1320,29 @@ export const PHASES: Phase[] = [
               '<span class="tag tag-amber">C#dim7</span> C#–E–G–B♭ — resolves to Dm7. Use as a passing chord between Cmaj7 and Dm7.',
             ]
           },
+        ]
+      },
+      {
+        icon: 'ti-octagon',
+        title: 'Diminished drill ladder',
+        sectionType: 'practice',
+        cards: [
           {
             type: 'two-col-drill',
-            heading: 'Producer applications',
-            intro: 'These are drop-in passing chords — use them for one beat or half a bar between two chords you already know:',
+            heading: 'Diminished ladder',
+            intro: 'Use dim7 as a passing event, not a destination. One beat of tension, then release.',
             items: [
-              { title: 'Cmaj7 → C#dim7 → Dm7', detail: 'Chromatic bass descent C → C# → D. Cinematic, smooth.' },
-              { title: 'G#dim7 → Am7', detail: 'Maximum tension, dramatic resolution. Gospel turnaround.' },
-              { title: 'Fmaj7 → Bdim7 → Cmaj7', detail: 'The Bdim7 acts as a vii° — pulls urgently to I.' },
-              { title: 'Dim7 as a fill chord', detail: 'Play dim7 for the last beat of a bar before a chord change. Adds colour without rewriting the progression.' },
+              { title: 'L1 — Hear the pull', detail: 'Play Bdim7 → Cmaj7 and G#dim7 → Am7 at 60 BPM. Goal: hear the semitone resolution clearly.' },
+              { title: 'L2 — Passing chord slot', detail: 'Play Cmaj7 → C#dim7 → Dm7 and Fmaj7 → Bdim7 → Cmaj7 at 65 BPM. Goal: dim7 lasts briefly but speaks strongly.' },
+              { title: 'L3 — Phrase ending fill', detail: 'Use dim7 only on the last beat before a chord change in a 4-bar loop. Goal: add colour without derailing the groove.' },
+              { title: 'L4 — DAW application', detail: 'Place one dim7 passing chord into a progression in your DAW and compare before/after. Goal: tension increase feels musical, not random.' },
             ]
           }
+        ],
+        checkList: [
+          'You can resolve at least two dim7 chords by ear.',
+          'You can place dim7 briefly without turning it into a destination chord.',
+          'Your passing diminished chord increases tension before release.',
         ]
       },
       {
@@ -1275,6 +1381,11 @@ export const PHASES: Phase[] = [
             heading: '✓ Pass mark — you are ready to move on when:',
             body: 'You have built a full 8-bar section in your DAW that uses a tonic pedal (sustained root in the bass) under a 4-chord progression. Play it back and confirm: the chords above the pedal create tension that feels intentional and hypnotic, not accidental. Bonus: record a second version where the pedal drops out and root movement starts — the contrast should be obvious.'
           }
+        ],
+        checkList: [
+          'You can hold one pedal tone while hearing chord tension change above it.',
+          'You can compare pedal-tone vs moving-bass versions of the same loop.',
+          'The pedal effect sounds hypnotic rather than muddy.',
         ]
       },
       {
@@ -1296,16 +1407,29 @@ export const PHASES: Phase[] = [
               '<span class="tag tag-blue">Dominant pivot</span> Play a V7 chord of your target key right before the modulation. Moving to Dm? Play A7 (the V7 of D minor) just before. The ear hears the dominant and expects the new key to resolve.',
             ]
           },
+        ]
+      },
+      {
+        icon: 'ti-arrows-exchange',
+        title: 'Modulation drill ladder',
+        sectionType: 'practice',
+        cards: [
           {
             type: 'two-col-drill',
-            heading: 'Practical modulation moves for your tracks',
+            heading: 'Modulation ladder',
+            intro: 'Start with obvious lift, then learn cleaner transition methods.',
             items: [
-              { title: 'Am → Bm (up a tone)', detail: 'Play your Am loop for 8 bars, cut to Bm loop. Instant lift for the drop. Used in countless amapiano tracks.' },
-              { title: 'C major → F major (pivot: Gm7)', detail: 'Gm7 = v in C (borrowed) and ii in F major. Hold it 1 bar, resolve to Fmaj7 as the new I.' },
-              { title: 'Am → Dm (dominant pivot)', detail: 'Play A7 for 1 bar before Dm. The A7 points directly to Dm as V7–i.' },
-              { title: 'Direct shift up a semitone', detail: 'End loop on Am, begin new section on B♭m. No prep needed. Raw and powerful.' },
+              { title: 'L1 — Direct shift', detail: 'Play 8 bars in Am, then cut directly to Bm or B♭m. Goal: hear the energy lift immediately.' },
+              { title: 'L2 — Dominant pivot', detail: 'Use A7 before Dm at 70 BPM. Goal: the new key feels prepared, not accidental.' },
+              { title: 'L3 — Pivot chord', detail: 'Hold one shared chord for a bar, then reinterpret it into the new key. Goal: smoother transition.' },
+              { title: 'L4 — Track section design', detail: 'Build an 8-bar pre-drop and 8-bar drop in different keys inside your DAW. Goal: modulation creates section lift, not confusion.' },
             ]
           }
+        ],
+        checkList: [
+          'You can hear when the home key has changed.',
+          'You can execute both a direct and a prepared modulation.',
+          'A new section feels lifted rather than like a wrong chord.',
         ]
       },
     ],
@@ -1359,6 +1483,29 @@ export const PHASES: Phase[] = [
               '<span class="tag tag-purple">I — A major (Picardy third)</span> A–C#–E. Triumphant, earned resolution. Example: Dm–G–E7–A major',
             ]
           }
+        ]
+      },
+      {
+        icon: 'ti-palette',
+        title: 'Borrowed chord drill ladder',
+        sectionType: 'practice',
+        cards: [
+          {
+            type: 'two-col-drill',
+            heading: 'Borrowed chord ladder',
+            intro: 'Bring in one borrowed colour at a time so your ear learns what changed emotionally.',
+            items: [
+              { title: 'L1 — Single colour swap', detail: 'Play C–B♭–F–C slowly. Goal: hear the ♭VII lift against a major home key.' },
+              { title: 'L2 — Minor colour insertion', detail: 'Play Fmaj7 → Fm → Cmaj7. Goal: hear the iv chord darken the return home.' },
+              { title: 'L3 — Minor-key brightening', detail: 'Play Am7–Gmaj7–D–Am7. Goal: hear the major IV brighten the minor world.' },
+              { title: 'L4 — Original loop', detail: 'Write one 4-chord loop in your DAW that uses exactly one borrowed chord on purpose. Goal: you can explain what emotional job it does.' },
+            ]
+          }
+        ],
+        checkList: [
+          'You can hear the emotional shift caused by one borrowed chord.',
+          'You can use a borrowed chord without losing the key center.',
+          'You can explain why you chose that borrowed chord in your loop.',
         ]
       },
       {
@@ -1423,6 +1570,11 @@ export const PHASES: Phase[] = [
               { title: 'Am11 open', detail: 'LH: A + E  |  RH: C–G–D  (root–5th | 3rd–7th–11th)' },
             ] as any
           }
+        ],
+        checkList: [
+          'You can build at least three extension voicings from memory.',
+          'The chord stays wide and clear instead of cramped.',
+          'You can place an extended voicing into a progression without breaking time.',
         ]
       },
       {
@@ -1472,7 +1624,23 @@ export const PHASES: Phase[] = [
               '<span class="tag tag-blue">Lick 5</span> C–E♭–E–G (quick 4-note riff, strong over Am)',
               '<span class="tag tag-blue">Lick 6</span> G–E–D–E♭–D–C–A (long descending phrase — use over 2 bars at slow tempo)',
             ]
+          },
+          {
+            type: 'two-col-drill',
+            heading: 'Production blues ladder',
+            intro: 'Start with memorised licks, then bend them into your own phrases over a real loop.',
+            items: [
+              { title: 'L1 — Memorise two licks', detail: 'Learn Lick 1 and Lick 2 at 70 BPM. Goal: no note hunting.' },
+              { title: 'L2 — Resolve correctly', detail: 'Play each lick over Am and end on A, C, or E. Goal: blue note tension resolves inside the key.' },
+              { title: 'L3 — Phrase variation', detail: 'Change the rhythm of one lick while keeping the pitch idea. Goal: sound less copied, more controlled.' },
+              { title: 'L4 — DAW context', detail: 'Record an 8-bar phrase over an Am loop using at least one blue note phrase and one clean pentatonic phrase.' },
+            ]
           }
+        ],
+        checkList: [
+          'You can play at least two blues licks from memory.',
+          'Blue notes resolve intentionally inside your phrases.',
+          'Your recorded phrase sounds musical over a loop, not like scale practice.',
         ]
       },
       {
@@ -1498,6 +1666,23 @@ export const PHASES: Phase[] = [
             heading: 'The number system method',
             body: 'Take any progression by number. Example: i–VII–VI–VII. In A minor that\'s Am–G–F–G. In D minor it\'s Dm–C–B♭–C. In G minor it\'s Gm–F–E♭–F. You don\'t relearn the progression — you apply the same number pattern to new roots. The harmonic relationships and emotional character remain identical. Only the key colour changes.'
           }
+          ,
+          {
+            type: 'two-col-drill',
+            heading: 'Transposition ladder',
+            intro: 'Move one known progression into nearby keys before jumping further out.',
+            items: [
+              { title: 'L1 — A minor to D minor', detail: 'Move i–VII–VI–VII from Am to Dm slowly. Goal: only one new black key appears and you stay calm.' },
+              { title: 'L2 — C major to G major', detail: 'Move I–vi–IV–V into G. Goal: one-sharp key feels like the same pattern, not a new song.' },
+              { title: 'L3 — Random key callout', detail: 'Pick a progression number pattern, then name and play it in one new key within 10 seconds.' },
+              { title: 'L4 — Producer transfer', detail: 'Take one loop you already wrote and transpose the whole harmonic idea into a new key in your DAW.' },
+            ]
+          }
+        ],
+        checkList: [
+          'You can move one known progression into a nearby key without panic.',
+          'You think in numbers more than note names while transposing.',
+          'A transposed loop still sounds like the same musical idea.',
         ]
       },
       {
@@ -1530,17 +1715,29 @@ export const PHASES: Phase[] = [
               '<span class="tag tag-amber">In practice</span> Any time a major chord feels like home but uses ♭VII as a colour chord — that is Mixolydian thinking. No need to analyse further.',
             ]
           },
+        ]
+      },
+      {
+        icon: 'ti-mood-smile',
+        title: 'Mode drill ladder',
+        sectionType: 'practice',
+        cards: [
           {
             type: 'two-col-drill',
-            heading: 'Dorian production exercise',
-            intro: 'Build this loop entirely in A Dorian (use F# instead of F natural):',
+            heading: 'Dorian ladder',
+            intro: 'Treat the single changed note as the main event. One note changes the whole mood.',
             items: [
-              { title: 'Am7 (Dorian)', detail: 'A–C–E–G — standard Am7' },
-              { title: 'Gmaj7', detail: 'G–B–D–F# — note: F#, not F' },
-              { title: 'D major', detail: 'D–F#–A — the Dorian IV chord. The bright moment.' },
-              { title: 'Am7', detail: 'Return home. 4 bars each at 112 BPM.' },
+              { title: 'L1 — Hear the changed note', detail: 'Play A natural minor, then A Dorian, slowly. Goal: hear F vs F# clearly.' },
+              { title: 'L2 — Chord spotlight', detail: 'Play Am7 → D major → Am7 at 80 BPM. Goal: hear the bright IV in a minor setting.' },
+              { title: 'L3 — Full mode loop', detail: 'Build Am7–Gmaj7–D–Am7 at 100–112 BPM. Goal: the D chord feels like the signature colour.' },
+              { title: 'L4 — DAW mode sketch', detail: 'Write one 8-bar Dorian loop and explain in words what the raised 6th changed emotionally.' },
             ]
           }
+        ],
+        checkList: [
+          'You can hear the single note that separates natural minor from Dorian.',
+          'You can use the major IV chord intentionally in a minor context.',
+          'Your Dorian loop feels like a colour choice, not a wrong note accident.',
         ]
       },
       {
@@ -1562,15 +1759,29 @@ export const PHASES: Phase[] = [
               '<span class="tag tag-coral">Aaug</span> A–C#–F — use between Am and Dm for an unexpected lift.',
             ]
           },
+        ]
+      },
+      {
+        icon: 'ti-sparkles',
+        title: 'Augmented drill ladder',
+        sectionType: 'practice',
+        cards: [
           {
             type: 'two-col-drill',
-            heading: 'Augmented chord applications',
+            heading: 'Augmented ladder',
+            intro: 'Use augmented as a brief floating bridge. If it stays too long, it becomes awkward instead of interesting.',
             items: [
-              { title: 'Cmaj7 → Caug → Am7', detail: 'Hold C in the bass, raise the 5th G to G# — creates a tense landing on Am.' },
-              { title: 'Faug as a passing chord', detail: 'Fmaj7 → Faug → G7 → Cmaj7. The Faug bridges IV and V with floating energy.' },
-              { title: 'In your DAW', detail: 'Use augmented for exactly 1 beat or 1 bar. Any longer and the ambiguity becomes uncomfortable. It is a transit chord, not a destination.' },
+              { title: 'L1 — Build the shape', detail: 'Play C major, then raise G to G#. Goal: feel exactly what changed.' },
+              { title: 'L2 — One-bar bridge', detail: 'Play Cmaj7 → Caug → Am7 and Fmaj7 → Faug → G7 slowly. Goal: hear the float before resolution.' },
+              { title: 'L3 — Timed restraint', detail: 'Use augmented for one beat only in a 4-bar loop. Goal: it colours the phrase without hijacking it.' },
+              { title: 'L4 — Production insertion', detail: 'Add one augmented passing chord to a DAW loop and compare it with the plain version. Goal: the added tension feels chosen.' },
             ]
           }
+        ],
+        checkList: [
+          'You can build an augmented chord by altering the 5th deliberately.',
+          'You can use augmented as a short passing colour instead of a destination.',
+          'The tension resolves into the next chord convincingly.',
         ]
       },
     ],
@@ -1641,16 +1852,20 @@ export const PHASES: Phase[] = [
           },
           {
             type: 'two-col-drill',
-            heading: 'Daily interval drill (5 min)',
-            intro: 'Play these pairs on your Launchkey every session. Say the interval name aloud after hearing it:',
+            heading: 'Interval ladder (5 min)',
+            intro: 'Start with recognition plus language. The point is to connect sound, feeling, and label.',
             items: [
-              { title: 'Play C → E', detail: 'Major 3rd. Say: "Major 3rd — bright".' },
-              { title: 'Play A → C', detail: 'Minor 3rd. Say: "Minor 3rd — dark".' },
-              { title: 'Play C → G', detail: 'Perfect 5th. Say: "Perfect 5th — stable".' },
-              { title: 'Play A → D', detail: 'Perfect 4th. Say: "Perfect 4th — anchored".' },
-              { title: 'Play A → A (octave)', detail: 'Octave. Say: "Octave — same note, doubled".' },
+              { title: 'L1 — Fixed pair recognition', detail: 'Play C→E, A→C, C→G, A→D, A→A. Say the interval name and feeling out loud.' },
+              { title: 'L2 — Mixed order', detail: 'Shuffle those same five intervals. Goal: identify the sound without relying on order.' },
+              { title: 'L3 — One-note move', detail: 'Choose a root and test two interval options from it. Goal: learn the distance, not just one memorised pair.' },
+              { title: 'L4 — Ear then hand', detail: 'Hear the interval, say it, then play it back correctly. Goal: ear and fingers connect.' },
             ]
           }
+        ],
+        checkList: [
+          'You can name the 5 priority intervals in mixed order.',
+          'You can describe each interval by feel, not just by label.',
+          'You can hear an interval and then reproduce it on the keyboard.',
         ]
       },
       {
@@ -1675,15 +1890,14 @@ export const PHASES: Phase[] = [
             ]
           },
           {
-            type: 'list',
-            heading: 'Reference track exercise (10 min)',
+            type: 'two-col-drill',
+            heading: 'Chord quality ladder',
+            intro: 'Move from controlled self-testing to real-track listening. Your goal is fast, useful classification.',
             items: [
-              'Pick any SA deep house or amapiano track from your playlist',
-              'Listen through once just for feel — do not analyse, just receive',
-              'On a second listen: identify whether the overall key is major (bright) or minor (dark)',
-              'On a third listen: count how many distinct chords you hear in one loop. Is it 2 chords? 4?',
-              'Load a MIDI instrument in your DAW and try to find just the first chord by ear — trial and error is the method',
-              'You are not aiming for a perfect transcription. You are training the habit of listening analytically.',
+              { title: 'L1 — Self-test triads', detail: 'Play major, minor, dominant, maj7, and min7 shapes yourself. Say the quality before checking your hands.' },
+              { title: 'L2 — Random quality check', detail: 'Play one chord at a time in random order. Goal: identify the quality by feel within 3 seconds.' },
+              { title: 'L3 — Reference track first chord', detail: 'Use a real track and find the first chord quality only. Goal: one confident answer, not full transcription.' },
+              { title: 'L4 — Confirm on keyboard', detail: 'Find that chord on your keyboard while the track plays. Goal: ear label and physical shape line up.' },
             ]
           },
           {
@@ -1691,6 +1905,11 @@ export const PHASES: Phase[] = [
             heading: '✓ Pass mark — you are ready to move on when:',
             body: 'You can listen to any SA house or amapiano track and correctly identify the chord quality (major / minor / dominant / maj7 / min7) of the first chord within 30 seconds — and confirm it by finding that chord on your keyboard while the track plays.'
           }
+        ],
+        checkList: [
+          'You can distinguish major, minor, dominant, maj7, and min7 by feel.',
+          'You can identify the first chord quality of a track within 30 seconds.',
+          'You can confirm your ear guess on the keyboard while the track plays.',
         ]
       },
       {
@@ -1713,14 +1932,14 @@ export const PHASES: Phase[] = [
             ]
           },
           {
-            type: 'list',
-            heading: 'Active listening exercise',
+            type: 'two-col-drill',
+            heading: 'Progression recognition ladder',
+            intro: 'Train shape before detail: loop, cadence, or suspension. That is the first useful answer.',
             items: [
-              'Choose a track from your reference playlist',
-              'At each section boundary (intro → verse, verse → drop), ask: did that feel like it resolved, or did it keep moving?',
-              'If it resolved: which chord did it land on? Try to find that note on your Launchkey',
-              'If it kept moving: what was the last chord before the new section? Was it tense or open?',
-              'Write down your observations. You are building a language for what you hear.',
+              { title: 'L1 — Resolve or cycle', detail: 'Listen to one loop and answer only: did it land, or keep moving?' },
+              { title: 'L2 — Count the changes', detail: 'On the next listen, count how many chords are in the loop. Goal: hear the loop length.' },
+              { title: 'L3 — Find the landing chord', detail: 'If it resolves, find the note that feels like home on your keyboard.' },
+              { title: 'L4 — Section comparison', detail: 'Compare intro, verse, and drop. Goal: notice whether each section resolves, suspends, or cycles differently.' },
             ]
           },
           {
@@ -1728,6 +1947,11 @@ export const PHASES: Phase[] = [
             heading: '✓ Pass mark — you are ready to move on when:',
             body: 'You can listen to a track you have never heard before and within one play-through correctly identify: (1) is it major or minor key, (2) how many chords are in the main loop, (3) does the loop resolve or cycle. You should get 2 out of 3 correct consistently before moving on to transcription.'
           }
+        ],
+        checkList: [
+          'You can tell if a progression resolves or cycles.',
+          'You can estimate loop length by chord changes.',
+          'You can usually identify the home chord of a resolved section.',
         ]
       },
       {
@@ -1742,14 +1966,14 @@ export const PHASES: Phase[] = [
             body: 'Transcription for producers is not writing out every note on a score. It is finding the chord root and quality of each chord in a loop so you can recreate the harmonic skeleton. You use the reference track, your keyboard, and your ear in a back-and-forth loop. This is the actual skill used in every studio session.'
           },
           {
-            type: 'list',
-            heading: 'The 5-step transcription method',
+            type: 'two-col-drill',
+            heading: 'Transcription ladder',
+            intro: 'Build the harmonic skeleton one layer at a time. Root first, then quality, then loop shape, then numbers.',
             items: [
-              'Step 1 — Find the root of the first chord. Play single notes on your Launchkey while the track plays. The note that sounds "at home" with the bass is the root.',
-              'Step 2 — Identify the quality. Play a major triad from that root. If it clashes, try minor. One of them will blend.',
-              'Step 3 — Listen for how many chords are in the loop. A loop has a rhythm — count the changes.',
-              'Step 4 — Repeat steps 1–2 for each chord in the loop.',
-              'Step 5 — Assign numbers. Now that you have the chords, label them I, ii, IV, V etc. You now own the progression — transpose it, remix it, use it.',
+              { title: 'L1 — First root only', detail: 'Find the root of the first chord while the track plays. Goal: one reliable anchor note.' },
+              { title: 'L2 — Add quality', detail: 'Test major vs minor from that root. Goal: identify the first chord completely.' },
+              { title: 'L3 — Map the loop', detail: 'Count the chord changes and find each root in order. Goal: skeleton before detail.' },
+              { title: 'L4 — Number the loop', detail: 'Assign Roman numerals to the chords you found so the progression becomes transferable.' },
             ]
           },
           {
@@ -1761,7 +1985,17 @@ export const PHASES: Phase[] = [
               { title: 'Kabza De Small — Sponono', detail: 'Amapiano piano line. Find the notes of the melodic riff, not just the chords.' },
               { title: 'Any track you already love', detail: 'Starting with music you know emotionally makes the ear connection stronger.' },
             ]
+          },
+          {
+            type: 'text',
+            heading: '✓ Pass mark — you are ready to move on when:',
+            body: 'You can recover the root and quality of each chord in one short loop from a real track, then label the progression by numbers and replay it on your keyboard.'
           }
+        ],
+        checkList: [
+          'You can find the first chord root by ear.',
+          'You can determine major vs minor for each chord in a short loop.',
+          'You can convert the result into Roman numerals and replay it.',
         ]
       },
     ],
