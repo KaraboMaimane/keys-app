@@ -1,16 +1,20 @@
 import { Component, signal, computed, inject, OnInit, isDevMode } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { trigger, transition, style, animate, query, stagger } from '@angular/animations';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatRippleModule } from '@angular/material/core';
 import { PHASES } from './data/phases.data';
 import { ProgressService } from './progress.service';
+import { PracticeHudComponent } from './components/practice-hud.component';
+import { DrillTimerComponent } from './components/drill-timer.component';
+import { ScaleQuizComponent } from './components/scale-quiz.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, MatChipsModule, MatTabsModule, MatRippleModule],
+  imports: [CommonModule, FormsModule, MatChipsModule, MatTabsModule, MatRippleModule, PracticeHudComponent, DrillTimerComponent, ScaleQuizComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   animations: [
@@ -192,4 +196,21 @@ export class AppComponent implements OnInit {
   }
 
   trackByIndex(i: number) { return i; }
+
+  /** True when a section is flagged as practice (shows the HUD) */
+  isPracticeSection(section: { sectionType?: string }): boolean {
+    return section.sectionType === 'practice';
+  }
+
+  /** Extract two-col-drill items from the first matching card in a section */
+  getDrillItems(section: { cards: any[] }): { title: string; detail: string }[] {
+    const card = section.cards.find((c: any) => c.type === 'two-col-drill');
+    return card?.items ?? [];
+  }
+
+  /** True when this is the Week 1 scale section (shows the quiz) */
+  isScaleSection(section: { title: string }): boolean {
+    return section.title.toLowerCase().includes('week 1') ||
+           section.title.toLowerCase().includes('natural minor');
+  }
 }
