@@ -158,7 +158,7 @@
       </button>
 
       <!-- Dev unlock -->
-      <button class="dev-toggle" [class.dev-on]="devUnlocked()" (click)="toggleDevMode()">
+      <button *ngIf="devToolsEnabled" class="dev-toggle" [class.dev-on]="devUnlocked()" (click)="toggleDevMode()">
         <i class="ti" [class.ti-lock-open]="devUnlocked()" [class.ti-lock]="!devUnlocked()"></i>
         {{ devUnlocked() ? 'Locked (dev off)' : 'Dev: unlock all' }}
       </button>

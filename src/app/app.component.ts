@@ -1,4 +1,4 @@
-import { Component, signal, computed, inject, OnInit } from '@angular/core';
+import { Component, signal, computed, inject, OnInit, isDevMode } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { trigger, transition, style, animate, query, stagger } from '@angular/animations';
 import { MatChipsModule } from '@angular/material/chips';
@@ -42,6 +42,7 @@ import { ProgressService } from './progress.service';
 export class AppComponent implements OnInit {
   phases = PHASES;
   progress = inject(ProgressService);
+  readonly devToolsEnabled = isDevMode();
 
   activeIndex    = signal(0);
   activePhase    = computed(() => this.phases[this.activeIndex()]);
@@ -109,7 +110,7 @@ export class AppComponent implements OnInit {
 
   /** Whether the phase at index i is accessible */
   isUnlocked(i: number): boolean {
-    if (this.devUnlocked()) return true;
+    if (this.devToolsEnabled && this.devUnlocked()) return true;
     return this.progress.isPhaseUnlocked(this.phases[i].id, this.phases);
   }
 
@@ -171,6 +172,7 @@ export class AppComponent implements OnInit {
   );
 
   toggleDevMode(): void {
+    if (!this.devToolsEnabled) return;
     this.devUnlocked.update(v => !v);
   }
 
