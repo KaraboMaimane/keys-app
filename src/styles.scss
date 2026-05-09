@@ -95,25 +95,41 @@ h1, h2, h3, .phase-badge, .num, .brand-title, .phase-num {
   @extend .glass;
   padding: 18px 20px;
   margin-bottom: 10px;
-  transition: background 0.2s ease, transform 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+
+  // top shimmer line
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.18) 40%, rgba(255,255,255,0.08) 100%);
+    border-radius: inherit;
+  }
+
   &:hover {
     background: var(--glass-bg-hover);
-    transform: translateY(-1px);
+    transform: translateY(-2px);
+    box-shadow: var(--glass-shadow), 0 0 24px rgba(139,126,248,0.12);
+    border-color: rgba(255,255,255,0.14);
   }
 
   h3 {
     font-size: 14px;
     font-weight: 600;
     color: var(--text-primary);
-    margin-bottom: 8px;
+    margin-bottom: 10px;
+    letter-spacing: 0.01em;
   }
   p, li {
     font-size: 13px;
     color: var(--text-secondary);
-    line-height: 1.65;
+    line-height: 1.7;
   }
   ul { padding-left: 18px; }
-  li { margin-bottom: 4px; }
+  li { margin-bottom: 5px; }
 }
 
 // ─── Tag Pills ────────────────────────────────────────────────────────────────
@@ -127,12 +143,12 @@ h1, h2, h3, .phase-badge, .num, .brand-title, .phase-num {
   margin-bottom: 4px;
   letter-spacing: 0.02em;
 }
-.tag-purple { background: rgba(139,126,248,0.18); color: #c4bbfe; border: 1px solid rgba(139,126,248,0.3); }
-.tag-teal   { background: rgba(52,211,153,0.15);  color: #6ee7b7; border: 1px solid rgba(52,211,153,0.3); }
-.tag-amber  { background: rgba(251,191,36,0.15);  color: #fde68a; border: 1px solid rgba(251,191,36,0.3); }
-.tag-coral  { background: rgba(251,113,133,0.15); color: #fca5a5; border: 1px solid rgba(251,113,133,0.3); }
-.tag-blue   { background: rgba(96,165,250,0.15);  color: #93c5fd; border: 1px solid rgba(96,165,250,0.3); }
-.tag-green  { background: rgba(74,222,128,0.15);  color: #86efac; border: 1px solid rgba(74,222,128,0.3); }
+.tag-purple { background: rgba(139,126,248,0.22); color: #c4bbfe; border: 1px solid rgba(139,126,248,0.45); text-shadow: 0 0 12px rgba(139,126,248,0.4); }
+.tag-teal   { background: rgba(52,211,153,0.18);  color: #6ee7b7; border: 1px solid rgba(52,211,153,0.45);  text-shadow: 0 0 12px rgba(52,211,153,0.4); }
+.tag-amber  { background: rgba(251,191,36,0.18);  color: #fde68a; border: 1px solid rgba(251,191,36,0.45);  text-shadow: 0 0 12px rgba(251,191,36,0.4); }
+.tag-coral  { background: rgba(251,113,133,0.18); color: #fca5a5; border: 1px solid rgba(251,113,133,0.45); text-shadow: 0 0 12px rgba(251,113,133,0.4); }
+.tag-blue   { background: rgba(96,165,250,0.18);  color: #93c5fd; border: 1px solid rgba(96,165,250,0.45);  text-shadow: 0 0 12px rgba(96,165,250,0.4); }
+.tag-green  { background: rgba(74,222,128,0.18);  color: #86efac; border: 1px solid rgba(74,222,128,0.45);  text-shadow: 0 0 12px rgba(74,222,128,0.4); }
 
 // ─── Drill Grid ───────────────────────────────────────────────────────────────
 .drill-grid {
@@ -142,12 +158,15 @@ h1, h2, h3, .phase-badge, .num, .brand-title, .phase-num {
   @media (max-width: 480px) { grid-template-columns: 1fr; }
 }
 .drill-item {
-  background: rgba(255,255,255,0.05);
+  background: rgba(255,255,255,0.04);
   border: 1px solid var(--glass-border);
+  border-left: 2px solid rgba(139,126,248,0.6);
   border-radius: var(--radius-md);
   padding: 11px 14px;
-  p { font-size: 13px; font-weight: 500; color: var(--text-primary); margin-bottom: 2px; }
-  span { font-size: 12px; color: var(--text-secondary); }
+  transition: background 0.2s, border-color 0.2s;
+  &:hover { background: rgba(139,126,248,0.07); border-left-color: #a78bfa; }
+  p { font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 3px; }
+  span { font-size: 12px; color: var(--text-secondary); line-height: 1.55; }
 }
 
 // ─── Section Title ────────────────────────────────────────────────────────────
@@ -181,17 +200,40 @@ h1, h2, h3, .phase-badge, .num, .brand-title, .phase-num {
     &:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
   }
 }
+.check-item {
+  cursor: pointer;
+  user-select: none;
+  border-radius: 8px;
+  transition: background 0.15s;
+  padding: 4px 6px 4px 0 !important;
+  margin-left: -6px;
+  &:hover { background: rgba(255,255,255,0.04); }
+  &.item-done {
+    color: var(--text-muted) !important;
+    text-decoration: line-through;
+    text-decoration-color: rgba(255,255,255,0.2);
+  }
+}
 .check-icon {
   width: 20px;
   height: 20px;
   border-radius: 50%;
   border: 1px solid rgba(255,255,255,0.2);
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
   margin-top: 1px;
-  i { font-size: 11px; color: #34d399; }
+  transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
+  i { font-size: 11px; color: transparent; transition: color 0.25s; }
+
+  &.icon-done {
+    border-color: #34d399;
+    background: rgba(52,211,153,0.2);
+    box-shadow: 0 0 12px rgba(52,211,153,0.4);
+    i { color: #34d399; }
+  }
 }
 
 // ─── Number System Grid ───────────────────────────────────────────────────────
@@ -217,9 +259,9 @@ h1, h2, h3, .phase-badge, .num, .brand-title, .phase-num {
     border-bottom: 1px solid var(--glass-border);
   }
   .mat-mdc-tab { min-width: 60px; }
-  .mat-mdc-tab .mdc-tab__text-label { color: var(--text-secondary); font-family: var(--font-sans); font-size: 13px; }
-  .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label { color: var(--text-primary); }
-  .mdc-tab-indicator__content--underline { border-color: var(--phase-1); }
+  .mat-mdc-tab .mdc-tab__text-label { color: var(--text-secondary); font-family: var(--font-sans); font-size: 13px; transition: color 0.2s; }
+  .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label { color: var(--text-primary); font-weight: 600; }
+  .mdc-tab-indicator__content--underline { border-color: var(--phase-1); border-width: 2px; filter: drop-shadow(0 0 6px var(--phase-1)); }
 }
 
 .mat-mdc-chip {
@@ -246,6 +288,21 @@ h1, h2, h3, .phase-badge, .num, .brand-title, .phase-num {
 @keyframes fadeSlideIn {
   from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes shimmerText {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 12px rgba(167,139,250,0.3), 0 0 24px rgba(167,139,250,0.1); }
+  50%       { box-shadow: 0 0 20px rgba(167,139,250,0.5), 0 0 40px rgba(167,139,250,0.2); }
+}
+@keyframes orbDrift {
+  0%   { transform: translate(0, 0) scale(1) rotate(0deg); }
+  33%  { transform: translate(20px, 30px) scale(1.05) rotate(5deg); }
+  66%  { transform: translate(-15px, 20px) scale(0.98) rotate(-3deg); }
+  100% { transform: translate(0, 0) scale(1) rotate(0deg); }
 }
 .animate-in {
   animation: fadeSlideIn 0.35s ease forwards;
