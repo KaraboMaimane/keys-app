@@ -1,170 +1,370 @@
-<!-- ─── Background orbs ─────────────────────────────────────────────────── -->
+<!-- ─── Background ──────────────────────────────────────────────────────────── -->
 <div class="bg-orbs" aria-hidden="true">
   <div class="orb orb-1"></div>
   <div class="orb orb-2"></div>
   <div class="orb orb-3"></div>
 </div>
+<div class="bg-grid" aria-hidden="true"></div>
 
-<!-- ─── App Shell ───────────────────────────────────────────────────────── -->
+<!-- ─── App Shell ───────────────────────────────────────────────────────────── -->
 <div class="app-shell">
 
-  <!-- Header -->
+  <!-- ── Header (always visible) ─────────────────────────────────────────── -->
   <header class="site-header glass">
     <div class="header-inner">
-      <div class="header-brand">
+      <button class="header-brand" (click)="goHome()" aria-label="Keys Lessons home">
         <span class="brand-icon">🎹</span>
         <div>
           <h1 class="brand-title">Keys Lessons</h1>
-          <p class="brand-sub">Your keyboard roadmap to deep house &amp; amapiano</p>
+          <p class="brand-sub">SA house · amapiano · deep house</p>
         </div>
-      </div>
-      <div class="header-meta">
-        <span class="meta-chip"><i class="ti ti-clock"></i> 6–8 months</span>
-        <span class="meta-chip"><i class="ti ti-music"></i> 5 phases</span>
+      </button>
+      <div class="hud-stats">
+        <div class="hud-stat">
+          <i class="ti ti-flame hud-fire" [class.fire-dead]="!streakAlive()"></i>
+          <div class="hud-inner">
+            <span class="hud-val">{{ progress.currentStreak() }}</span>
+            <span class="hud-label">STREAK</span>
+            <span class="hud-sub">{{ lastSessionLabel() }}</span>
+          </div>
+        </div>
+        <div class="hud-sep"></div>
+        <div class="hud-stat">
+          <i class="ti ti-bolt hud-bolt"></i>
+          <div class="hud-inner">
+            <span class="hud-val">{{ progress.totalSessions() }}</span>
+            <span class="hud-label">SESSIONS</span>
+          </div>
+        </div>
       </div>
     </div>
   </header>
 
-  <!-- Phase Navigation -->
-  <div class="progress-strip">
-    <div class="progress-inner">
-      <ng-container *ngFor="let p of phases; let i = index; trackBy: trackByIndex">
-        <button
-          class="phase-btn"
-          [class.active]="activeIndex() === i"
-          [style.--accent]="p.accentColor"
-          (click)="setPhase(i)"
-          matRipple
-          [matRippleColor]="'rgba(255,255,255,0.08)'"
-          [attr.aria-label]="'Go to ' + p.label"
-        >
-          <span class="phase-num"
-                [style.background]="activeIndex() === i ? p.accentColor : 'transparent'"
-                [style.color]="activeIndex() === i ? '#000' : p.accentColor"
-                [style.border-color]="p.accentColor">{{ p.id }}</span>
-          <span class="phase-label">{{ p.label }}</span>
-        </button>
-        <div *ngIf="i < phases.length - 1"
-             class="phase-connector"
-             [style.background]="activeIndex() > i ? phases[i].accentColor : 'rgba(255,255,255,0.1)'">
-        </div>
-      </ng-container>
-    </div>
-  </div>
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <!-- HOME DASHBOARD                                                        -->
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <main *ngIf="currentView() === 'home'" class="dashboard" [@viewIn]>
 
-  <!-- Main Content -->
-  <main class="content-area">
-    <div class="phase-panel" [@phaseIn] *ngIf="activePhase() as phase">
-
-      <!-- Phase Header -->
-      <div class="phase-header glass">
-        <div class="phase-badge" [style]="phase.badgeStyle">{{ phase.id }}</div>
-        <div class="phase-info">
-          <h2 class="phase-title">{{ phase.title }}</h2>
-          <p class="phase-desc">{{ phase.description }}</p>
-          <span class="timeline-chip">
-            <i class="ti ti-clock"></i> {{ phase.timeline }}
+    <!-- ── TODAY'S FOCUS ──────────────────────────────────────────────── -->
+    <ng-container *ngIf="todaysFocus() as focus; else allDone">
+      <section class="focus-card glass" [style.--accent]="focus.accentColor">
+        <div class="focus-top">
+          <span class="focus-phase-tag" [style.color]="focus.accentColor" [style.border-color]="focus.accentColor">
+            <i class="ti ti-target-arrow"></i> {{ focus.phaseLabel }}
           </span>
+          <span class="focus-progress-pill">{{ focus.totalDone }}/{{ focus.totalItems }}</span>
         </div>
+        <p class="focus-label">NEXT MILESTONE</p>
+        <p class="focus-item">{{ focus.item }}</p>
+        <div class="focus-actions">
+          <button class="focus-enter-btn"
+                  [style.--accent]="focus.accentColor"
+                  (click)="enterPhase(focus.phaseIndex)"
+                  matRipple [matRippleColor]="'rgba(255,255,255,0.1)'">
+            Open Phase <i class="ti ti-arrow-right"></i>
+          </button>
+          <button class="focus-skip-btn"
+                  (click)="completeFocusItem()"
+                  matRipple [matRippleColor]="'rgba(255,255,255,0.06)'"
+                  title="Mark this milestone as already known">
+            <i class="ti ti-check"></i> Already know this
+          </button>
+        </div>
+        <!-- mini progress bar -->
+        <div class="focus-prog-bar">
+          <div class="focus-prog-fill"
+               [style.width]="(focus.totalDone / focus.totalItems * 100) + '%'"
+               [style.background]="focus.accentColor"></div>
+        </div>
+      </section>
+    </ng-container>
+    <ng-template #allDone>
+      <section class="focus-card glass focus-all-done">
+        <i class="ti ti-trophy" style="font-size:32px;color:#fbbf24"></i>
+        <p class="focus-label">ALL PHASES COMPLETE</p>
+        <p class="focus-item">You've finished the full curriculum. Keep practising — mastery is repetition.</p>
+      </section>
+    </ng-template>
+
+    <!-- ── OVERALL PROGRESS + STREAK ──────────────────────────────────── -->
+    <div class="home-stats-row">
+      <div class="hstat-card glass">
+        <i class="ti ti-flame hstat-ico" [class.fire-dead]="!streakAlive()" style="color:#fb7185"></i>
+        <span class="hstat-val">{{ progress.currentStreak() }}</span>
+        <span class="hstat-lbl">Day streak</span>
+        <span class="hstat-sub">{{ lastSessionLabel() }}</span>
       </div>
-
-      <!-- Sections -->
-      <div class="sections-wrap" [@staggerCards]="activeIndex()">
-        <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" class="section-tabs" dynamicHeight>
-          <mat-tab *ngFor="let section of phase.sections; let si = index; trackBy: trackByIndex">
-            <ng-template mat-tab-label>
-              <i class="ti {{ section.icon }}" style="margin-right:8px;font-size:16px;opacity:0.7"></i>
-              {{ section.title }}
-            </ng-template>
-
-            <div class="tab-content" style="padding-top: 20px;">
-              <ng-container *ngFor="let card of section.cards; trackBy: trackByIndex">
-
-                <!-- Studio Milestone -->
-                <div *ngIf="card.type === 'studio-milestone'" class="glass-card milestone-card animate-in">
-                  <h3>{{ card.heading }}</h3>
-                  <ul>
-                    <li *ngFor="let item of card.items">{{ item }}</li>
-                  </ul>
-                </div>
-
-                <!-- Text -->
-                <div *ngIf="card.type === 'text'" class="glass-card animate-in">
-                  <h3 *ngIf="card.heading">{{ card.heading }}</h3>
-                  <p *ngIf="card.intro" class="card-intro" [innerHTML]="card.intro"></p>
-                  <ng-container *ngIf="card.body">
-                    <p *ngFor="let para of card.body!.split('\n\n')" style="margin-bottom:8px" [innerHTML]="para"></p>
-                  </ng-container>
-                </div>
-
-                <!-- List -->
-                <div *ngIf="card.type === 'list'" class="glass-card animate-in">
-                  <h3 *ngIf="card.heading">{{ card.heading }}</h3>
-                  <p *ngIf="card.intro" class="card-intro">{{ card.intro }}</p>
-                  <ul>
-                    <li *ngFor="let item of card.items">{{ item }}</li>
-                  </ul>
-                  <p *ngIf="card.body" style="margin-top:8px;font-size:13px;color:var(--text-secondary)">{{ card.body }}</p>
-                </div>
-
-                <!-- Tag-list (HTML items) -->
-                <div *ngIf="card.type === 'tag-list'" class="glass-card animate-in">
-                  <h3 *ngIf="card.heading">{{ card.heading }}</h3>
-                  <p *ngIf="card.intro" class="card-intro" [innerHTML]="card.intro"></p>
-                  <ul style="padding-left:0">
-                    <li *ngFor="let item of card.items" [innerHTML]="item" style="margin-bottom:6px;list-style:none"></li>
-                  </ul>
-                  <p *ngIf="card.body" style="margin-top:8px;font-size:13px;color:var(--text-secondary)" [innerHTML]="card.body"></p>
-                </div>
-
-                <!-- Two-col Drill Grid -->
-                <div *ngIf="card.type === 'two-col-drill'" class="glass-card animate-in">
-                  <h3 *ngIf="card.heading">{{ card.heading }}</h3>
-                  <p *ngIf="card.intro" class="card-intro">{{ card.intro }}</p>
-                  <div class="drill-grid">
-                    <div class="drill-item" *ngFor="let item of $any(card.items)">
-                      <p>{{ item.title }}</p>
-                      <span>{{ item.detail }}</span>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Numeral Grid -->
-                <div *ngIf="card.type === 'numeral-grid'" class="glass-card animate-in">
-                  <h3 *ngIf="card.heading">{{ card.heading }}</h3>
-                  <p *ngIf="card.intro" class="card-intro">{{ card.intro }}</p>
-                  <div class="numeral-grid">
-                    <div class="numeral-cell" *ngFor="let n of card.numerals" [style]="n.style">
-                      <div class="num">{{ n.label }}</div>
-                      <div class="chord">{{ n.chord }}</div>
-                    </div>
-                  </div>
-                  <p *ngIf="card.body" style="margin-top:10px;font-size:13px;color:var(--text-secondary)">{{ card.body }}</p>
-                </div>
-
-              </ng-container>
-            </div>
-          </mat-tab>
-        </mat-tab-group>
-
-        <!-- Readiness Check -->
-        <div *ngIf="phase.checkList" class="glass-card readiness-card">
-          <div class="section-title">
-            <i class="ti ti-checkbox"></i>
-            Readiness check — move to the next phase when:
-          </div>
-          <ul class="check-list">
-            <li *ngFor="let item of phase.checkList">
-              <span class="check-icon"><i class="ti ti-check"></i></span>
-              {{ item }}
-            </li>
-          </ul>
-        </div>
+      <div class="hstat-card glass">
+        <i class="ti ti-check-circle hstat-ico" style="color:#34d399"></i>
+        <span class="hstat-val">{{ totalItemsDone() }}</span>
+        <span class="hstat-lbl">Items done</span>
+        <span class="hstat-sub">of {{ totalItemsAll() }} total</span>
+      </div>
+      <div class="hstat-card glass">
+        <i class="ti ti-bolt hstat-ico" style="color:#fbbf24"></i>
+        <span class="hstat-val">{{ progress.totalSessions() }}</span>
+        <span class="hstat-lbl">Sessions</span>
+        <span class="hstat-sub">all time</span>
       </div>
     </div>
+
+    <!-- ── SKILL MAP ─────────────────────────────────────────────────── -->
+    <section class="dash-section">
+      <p class="eyebrow"><i class="ti ti-map-2"></i> SKILL MAP</p>
+      <div class="map-scroll-wrap">
+        <div class="phase-map">
+          <ng-container *ngFor="let p of phases; let i = index; trackBy: trackByIndex">
+            <button class="map-node"
+                    [class.node-done]="phaseProgress(p.id).pct === 100"
+                    [class.node-active]="i === currentPhaseIndex() && phaseProgress(p.id).pct < 100 && isUnlocked(i)"
+                    [class.node-locked]="!isUnlocked(i)"
+                    [style.--c]="isUnlocked(i) ? p.accentColor : 'rgba(255,255,255,0.18)'"
+                    (click)="enterPhase(i)"
+                    matRipple [matRippleColor]="'rgba(255,255,255,0.06)'"
+                    [attr.aria-label]="isUnlocked(i) ? ('Open ' + p.label) : (p.label + ' locked')">
+              <div class="node-ring">
+                <i *ngIf="!isUnlocked(i)" class="ti ti-lock"></i>
+                <i *ngIf="isUnlocked(i) && phaseProgress(p.id).pct === 100" class="ti ti-check"></i>
+                <span *ngIf="isUnlocked(i) && phaseProgress(p.id).pct < 100">{{ p.id }}</span>
+              </div>
+              <div class="node-prog-ring" [style.--pct]="phaseProgress(p.id).pct" [style.--c]="p.accentColor">
+                <svg viewBox="0 0 36 36" aria-hidden="true">
+                  <circle cx="18" cy="18" r="16" class="ring-track"/>
+                  <circle cx="18" cy="18" r="16" class="ring-fill"
+                          [style.stroke]="p.accentColor"
+                          [style.stroke-dasharray]="(phaseProgress(p.id).pct / 100 * 100.53) + ' 100.53'"/>
+                </svg>
+              </div>
+              <span class="node-label">{{ p.label }}</span>
+              <span class="node-pct" [style.color]="p.accentColor">{{ phaseProgress(p.id).pct }}%</span>
+            </button>
+            <div *ngIf="i < phases.length - 1"
+                 class="map-connector"
+                 [class.connector-lit]="phaseProgress(p.id).pct === 100">
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── BOTTOM CONTROLS ────────────────────────────────────────────── -->
+    <div class="bottom-controls">
+
+      <!-- Keyboard toggle (compact) -->
+      <button class="keyboard-toggle" [class.kb-61]="keyboard() === 61" (click)="toggleKeyboard()">
+        <i class="ti ti-music"></i>
+        <span class="kb-label">{{ keyboard() === 25 ? '25-key' : '61-key' }}</span>
+        <i class="ti" [class.ti-toggle-left]="keyboard() === 25" [class.ti-toggle-right]="keyboard() === 61"></i>
+      </button>
+
+      <!-- Dev unlock -->
+      <button class="dev-toggle" [class.dev-on]="devUnlocked()" (click)="toggleDevMode()">
+        <i class="ti" [class.ti-lock-open]="devUnlocked()" [class.ti-lock]="!devUnlocked()"></i>
+        {{ devUnlocked() ? 'Locked (dev off)' : 'Dev: unlock all' }}
+      </button>
+
+    </div>
+
   </main>
+
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <!-- PHASE VIEW                                                            -->
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <div *ngIf="currentView() === 'phase'" [@viewIn]>
+
+    <!-- Phase Nav Bar -->
+    <div class="phase-nav-bar">
+      <button class="back-btn" (click)="goHome()"
+              matRipple [matRippleColor]="'rgba(255,255,255,0.08)'"
+              aria-label="Back to home">
+        <i class="ti ti-chevron-left"></i> Home
+      </button>
+      <div class="progress-inner">
+        <ng-container *ngFor="let p of phases; let i = index; trackBy: trackByIndex">
+          <button
+            class="phase-btn"
+            [class.active]="activeIndex() === i"
+            [class.btn-locked]="!isUnlocked(i)"
+            [style.--accent]="p.accentColor"
+            (click)="setPhase(i)"
+            matRipple
+            [matRippleColor]="'rgba(255,255,255,0.08)'"
+            [attr.aria-label]="isUnlocked(i) ? ('Go to ' + p.label) : (p.label + ' locked')"
+          >
+            <span class="phase-num"
+                  [style.background]="activeIndex() === i && isUnlocked(i) ? p.accentColor : 'transparent'"
+                  [style.color]="activeIndex() === i && isUnlocked(i) ? '#000' : (isUnlocked(i) ? p.accentColor : 'rgba(255,255,255,0.25)')"
+                  [style.border-color]="isUnlocked(i) ? p.accentColor : 'rgba(255,255,255,0.2)'">
+              <i *ngIf="!isUnlocked(i)" class="ti ti-lock" style="font-size:10px"></i>
+              <span *ngIf="isUnlocked(i)">{{ p.id }}</span>
+            </span>
+            <span class="phase-label">{{ p.label }}</span>
+          </button>
+          <div *ngIf="i < phases.length - 1"
+               class="phase-connector"
+               [style.background]="activeIndex() > i ? phases[i].accentColor : 'rgba(255,255,255,0.1)'">
+          </div>
+        </ng-container>
+      </div>
+    </div>
+
+    <!-- Phase Content -->
+    <main class="content-area">
+      <div class="phase-panel" [@phaseIn] *ngIf="activePhase() as phase">
+
+        <!-- Phase Header -->
+        <div class="phase-header glass">
+          <div class="phase-badge" [style]="phase.badgeStyle">{{ phase.id }}</div>
+          <div class="phase-info">
+            <h2 class="phase-title">{{ phase.title }}</h2>
+            <p class="phase-desc">{{ phase.description }}</p>
+            <span class="timeline-chip">
+              <i class="ti ti-clock"></i> {{ phase.timeline }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Sections -->
+        <div class="sections-wrap" [@staggerCards]="activeIndex()">
+
+          <!-- Section Filter -->
+          <div class="section-filter-bar">
+            <button class="filter-btn" [class.filter-active]="sectionFilter() === 'all'"      (click)="sectionFilter.set('all')">
+              <i class="ti ti-layout-list"></i> All
+            </button>
+            <button class="filter-btn" [class.filter-active]="sectionFilter() === 'theory'"   (click)="sectionFilter.set('theory')">
+              <i class="ti ti-brain"></i> Theory
+            </button>
+            <button class="filter-btn" [class.filter-active]="sectionFilter() === 'practice'" (click)="sectionFilter.set('practice')">
+              <i class="ti ti-dumbbell"></i> Practice
+            </button>
+          </div>
+
+          <!-- 61-key nudge (only shown when on 25-key and phase has 61-key sections) -->
+          <div *ngIf="keyboard() === 25 && current61KeyCount() > 0" class="kb-nudge">
+            <i class="ti ti-bulb"></i>
+            <span>{{ current61KeyCount() }} section{{ current61KeyCount() === 1 ? '' : 's' }} in this phase benefit from your 61-key — worth getting it out today?</span>
+            <button (click)="toggleKeyboard()" class="kb-nudge-btn">Switch to 61-key</button>
+          </div>
+
+          <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" class="section-tabs" dynamicHeight>
+            <mat-tab *ngFor="let section of filteredSections(); let si = index; trackBy: trackByIndex">
+              <ng-template mat-tab-label>
+                <i class="ti {{ section.icon }}" style="margin-right:8px;font-size:16px;opacity:0.7"></i>
+                {{ section.title }}
+                <span *ngIf="section.keysNeeded === 61" class="key61-chip" title="Benefits from 61-key keyboard">
+                  <i class="ti ti-piano"></i>61
+                </span>
+              </ng-template>
+
+              <div class="tab-content" style="padding-top: 20px;">
+                <ng-container *ngFor="let card of section.cards; trackBy: trackByIndex">
+
+                  <!-- Studio Milestone -->
+                  <div *ngIf="card.type === 'studio-milestone'" class="glass-card milestone-card animate-in">
+                    <h3>{{ card.heading }}</h3>
+                    <ul>
+                      <li *ngFor="let item of card.items">{{ item }}</li>
+                    </ul>
+                  </div>
+
+                  <!-- Text -->
+                  <div *ngIf="card.type === 'text'" class="glass-card animate-in">
+                    <h3 *ngIf="card.heading">{{ card.heading }}</h3>
+                    <p *ngIf="card.intro" class="card-intro" [innerHTML]="card.intro"></p>
+                    <ng-container *ngIf="card.body">
+                      <p *ngFor="let para of card.body!.split('\n\n')" style="margin-bottom:8px" [innerHTML]="para"></p>
+                    </ng-container>
+                  </div>
+
+                  <!-- List -->
+                  <div *ngIf="card.type === 'list'" class="glass-card animate-in">
+                    <h3 *ngIf="card.heading">{{ card.heading }}</h3>
+                    <p *ngIf="card.intro" class="card-intro">{{ card.intro }}</p>
+                    <ul>
+                      <li *ngFor="let item of card.items">{{ item }}</li>
+                    </ul>
+                    <p *ngIf="card.body" style="margin-top:8px;font-size:13px;color:var(--text-secondary)">{{ card.body }}</p>
+                  </div>
+
+                  <!-- Tag-list -->
+                  <div *ngIf="card.type === 'tag-list'" class="glass-card animate-in">
+                    <h3 *ngIf="card.heading">{{ card.heading }}</h3>
+                    <p *ngIf="card.intro" class="card-intro" [innerHTML]="card.intro"></p>
+                    <ul style="padding-left:0">
+                      <li *ngFor="let item of card.items" [innerHTML]="item" style="margin-bottom:6px;list-style:none"></li>
+                    </ul>
+                    <p *ngIf="card.body" style="margin-top:8px;font-size:13px;color:var(--text-secondary)" [innerHTML]="card.body"></p>
+                  </div>
+
+                  <!-- Two-col Drill Grid -->
+                  <div *ngIf="card.type === 'two-col-drill'" class="glass-card animate-in">
+                    <h3 *ngIf="card.heading">{{ card.heading }}</h3>
+                    <p *ngIf="card.intro" class="card-intro">{{ card.intro }}</p>
+                    <div class="drill-grid">
+                      <div class="drill-item" *ngFor="let item of $any(card.items)">
+                        <p>{{ item.title }}</p>
+                        <span>{{ item.detail }}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Numeral Grid -->
+                  <div *ngIf="card.type === 'numeral-grid'" class="glass-card animate-in">
+                    <h3 *ngIf="card.heading">{{ card.heading }}</h3>
+                    <p *ngIf="card.intro" class="card-intro">{{ card.intro }}</p>
+                    <div class="numeral-grid">
+                      <div class="numeral-cell" *ngFor="let n of card.numerals" [style]="n.style">
+                        <div class="num">{{ n.label }}</div>
+                        <div class="chord">{{ n.chord }}</div>
+                      </div>
+                    </div>
+                    <p *ngIf="card.body" style="margin-top:10px;font-size:13px;color:var(--text-secondary)">{{ card.body }}</p>
+                  </div>
+
+                </ng-container>
+              </div>
+            </mat-tab>
+          </mat-tab-group>
+
+          <!-- Readiness Check -->
+          <div *ngIf="phase.checkList" class="glass-card readiness-card">
+            <div class="readiness-header">
+              <div class="section-title" style="margin-bottom:0">
+                <i class="ti ti-checkbox"></i>
+                Readiness check
+              </div>
+              <div class="readiness-score"
+                   [class.score-complete]="phaseProgress(phase.id).pct === 100">
+                {{ phaseProgress(phase.id).done }}<span class="score-total">/{{ phaseProgress(phase.id).total }}</span>
+              </div>
+            </div>
+            <div class="readiness-prog-bar">
+              <div class="readiness-prog-fill"
+                   [style.width]="phaseProgress(phase.id).pct + '%'"
+                   [style.background]="phase.accentColor">
+              </div>
+            </div>
+            <ul class="check-list" style="margin-top: 14px;">
+              <li *ngFor="let item of phase.checkList; let i = index"
+                  class="check-item"
+                  [class.item-done]="progress.completedItems(phase.id).includes(i)"
+                  (click)="progress.toggleItem(phase.id, i)">
+                <span class="check-icon" [class.icon-done]="progress.completedItems(phase.id).includes(i)">
+                  <i class="ti ti-check"></i>
+                </span>
+                {{ item }}
+              </li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
 
   <footer class="site-footer">
     <p>Practice consistently · Trust the process · Make music 🎶</p>
   </footer>
 </div>
+
