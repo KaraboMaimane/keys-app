@@ -8,6 +8,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { PHASES, Phase, Section } from './data/phases.data';
 import { ProgressService } from './progress.service';
 import { PracticeFloatBarComponent } from './components/practice-float-bar.component';
+import { PhaseReadinessCardComponent } from './components/phase-readiness-card.component';
 import { SectionContentCardsComponent } from './components/section-content-cards.component';
 
 @Component({
@@ -18,6 +19,7 @@ import { SectionContentCardsComponent } from './components/section-content-cards
     FormsModule,
     MatRippleModule,
     PracticeFloatBarComponent,
+    PhaseReadinessCardComponent,
     SectionContentCardsComponent,
   ],
   templateUrl: './course-shell.component.html',
