@@ -67,6 +67,51 @@ export class AppComponent implements OnInit {
   /** The section the user has opened */
   activeSection = signal<Section | null>(null);
 
+  /** Visited section keys (phaseId::title) — localStorage backed */
+  private loadVisited(): Set<string> {
+    try { return new Set(JSON.parse(localStorage.getItem('keys_visited') ?? '[]') as string[]); }
+    catch { return new Set(); }
+  }
+  visitedSections = signal<Set<string>>(this.loadVisited());
+
+  markSectionVisited(section: Section): void {
+    const key = `${this.activePhase().id}::${section.title}`;
+    const next = new Set(this.visitedSections()); next.add(key);
+    this.visitedSections.set(next);
+    localStorage.setItem('keys_visited', JSON.stringify([...next]));
+  }
+
+  isSectionVisited(section: Section): boolean {
+    return this.visitedSections().has(`${this.activePhase().id}::${section.title}`);
+  }
+
+  /** Whether the phase readiness checklist is expanded */
+  readinessExpanded = signal(false);
+  toggleReadiness(): void { this.readinessExpanded.update(v => !v); }
+
+  /** Session indicator: 'today' | 'yesterday' | 'inactive' */
+  sessionIndicator = computed(() => {
+    const d = this.progress.lastSessionDate();
+    if (!d) return 'inactive';
+    const today     = new Date().toISOString().split('T')[0];
+    const yesterday = new Date(Date.now() - 86_400_000).toISOString().split('T')[0];
+    if (d === today)     return 'today';
+    if (d === yesterday) return 'yesterday';
+    return 'inactive';
+  });
+
+  /** Returns a semantic CSS class for a card based on its heading/type */
+  cardClass(card: { type: string; heading?: string }): string {
+    if (card.type === 'two-col-drill') return 'card-drill';
+    if (card.heading?.startsWith('⚠️')) return 'card-warning';
+    if (card.heading?.startsWith('✓') || card.heading?.toLowerCase().startsWith('pass mark')) return 'card-pass';
+    if (card.heading?.toLowerCase().includes('insight') || card.heading?.startsWith('Critical')) return 'card-insight';
+    return '';
+  }
+
+  /** Whether this section contains an interactive quiz */
+  hasQuiz(section: { title: string }): boolean { return this.isScaleSection(section); }
+
   private loadKeyboard(): 25 | 61 {
     return (localStorage.getItem('keys_app_keyboard') as '61' | null) === '61' ? 61 : 25;
   }
@@ -159,6 +204,8 @@ export class AppComponent implements OnInit {
   }
 
   openSection(section: Section): void {
+    this.markSectionVisited(section);
+    this.readinessExpanded.set(false);
     this.activeSection.set(section);
     this.currentView.set('section');
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -172,6 +219,7 @@ export class AppComponent implements OnInit {
 
   goHome(): void {
     this.activeSection.set(null);
+    this.readinessExpanded.set(false);
     this.currentView.set('home');
   }
 
