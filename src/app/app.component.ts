@@ -2,42 +2,50 @@ import { Component, signal, computed, inject, OnInit, isDevMode } from '@angular
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { trigger, transition, style, animate, query, stagger } from '@angular/animations';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatTabsModule } from '@angular/material/tabs';
 import { MatRippleModule } from '@angular/material/core';
-import { PHASES } from './data/phases.data';
+import { PHASES, Section } from './data/phases.data';
 import { ProgressService } from './progress.service';
-import { PracticeHudComponent } from './components/practice-hud.component';
-import { DrillTimerComponent } from './components/drill-timer.component';
+import { PracticeFloatBarComponent } from './components/practice-float-bar.component';
 import { ScaleQuizComponent } from './components/scale-quiz.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatChipsModule, MatTabsModule, MatRippleModule, PracticeHudComponent, DrillTimerComponent, ScaleQuizComponent],
+  imports: [CommonModule, FormsModule, MatRippleModule, PracticeFloatBarComponent, ScaleQuizComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   animations: [
     trigger('viewIn', [
       transition(':enter', [
         style({ opacity: 0, transform: 'translateY(18px)' }),
-        animate('300ms cubic-bezier(0.4,0,0.2,1)', style({ opacity: 1, transform: 'translateY(0)' }))
+        animate('280ms cubic-bezier(0.4,0,0.2,1)', style({ opacity: 1, transform: 'translateY(0)' }))
       ]),
       transition(':leave', [
         animate('160ms cubic-bezier(0.4,0,0.2,1)', style({ opacity: 0, transform: 'translateY(-8px)' }))
       ])
     ]),
-    trigger('phaseIn', [
+    trigger('slideUp', [
       transition(':enter', [
-        style({ opacity: 0, transform: 'translateY(20px)' }),
-        animate('350ms cubic-bezier(0.4,0,0.2,1)', style({ opacity: 1, transform: 'translateY(0)' }))
+        style({ opacity: 0, transform: 'translateY(24px)' }),
+        animate('300ms cubic-bezier(0.4,0,0.2,1)', style({ opacity: 1, transform: 'translateY(0)' }))
+      ]),
+      transition(':leave', [
+        animate('180ms cubic-bezier(0.4,0,0.2,1)', style({ opacity: 0, transform: 'translateY(16px)' }))
+      ])
+    ]),
+    trigger('staggerList', [
+      transition(':enter', [
+        query('.section-row', [
+          style({ opacity: 0, transform: 'translateY(10px)' }),
+          stagger(40, animate('240ms cubic-bezier(0.4,0,0.2,1)', style({ opacity: 1, transform: 'translateY(0)' })))
+        ], { optional: true })
       ])
     ]),
     trigger('staggerCards', [
       transition('* => *', [
         query('.glass-card', [
           style({ opacity: 0, transform: 'translateY(12px)' }),
-          stagger(60, animate('300ms cubic-bezier(0.4,0,0.2,1)', style({ opacity: 1, transform: 'translateY(0)' })))
+          stagger(50, animate('280ms cubic-bezier(0.4,0,0.2,1)', style({ opacity: 1, transform: 'translateY(0)' })))
         ], { optional: true })
       ])
     ])
@@ -48,13 +56,16 @@ export class AppComponent implements OnInit {
   progress = inject(ProgressService);
   readonly devToolsEnabled = isDevMode();
 
-  activeIndex    = signal(0);
-  activePhase    = computed(() => this.phases[this.activeIndex()]);
-  currentView    = signal<'home' | 'phase'>('home');
-  sectionFilter  = signal<'all' | 'theory' | 'practice'>('all');
-  devUnlocked    = signal(false);
-  /** 25 = mini keyboard always available; 61 = full keyboard (setup required) */
-  keyboard       = signal<25 | 61>(this.loadKeyboard());
+  activeIndex   = signal(0);
+  activePhase   = computed(() => this.phases[this.activeIndex()]);
+  /** 'home' | 'phase' (section list) | 'section' (focused section content) */
+  currentView   = signal<'home' | 'phase' | 'section'>('home');
+  sectionFilter = signal<'all' | 'theory' | 'practice'>('all');
+  devUnlocked   = signal(false);
+  keyboard      = signal<25 | 61>(this.loadKeyboard());
+
+  /** The section the user has opened */
+  activeSection = signal<Section | null>(null);
 
   private loadKeyboard(): 25 | 61 {
     return (localStorage.getItem('keys_app_keyboard') as '61' | null) === '61' ? 61 : 25;
@@ -66,11 +77,8 @@ export class AppComponent implements OnInit {
     localStorage.setItem('keys_app_keyboard', String(next));
   }
 
-  ngOnInit(): void {
-    this.progress.recordSession();
-  }
+  ngOnInit(): void { this.progress.recordSession(); }
 
-  /** Index of the first incomplete phase — the "current" one to highlight */
   currentPhaseIndex = computed(() => {
     for (let i = 0; i < this.phases.length; i++) {
       const total = this.phases[i].checkList?.length ?? 0;
@@ -79,13 +87,6 @@ export class AppComponent implements OnInit {
     return this.phases.length - 1;
   });
 
-  completedPhasesCount = computed(() =>
-    this.phases.filter(p =>
-      this.progress.isPhaseComplete(p.id, p.checkList?.length ?? 0)
-    ).length
-  );
-
-  /** Human-readable label for when the last session was */
   lastSessionLabel = computed(() => {
     const d = this.progress.lastSessionDate();
     if (!d) return 'No sessions yet';
@@ -96,7 +97,6 @@ export class AppComponent implements OnInit {
     return 'Last: ' + new Date(d + 'T00:00:00').toLocaleDateString('en', { month: 'short', day: 'numeric' });
   });
 
-  /** True when streak is still alive (last session today or yesterday) */
   streakAlive = computed(() => {
     const d = this.progress.lastSessionDate();
     if (!d) return false;
@@ -108,11 +108,10 @@ export class AppComponent implements OnInit {
   phaseProgress(phaseId: number): { done: number; total: number; pct: number } {
     const phase = this.phases.find(p => p.id === phaseId);
     const total = phase?.checkList?.length ?? 0;
-    const done = this.progress.completedItems(phaseId).length;
+    const done  = this.progress.completedItems(phaseId).length;
     return { done, total, pct: total > 0 ? Math.round((done / total) * 100) : 0 };
   }
 
-  /** Whether the phase at index i is accessible */
   isUnlocked(i: number): boolean {
     if (this.devToolsEnabled && this.devUnlocked()) return true;
     return this.progress.isPhaseUnlocked(this.phases[i].id, this.phases);
@@ -126,91 +125,111 @@ export class AppComponent implements OnInit {
     return sections;
   });
 
-  /** Number of 61-key sections in the currently active phase */
-  current61KeyCount = computed(() =>
-    this.activePhase().sections.filter(s => s.keysNeeded === 61).length
-  );
-
-  /**
-   * The single next checklist item the user hasn't completed yet,
-   * surfaced directly on the dashboard so they know exactly what to do.
-   */
   todaysFocus = computed((): { phaseId: number; phaseLabel: string; phaseIndex: number; accentColor: string; item: string; itemIndex: number; totalDone: number; totalItems: number } | null => {
     for (let i = 0; i < this.phases.length; i++) {
       if (!this.isUnlocked(i)) continue;
       const phase = this.phases[i];
-      const done = this.progress.completedItems(phase.id);
-      const list = phase.checkList ?? [];
+      const done  = this.progress.completedItems(phase.id);
+      const list  = phase.checkList ?? [];
       const nextIdx = list.findIndex((_, idx) => !done.includes(idx));
       if (nextIdx !== -1) {
-        return {
-          phaseId: phase.id,
-          phaseLabel: phase.label,
-          phaseIndex: i,
-          accentColor: phase.accentColor,
-          item: list[nextIdx],
-          itemIndex: nextIdx,
-          totalDone: done.length,
-          totalItems: list.length,
-        };
+        return { phaseId: phase.id, phaseLabel: phase.label, phaseIndex: i, accentColor: phase.accentColor, item: list[nextIdx], itemIndex: nextIdx, totalDone: done.length, totalItems: list.length };
       }
     }
     return null;
   });
 
-  /** Marks the todaysFocus item done directly from the dashboard */
   completeFocusItem(): void {
     const f = this.todaysFocus();
     if (!f) return;
     this.progress.toggleItem(f.phaseId, f.itemIndex);
   }
 
-  /** Total checklist items completed across ALL phases */
-  totalItemsDone = computed(() =>
-    this.phases.reduce((sum, p) => sum + this.progress.completedItems(p.id).length, 0)
-  );
+  totalItemsDone = computed(() => this.phases.reduce((sum, p) => sum + this.progress.completedItems(p.id).length, 0));
+  totalItemsAll  = computed(() => this.phases.reduce((sum, p) => sum + (p.checkList?.length ?? 0), 0));
 
-  /** Total checklist items across ALL phases */
-  totalItemsAll = computed(() =>
-    this.phases.reduce((sum, p) => sum + (p.checkList?.length ?? 0), 0)
-  );
-
-  toggleDevMode(): void {
-    if (!this.devToolsEnabled) return;
-    this.devUnlocked.update(v => !v);
-  }
+  toggleDevMode(): void { if (this.devToolsEnabled) this.devUnlocked.update(v => !v); }
 
   enterPhase(i: number): void {
     if (!this.isUnlocked(i)) return;
     this.activeIndex.set(i);
+    this.sectionFilter.set('all');
+    this.activeSection.set(null);
     this.currentView.set('phase');
   }
 
+  openSection(section: Section): void {
+    this.activeSection.set(section);
+    this.currentView.set('section');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  closeSection(): void {
+    this.activeSection.set(null);
+    this.currentView.set('phase');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
   goHome(): void {
+    this.activeSection.set(null);
     this.currentView.set('home');
   }
 
   setPhase(i: number): void {
     if (!this.isUnlocked(i)) return;
     this.activeIndex.set(i);
+    this.activeSection.set(null);
+    this.currentView.set('phase');
   }
 
-  trackByIndex(i: number) { return i; }
-
-  /** True when a section is flagged as practice (shows the HUD) */
-  isPracticeSection(section: { sectionType?: string }): boolean {
-    return section.sectionType === 'practice';
+  /** Navigate to previous/next section from section view */
+  prevSection(): void {
+    const list = this.filteredSections();
+    const idx  = list.indexOf(this.activeSection()!);
+    if (idx > 0) this.openSection(list[idx - 1]);
   }
 
-  /** Extract two-col-drill items from the first matching card in a section */
-  getDrillItems(section: { cards: any[] }): { title: string; detail: string }[] {
-    const card = section.cards.find((c: any) => c.type === 'two-col-drill');
+  nextSection(): void {
+    const list = this.filteredSections();
+    const idx  = list.indexOf(this.activeSection()!);
+    if (idx < list.length - 1) this.openSection(list[idx + 1]);
+  }
+
+  sectionIdx = computed(() => {
+    const s = this.activeSection();
+    if (!s) return -1;
+    return this.filteredSections().indexOf(s);
+  });
+
+  // ── Float bar wiring ──────────────────────────────────────────────────────
+
+  showFloatBar = computed(() =>
+    this.currentView() === 'section' && this.activeSection()?.sectionType === 'practice'
+  );
+
+  activeSectionTitle = computed(() => this.activeSection()?.title ?? '');
+
+  activeDrillItems = computed(() => {
+    const s = this.activeSection();
+    if (!s) return [];
+    const card = (s as any).cards?.find((c: any) => c.type === 'two-col-drill');
     return card?.items ?? [];
-  }
+  });
 
-  /** True when this is the Week 1 scale section (shows the quiz) */
+  // ── Helpers ───────────────────────────────────────────────────────────────
+
   isScaleSection(section: { title: string }): boolean {
     return section.title.toLowerCase().includes('week 1') ||
            section.title.toLowerCase().includes('natural minor');
   }
+
+  sectionTypeLabel(s: Section): string {
+    return s.sectionType === 'practice' ? 'Practice' : 'Theory';
+  }
+
+  sectionTypeIcon(s: Section): string {
+    return s.sectionType === 'practice' ? 'ti-dumbbell' : 'ti-brain';
+  }
+
+  trackByIndex(i: number) { return i; }
 }

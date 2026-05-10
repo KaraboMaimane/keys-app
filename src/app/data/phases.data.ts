@@ -147,20 +147,30 @@ export const PHASES: Phase[] = [
             heading: 'What to learn',
             items: [
               'Name every white key by sight: C D E F G A B (and back)',
-              'Learn the C major scale with right hand, then left hand, then both in parallel (fingering: 1 2 3 | 1 2 3 4 5 — thumb crosses under after E)',
+              'Learn the C major scale with right hand first, then left hand, then both in parallel (fingering: 1 2 3 | 1 2 3 4 5 — thumb crosses under after E)',
               'Curved fingers, relaxed wrists — no flat fingers, no tension',
-              'Play the scale ascending and descending at 60 BPM with a metronome (Ideal practice BPM)',
+              'Progression order: RH alone until clean → LH alone until clean → both hands in parallel. Do NOT rush to both hands.',
             ]
+          },
+          {
+            type: 'text',
+            heading: 'The subdivision ladder — how to actually build speed',
+            body: 'The metronome BPM alone does not tell you how hard you are working. The note value matters just as much. Follow this exact ladder and do not skip steps:\n\nStep 1: 60 BPM, quarter notes (one note per click). Slow and deliberate — feel every finger land.\nStep 2: 60 BPM, 8th notes (two notes per click). This is your main working tempo for Week 1.\nStep 3: 60 BPM, 16th notes (four notes per click). Same BPM — but now it is physically 4× harder. Do not rush here.\nStep 4: 80 BPM, 8th notes. Only attempt this after Step 3 feels controlled.\n\nMost beginners plateau at Step 2 and think they are done. Step 3 is where your scale becomes a real tool. Breaking a sweat on 16th notes at 60 BPM is completely normal and expected — it means you are working at the right level.'
           },
           {
             type: 'two-col-drill',
             heading: 'Daily drill (20 min)',
             items: [
-              { title: 'Scale loop', detail: 'Up + down, 4x each hand, 60 BPM' },
-              { title: 'Note naming', detail: 'Say each note name aloud as you play' },
-              { title: 'Slow practice', detail: '40 BPM — feel each finger land cleanly' },
-              { title: 'Listening', detail: 'Sing or hum each note as you play' },
+              { title: 'Scale loop', detail: 'Up + down, 4x each hand. Start at 60 BPM 8th notes.' },
+              { title: 'Note naming', detail: 'Drop to 40 BPM. Say each note name aloud as you play. Do not try this at 60 BPM yet — your brain does not have enough spare capacity.' },
+              { title: 'Slow practice', detail: '40 BPM quarter notes — feel each finger land cleanly and independently.' },
+              { title: 'Listening', detail: 'Sing or hum each note as you play. Even quiet humming trains your ear faster than silent practice.' },
             ]
+          },
+          {
+            type: 'text',
+            heading: 'When do scales stop being a lesson and become a warm-up?',
+            body: 'The moment you can play C major ascending and descending with both hands at 60 BPM 8th notes without counting or thinking about fingering, scales become a 5-minute warm-up — not a main exercise.\n\nFrom that point forward: open every single session with 2 octaves up and down, both hands, for 5 minutes. Then move on to whatever the current lesson is. You never stop doing scales — you just stop spending 20 minutes on them.\n\nDo not wait until you are perfect at 16th notes before moving to triads. Once 8th notes feel easy, start triads and keep working the 16th note ladder in your warm-up.'
           }
         ]
       },
@@ -169,32 +179,30 @@ export const PHASES: Phase[] = [
         title: 'The A natural minor scale — your second home',
         cards: [
           {
-            type: 'list',
-            heading: 'Why A minor matters immediately',
-            items: [
-              'A minor and C major share the same 7 notes — A B C D E F G. No new notes to memorize.',
-              'The difference is emotional centre: start and resolve on A instead of C, and the same notes sound dark, searching, introspective.',
-              'Nearly all SA deep house and amapiano tracks live in A minor or a related minor key — you need this as a home base, not an afterthought.',
-            ]
+            type: 'text',
+            heading: 'Critical insight: you already know this scale',
+            body: 'A natural minor and C major use the exact same 7 notes: C D E F G A B. There are zero new notes to find on the keyboard. The only difference is where you start and where you resolve — A instead of C.\n\nThis means you do not need to learn A minor from scratch. You need to shift your sense of home. Play the same white-key pattern, but start on A and feel A as the "landing" note. The notes feel familiar; the emotional colour changes completely.\n\nAdd A minor to your warm-up as soon as your C major scale feels comfortable — it costs you only 2 extra minutes per session.'
           },
           {
             type: 'tag-list',
             heading: 'A natural minor scale',
-            intro: 'Notes: A – B – C – D – E – F – G – A',
+            intro: 'Notes: A – B – C – D – E – F – G – A (same white keys as C major, different starting point)',
             items: [
               '<span class="tag tag-purple">Fingering (RH)</span> 1–2–3–1–2–3–4–5 (same thumb-under technique as C major)',
               '<span class="tag tag-teal">Fingering (LH)</span> 5–4–3–2–1–3–2–1',
               '<span class="tag tag-blue">Starting note</span> A is the white key immediately to the left of any group of three black keys',
+              '<span class="tag tag-coral">The only thing that changes</span> You resolve to A, not C. Land on A and hold it. Feel the difference in mood.',
             ],
-            body: 'Practice ascending and descending at 60 BPM. Say each note name aloud. Notice how landing on A feels "home" — a different emotional colour than landing on C.'
+            body: 'Practice at 40 BPM saying the note names first. Then 60 BPM 8th notes without names. Then back to 40 BPM with names again. This in-and-out approach locks in both the physical pattern and the note recognition together.'
           },
           {
             type: 'two-col-drill',
-            heading: 'Daily drill (10 min)',
+            heading: 'Daily warm-up drill (10 min total — add to C major warm-up)',
             items: [
               { title: 'C major scale', detail: 'Up + down, 4x — land on C, feel resolved' },
-              { title: 'A minor scale', detail: 'Up + down, 4x — land on A, feel the shift in mood' },
-              { title: 'Same notes, different home', detail: 'Play both back to back. Identical notes — opposite emotional centre.' },
+              { title: 'A minor scale', detail: 'Up + down, 4x — land on A, feel the mood shift' },
+              { title: 'Same notes, different home', detail: 'Play both back to back with no gap. Notice: identical fingers, completely different emotional colour.' },
+              { title: 'Note naming pass', detail: 'One slow run at 40 BPM saying each note aloud. One fast run at 60 BPM in silence. Repeat.' },
             ]
           }
         ]
@@ -294,15 +302,25 @@ export const PHASES: Phase[] = [
               '<span class="tag tag-purple">F maj</span> F–A–C (Fingering: 1-3-5)',
               '<span class="tag tag-purple">G maj</span> G–B–D (Fingering: 1-3-5)',
               '<span class="tag tag-teal">A min</span> A–C–E (Fingering: 1-3-5)',
-              '<span class="tag tag-amber">B dim</span> B–D–F (avoid for now)',
+              '<span class="tag tag-amber">B dim</span> B–D–F — skip for now (explained below)',
             ]
+          },
+          {
+            type: 'text',
+            heading: 'Why skip B diminished?',
+            body: 'B diminished (B–D–F) is the 7th chord of C major and it does exist — but it is the only chord in the key that sounds genuinely dissonant and unresolved on its own. At this stage, your ear is still learning what "right" and "wrong" sound like in this key. Playing Bdim now risks confusing your ear before the other 6 chords are locked in.\n\nYou will encounter it naturally in Phase 3 when you learn the number system and progressions. At that point it will make sense in context (it typically functions as a passing chord resolving to C). For now, build fluency on the 6 chords that form the harmonic backbone of almost every deep house and amapiano track.'
+          },
+          {
+            type: 'text',
+            heading: '⚠️ The finger 4 trap — read this before you start',
+            body: 'Every beginner hits this: your brain defaults to using all five fingers evenly (1-2-3-4-5). Triads only use three fingers: 1, 3, and 5. Finger 4 (ring finger) should not be touching the keys at all during root-position triads.\n\nHow to fix it before it becomes a habit:\n1. Before placing any triad, physically curl finger 4 slightly toward your palm and hold it there.\n2. Place only fingers 1, 3, and 5 on the keys. Check: is finger 4 floating? Good.\n3. Play the chord. If finger 4 sneaks down, stop, reset, and curl it again.\n4. Do this consciously for 3–5 sessions. It will feel awkward at first — that is normal. After a week it stops fighting you.\n\nThis is not a flaw in your hands. It is how every beginner\'s motor memory starts. You are just overriding the default pattern with the correct one.'
           },
           {
             type: 'two-col-drill',
             heading: 'Drill ladder (20 min)',
             intro: 'Do not move up a level until you hit the target cleanly. Advance to Week 3 only after passing Level 4 in 2 sessions in a row.',
             items: [
-              { title: 'L1 — Shape only', detail: 'RH only. Play C, Dm, Em, F, G, Am in order and back at 60 BPM. Hold each for 4 beats. Say the chord name aloud.' },
+              { title: 'L1 — Shape only', detail: 'RH only. Play C, Dm, Em, F, G, Am in order and back at 60 BPM. Hold each for 4 beats. Check finger 4 is floating. Say the chord name aloud.' },
               { title: 'L2 — Add the root', detail: 'LH plays the root, RH plays the triad. Stay at 60 BPM until both hands land together with no searching.' },
               { title: 'L3 — Speed + recall', detail: 'Increase to 75 BPM. Keep naming each chord aloud. No pauses, no retries, no stopping after mistakes.' },
               { title: 'L4 — Random access', detail: 'Shuffle the order: F, Am, C, G, Dm, Em, back to C. Target: 75 BPM, both hands, immediate recognition.' },
@@ -311,7 +329,7 @@ export const PHASES: Phase[] = [
           {
             type: 'text',
             heading: '✓ Pass mark — you are ready for Week 3 when:',
-            body: 'You can play all 6 triads (C, Dm, Em, F, G, Am) in root position with both hands at 70 BPM, naming each chord aloud, without hesitating or looking down for more than a second.'
+            body: 'You can play all 6 triads (C, Dm, Em, F, G, Am) in root position with both hands at 70 BPM, naming each chord aloud, without hesitating or looking down for more than a second. Finger 4 stays off the keys.'
           }
         ]
       },
@@ -321,31 +339,41 @@ export const PHASES: Phase[] = [
         sectionType: 'practice',
         cards: [
           {
+            type: 'text',
+            heading: 'Why inversions matter more than any other technique in this phase',
+            body: 'Root position triads sound correct but clunky when you move between chords — your hand leaps around the keyboard. Inversions solve this. By choosing the position of each chord that is physically closest to the previous one, you create smooth, connected chord movement with minimal hand travel.\n\nThis is the difference between a keyboard part that sounds "someone is changing chords" and one that sounds like a professional performance. Every buttery amapiano Rhodes voicing you have heard is built on inversion choice — the player is always picking the nearest shape, not the root position.\n\nThe goal of this week is not just to know 3 positions per chord — it is to feel a chord as a single flexible object with three faces, and to automatically choose the right face for the musical context.'
+          },
+          {
             type: 'tag-list',
-            heading: 'What are inversions?',
-            intro: 'Every triad has 3 positions. For C major (C–E–G):',
+            heading: 'Inversion shapes and fingering for C major',
+            intro: 'Every triad has 3 positions. Fingering changes per position — learn these exactly:',
             items: [
-              '<span class="tag tag-purple">Root</span> C–E–G (C on bottom)',
-              '<span class="tag tag-teal">1st inversion</span> E–G–C (E on bottom)',
-              '<span class="tag tag-coral">2nd inversion</span> G–C–E (G on bottom)',
+              '<span class="tag tag-purple">Root position</span> C–E–G · Fingering: 1–3–5 · Hand sits naturally in the middle of the key cluster',
+              '<span class="tag tag-teal">1st inversion</span> E–G–C · Fingering: 1–2–5 · The bottom interval is a minor 3rd (E to G), so fingers sit closer together',
+              '<span class="tag tag-coral">2nd inversion</span> G–C–E · Fingering: 1–3–5 · Same spread as root position — back to the wide shape',
             ],
-            body: 'Inversions let you move between chords with minimal hand movement — essential for smooth amapiano-style chord progressions.'
+            body: 'The same fingering pattern applies to all white-key triads: root = 1-3-5, 1st inversion = 1-2-5, 2nd inversion = 1-3-5. The only exception is some black-key triads in later phases which require adjustment — ignore that for now.'
+          },
+          {
+            type: 'text',
+            heading: 'The inversion cycling exercise — exactly as useful as it sounds',
+            body: 'This is the single most effective triad exercise you can do:\n\nFor one chord: Root position → 1st inversion → 2nd inversion → 1st inversion → Root position. Then move to the next chord.\n\nDo this for C, F, G, and Am. Then chain them: cycle C inversions, then move to F inversions starting from the nearest position to where C ended.\n\nThis exercise teaches your hand that a chord is one object — not three separate fingering puzzles. After a week of this, you will start automatically choosing the best inversion without thinking about it.'
           },
           {
             type: 'two-col-drill',
             heading: 'Drill ladder (25 min)',
             intro: 'Master one layer at a time. Move on only after two clean sessions in a row.',
             items: [
-              { title: 'L1 — One chord only', detail: 'C major: Root → 1st inversion → 2nd inversion → back. 55 BPM. No other chords yet.' },
-              { title: 'L2 — Add more shapes', detail: 'Repeat the same inversion cycle for Am and F. Same tempo. Goal: see inversion as one object, not 3 separate notes.' },
-              { title: 'L3 — Closest path', detail: 'Play C → F → G using the nearest inversion each time. 60 BPM. Watch for minimal hand movement.' },
-              { title: 'L4 — Full progression', detail: 'Both hands: C → F → G → Am at 65 BPM. LH roots only, RH chooses the smoothest inversion automatically.' },
+              { title: 'L1 — One chord cycling', detail: 'C major only: Root (1-3-5) → 1st inv (1-2-5) → 2nd inv (1-3-5) → back down. 50 BPM. No other chords yet. Check fingering on every position.' },
+              { title: 'L2 — Three chords', detail: 'Repeat the full inversion cycle for Am and F at the same tempo. Goal: see each chord as one flexible object, not 3 separate shapes.' },
+              { title: 'L3 — Closest path', detail: 'Play C → F → G using whichever inversion requires the least hand movement. 60 BPM. Your hand should barely travel.' },
+              { title: 'L4 — Full progression', detail: 'Both hands: C → F → G → Am at 65 BPM. LH roots only, RH chooses the nearest inversion automatically. No pausing between chords.' },
             ] as any
           },
           {
             type: 'text',
             heading: '✓ Pass mark — you are ready for Week 4 when:',
-            body: 'You can voice-lead C → F → G → Am using smooth inversions at 65 BPM with both hands, with no pausing between chords. Your hand should move less than an octave between any two chords.'
+            body: 'You can voice-lead C → F → G → Am using smooth inversions at 65 BPM with both hands, with no pausing between chords. Your RH should move less than an octave between any two chords. You can name which inversion you are playing on any chord without stopping to think.'
           }
         ]
       },
