@@ -35,20 +35,41 @@ test.describe('Visual regression snapshots', () => {
 
     await page.goto('/');
     await disableMotion(page);
+    // Wait for the focus card and stat row to settle
+    await expect(page.locator('.focus-card')).toBeVisible();
+    await expect(page.locator('.home-stats-row')).toBeVisible();
     await expect(page).toHaveScreenshot('dashboard-baseline.png', {
       fullPage: true,
       maxDiffPixelRatio: 0.02,
     });
   });
 
-  test('phase baseline', async ({ page }, testInfo) => {
+  test('phase-list baseline', async ({ page }, testInfo) => {
     test.skip(testInfo.project.name !== 'desktop-chromium', 'Keep baseline on one stable desktop browser');
 
     await page.goto('/');
     await page.getByRole('button', { name: /Open Phase/i }).first().click();
-    await expect(page.locator('.phase-panel')).toBeVisible();
+    // Wait for new phase-view with section list (replaces old phase-panel + mat-tab-group)
+    await expect(page.locator('.phase-view')).toBeVisible({ timeout: 10000 });
+    await expect(page.locator('.section-row').first()).toBeVisible();
     await disableMotion(page);
-    await expect(page).toHaveScreenshot('phase-baseline.png', {
+    await expect(page).toHaveScreenshot('phase-list-baseline.png', {
+      fullPage: true,
+      maxDiffPixelRatio: 0.02,
+    });
+  });
+
+  test('section-view baseline', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== 'desktop-chromium', 'Keep baseline on one stable desktop browser');
+
+    await page.goto('/');
+    await page.getByRole('button', { name: /Open Phase/i }).first().click();
+    await expect(page.locator('.section-row').first()).toBeVisible({ timeout: 10000 });
+    await page.locator('.section-row').first().click();
+    await expect(page.locator('.section-view')).toBeVisible({ timeout: 10000 });
+    await expect(page.locator('.section-top-bar')).toBeVisible();
+    await disableMotion(page);
+    await expect(page).toHaveScreenshot('section-view-baseline.png', {
       fullPage: true,
       maxDiffPixelRatio: 0.02,
     });

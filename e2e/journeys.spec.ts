@@ -25,26 +25,53 @@ test.describe('Keys Lessons journeys', () => {
   });
 
   test('@smoke home to phase journey with theory/practice filters', async ({ page }, testInfo) => {
+    test.setTimeout(60_000); // Extra time for mobile emulators
     await page.goto('/');
 
+    // ── Home dashboard ──────────────────────────────────────────────────────
     await expect(page.getByRole('heading', { name: 'Keys Lessons' })).toBeVisible();
     await expect(page.locator('.focus-card')).toBeVisible();
     await capture(page, testInfo, '01-home-dashboard');
 
+    // ── Open Phase → now shows .phase-view with a section list ──────────────
     await page.getByRole('button', { name: /Open Phase/i }).first().click();
-    await expect(page.locator('.phase-panel')).toBeVisible();
+    // The new phase view has .phase-view and a list of .section-row buttons
+    await expect(page.locator('.phase-view')).toBeVisible({ timeout: 10000 });
+    await expect(page.locator('.section-row').first()).toBeVisible({ timeout: 10000 });
     await capture(page, testInfo, '02-phase-view');
 
-    await page.getByRole('button', { name: /Practice/i }).click();
-    await expect(page.locator('mat-tab-group .mat-mdc-tab').first()).toBeVisible({ timeout: 10000 });
+    // ── Practice filter ─────────────────────────────────────────────────────
+    // Filter pills are now .filter-pill elements (not mat-chips)
+    await page.locator('.filter-pill', { hasText: 'Practice' }).click();
+    // Should show section rows filtered to Practice, or empty state
+    await expect(
+      page.locator('.section-row, .section-empty-state').first()
+    ).toBeVisible({ timeout: 10000 });
     await capture(page, testInfo, '03-practice-filter');
 
-    await page.getByRole('button', { name: /Theory/i }).click();
-    await expect(page.locator('mat-tab-group .mat-mdc-tab').first()).toBeVisible({ timeout: 10000 });
+    // ── Theory filter ───────────────────────────────────────────────────────
+    await page.locator('.filter-pill', { hasText: 'Theory' }).click();
+    await expect(
+      page.locator('.section-row, .section-empty-state').first()
+    ).toBeVisible({ timeout: 10000 });
     await capture(page, testInfo, '04-theory-filter');
+
+    // ── Open first visible section → focused section view ───────────────────
+    await page.locator('.filter-pill', { hasText: 'All' }).click();
+    await page.locator('.section-row').first().click();
+    // Section view renders .section-view with a sticky .section-top-bar
+    await expect(page.locator('.section-view')).toBeVisible({ timeout: 10000 });
+    await expect(page.locator('.section-top-bar')).toBeVisible();
+    await capture(page, testInfo, '05-section-view');
+
+    // ── Back to phase list ───────────────────────────────────────────────────
+    await page.locator('.section-top-bar .back-btn').click();
+    await expect(page.locator('.phase-view')).toBeVisible({ timeout: 10000 });
+    await capture(page, testInfo, '06-back-to-phase');
   });
 
   test('@smoke dashboard controls journey', async ({ page }, testInfo) => {
+    test.setTimeout(60_000);
     await page.goto('/');
 
     const keyboardToggle = page.locator('.keyboard-toggle');
@@ -57,10 +84,11 @@ test.describe('Keys Lessons journeys', () => {
     await devToggle.click();
     await expect(devToggle).toContainText(/Locked \(dev off\)|Dev: unlock all/i);
 
-    await capture(page, testInfo, '05-dashboard-controls');
+    await capture(page, testInfo, '07-dashboard-controls');
   });
 
   test('@smoke mobile home journey has no page overflow', async ({ page }, testInfo) => {
+    test.setTimeout(90_000);
     test.skip(!testInfo.project.name.startsWith('mobile'), 'Mobile-only journey');
 
     await page.goto('/');
@@ -72,10 +100,18 @@ test.describe('Keys Lessons journeys', () => {
     });
 
     expect(noHorizontalOverflow).toBeTruthy();
-    await capture(page, testInfo, '06-mobile-home');
+    await capture(page, testInfo, '08-mobile-home');
 
+    // Navigate to phase — new architecture uses .phase-view
     await page.getByRole('button', { name: /Open Phase/i }).first().click();
-    await expect(page.locator('.phase-panel')).toBeVisible();
-    await capture(page, testInfo, '07-mobile-phase');
+    await expect(page.locator('.phase-view')).toBeVisible({ timeout: 15000 });
+    await expect(page.locator('.section-row').first()).toBeVisible({ timeout: 10000 });
+    await page.waitForTimeout(400); // stagger animation
+    await capture(page, testInfo, '09-mobile-phase');
+
+    // Open first section — new architecture uses .section-view
+    await page.locator('.section-row').first().click();
+    await expect(page.locator('.section-view')).toBeVisible({ timeout: 15000 });
+    await capture(page, testInfo, '10-mobile-section');
   });
 });
