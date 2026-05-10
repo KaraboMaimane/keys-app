@@ -7,14 +7,13 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatRippleModule } from '@angular/material/core';
 import { PHASES } from './data/phases.data';
 import { ProgressService } from './progress.service';
-import { PracticeHudComponent } from './components/practice-hud.component';
-import { DrillTimerComponent } from './components/drill-timer.component';
+import { PracticeFloatBarComponent } from './components/practice-float-bar.component';
 import { ScaleQuizComponent } from './components/scale-quiz.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatChipsModule, MatTabsModule, MatRippleModule, PracticeHudComponent, DrillTimerComponent, ScaleQuizComponent],
+  imports: [CommonModule, FormsModule, MatChipsModule, MatTabsModule, MatRippleModule, PracticeFloatBarComponent, ScaleQuizComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   animations: [
@@ -197,12 +196,28 @@ export class AppComponent implements OnInit {
 
   trackByIndex(i: number) { return i; }
 
-  /** True when a section is flagged as practice (shows the HUD) */
-  isPracticeSection(section: { sectionType?: string }): boolean {
-    return section.sectionType === 'practice';
-  }
+  /** Active tab index inside the mat-tab-group */
+  activeTabIdx = signal(0);
 
-  /** Extract two-col-drill items from the first matching card in a section */
+  onTabChange(idx: number): void { this.activeTabIdx.set(idx); }
+
+  /** Section currently visible in the tab group */
+  activeTabSection = computed(() => this.filteredSections()[this.activeTabIdx()]);
+
+  /** True when the active tab is a practice section → show the float bar */
+  showFloatBar = computed(() => this.activeTabSection()?.sectionType === 'practice' && this.currentView() === 'phase');
+
+  activeSectionTitle = computed(() => this.activeTabSection()?.title ?? '');
+
+  /** Drill items for the float bar */
+  activeDrillItems = computed(() => {
+    const s = this.activeTabSection();
+    if (!s) return [];
+    const card = (s as any).cards?.find((c: any) => c.type === 'two-col-drill');
+    return card?.items ?? [];
+  });
+
+  /** Extract two-col-drill items (used only for inline reference cards now) */
   getDrillItems(section: { cards: any[] }): { title: string; detail: string }[] {
     const card = section.cards.find((c: any) => c.type === 'two-col-drill');
     return card?.items ?? [];

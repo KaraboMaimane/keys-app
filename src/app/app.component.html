@@ -247,7 +247,8 @@
             <button (click)="toggleKeyboard()" class="kb-nudge-btn">Switch to 61-key</button>
           </div>
 
-          <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" class="section-tabs" dynamicHeight>
+          <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" class="section-tabs" dynamicHeight
+            (selectedIndexChange)="onTabChange($event)">
             <mat-tab *ngFor="let section of filteredSections(); let si = index; trackBy: trackByIndex">
               <ng-template mat-tab-label>
                 <i class="ti {{ section.icon }}" style="margin-right:8px;font-size:16px;opacity:0.7"></i>
@@ -257,12 +258,9 @@
                 </span>
               </ng-template>
 
-              <div class="tab-content" style="padding-top: 20px;">
+              <div class="tab-content" [style.padding-bottom]="showFloatBar() ? '90px' : '20px'" style="padding-top: 20px;">
 
-                <!-- Practice HUD: metronome + session timer (practice sections only) -->
-                <app-practice-hud *ngIf="isPracticeSection(section)"></app-practice-hud>
-
-                <!-- Scale Quiz (Week 1 and A natural minor sections) -->
+                <!-- Scale Quiz (Week 1 and A natural minor sections only) -->
                 <app-scale-quiz *ngIf="isScaleSection(section)" style="display:block;margin-bottom:16px"></app-scale-quiz>
 
                 <ng-container *ngFor="let card of section.cards; trackBy: trackByIndex">
@@ -331,13 +329,6 @@
 
                 </ng-container>
 
-                <!-- Drill Timer (practice sections with L1-L4 ladders) -->
-                <app-drill-timer
-                  *ngIf="isPracticeSection(section) && getDrillItems(section).length > 0"
-                  [phaseId]="activePhase().id"
-                  [sectionTitle]="section.title"
-                  [levels]="getDrillItems(section)">
-                </app-drill-timer>
 
                 <div *ngIf="section.checkList?.length" class="glass-card readiness-card section-readiness-card animate-in">
                   <div class="readiness-header">
@@ -399,7 +390,15 @@
     </main>
   </div>
 
-  <footer class="site-footer">
+  <!-- ── Floating practice bar (metronome + session + drill) ── -->
+  <app-practice-float-bar
+    *ngIf="showFloatBar()"
+    [drillLevels]="activeDrillItems()"
+    [phaseId]="activePhase().id"
+    [sectionTitle]="activeSectionTitle()">
+  </app-practice-float-bar>
+
+  <footer class="site-footer" [style.padding-bottom]="showFloatBar() ? '80px' : null">
     <p>Practice consistently · Trust the process · Make music 🎶</p>
   </footer>
 </div>
