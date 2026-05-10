@@ -1,0 +1,471 @@
+<!-- ─── Background ──────────────────────────────────────────────────────────── -->
+<div class="bg-orbs" [class.calm-mode]="calmMode()" aria-hidden="true">
+  <div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div>
+</div>
+<div class="bg-grid" [class.calm-mode]="calmMode()" aria-hidden="true"></div>
+
+<div class="app-shell" [class.calm-mode]="calmMode()">
+
+  <!-- ── Header ─────────────────────────────────────────────────────────── -->
+  <!-- FIX 3: removed duplicate streak. Now shows session status dot + sessions count only -->
+  <header class="site-header glass">
+    <div class="header-inner">
+      <button class="header-brand" (click)="goHome()" aria-label="Keys Lessons home">
+        <span class="brand-icon">🎹</span>
+        <div>
+          <h1 class="brand-title">Keys Lessons</h1>
+          <p class="brand-sub">SA house · amapiano · deep house</p>
+        </div>
+      </button>
+      <!-- Simplified HUD stats for clarity -->
+      <div class="hud-session-dot" [ngClass]="'dot-' + sessionIndicator()" title="{{ lastSessionLabel() }}" role="status" aria-live="polite">
+        <span class="dot-pulse"></span>
+        <span class="dot-label">{{ sessionIndicator() }}</span>
+      </div>
+      <div class="header-actions">
+        <button class="header-chip"
+                [attr.aria-pressed]="calmMode()"
+                (click)="toggleCalmMode()"
+                title="Reduce visual intensity across the interface">
+          <i class="ti" [class.ti-wind]="!calmMode()" [class.ti-paw]="calmMode()"></i>
+          {{ calmMode() ? 'Calm' : 'Live' }}
+        </button>
+        <button class="header-chip"
+                [attr.aria-pressed]="taskFirstMode()"
+                (click)="toggleTaskFirstMode()"
+                title="Prioritize actionable practice items in phase view">
+          <i class="ti ti-list-check"></i>
+          Task-first {{ taskFirstMode() ? 'on' : 'off' }}
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <!-- HOME                                                                  -->
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <main *ngIf="currentView() === 'home'" class="dashboard" [@viewIn]>
+
+    <!-- FIX 2: Focus card — primary CTA is now clearly more prominent -->
+    <ng-container *ngIf="todaysFocus() as focus; else allDone">
+      <section class="focus-card glass" [style.--accent]="focus.accentColor">
+        <div class="focus-top">
+          <span class="focus-phase-tag" [style.color]="focus.accentColor" [style.border-color]="focus.accentColor">
+            <i class="ti ti-target-arrow"></i> {{ focus.phaseLabel }}
+          </span>
+          <span class="focus-progress-pill">{{ focus.totalDone }}/{{ focus.totalItems }}</span>
+        </div>
+        <p class="focus-label">NEXT MILESTONE</p>
+        <p class="focus-item">{{ focus.item }}</p>
+        <div class="focus-actions">
+          <!-- Primary CTA: filled gradient -->
+          <button class="focus-enter-btn focus-primary"
+                  [style.--accent]="focus.accentColor"
+                  (click)="enterPhase(focus.phaseIndex)"
+                  matRipple [matRippleColor]="'rgba(255,255,255,0.15)'">
+            Open Phase <i class="ti ti-arrow-right"></i>
+          </button>
+          <!-- Secondary: ghost link style -->
+          <button class="focus-skip-btn focus-ghost" (click)="completeFocusItem()"
+                  matRipple [matRippleColor]="'rgba(255,255,255,0.05)'"
+                  title="Mark this milestone complete">
+            <i class="ti ti-check"></i> Mark complete
+          </button>
+          <button class="focus-skip-btn focus-ghost" (click)="startPracticeFromHome()"
+                  matRipple [matRippleColor]="'rgba(255,255,255,0.05)'"
+                  title="Jump directly to guided practice in your current phase">
+            <i class="ti ti-player-play"></i> One-tap practice
+          </button>
+          <button class="focus-skip-btn focus-ghost" (click)="startPracticeFromHome(10)"
+                  matRipple [matRippleColor]="'rgba(255,255,255,0.05)'"
+                  title="Launch a short 10-minute guided practice block">
+            <i class="ti ti-bolt"></i> Quick 10m
+          </button>
+        </div>
+        <div class="focus-prog-bar">
+          <div class="focus-prog-fill"
+               [style.width]="(focus.totalDone / focus.totalItems * 100) + '%'"
+               [style.background]="focus.accentColor"></div>
+        </div>
+      </section>
+    </ng-container>
+    <ng-template #allDone>
+      <section class="focus-card glass focus-all-done">
+        <i class="ti ti-trophy" style="font-size:32px;color:#fbbf24"></i>
+        <p class="focus-label">ALL PHASES COMPLETE</p>
+        <p class="focus-item">You've finished the full curriculum. Keep practising — mastery is repetition.</p>
+      </section>
+    </ng-template>
+
+    <!-- Stats row -->
+    <div class="home-stats-row">
+      <div class="hstat-card glass">
+        <i class="ti ti-flame hstat-ico" [class.fire-dead]="!streakAlive()" style="color:#fb7185"></i>
+        <span class="hstat-val">{{ progress.currentStreak() }}</span>
+        <span class="hstat-lbl">Current streak</span>
+        <span class="hstat-sub">{{ lastSessionLabel() }}</span>
+      </div>
+      <div class="hstat-card glass">
+        <i class="ti ti-check-circle hstat-ico" style="color:#34d399"></i>
+        <span class="hstat-val">{{ totalItemsDone() }}</span>
+        <span class="hstat-lbl">Completed items</span>
+        <span class="hstat-sub">of {{ totalItemsAll() }} total</span>
+      </div>
+    </div>
+
+    <section class="dash-section details-disclosure">
+      <button class="details-toggle" type="button" [attr.aria-expanded]="homeDetailsExpanded()" (click)="toggleHomeDetails()">
+        <span><i class="ti ti-layout-dashboard"></i> Course details and map</span>
+        <i class="ti" [class.ti-chevron-down]="!homeDetailsExpanded()" [class.ti-chevron-up]="homeDetailsExpanded()"></i>
+      </button>
+
+      <ng-container *ngIf="homeDetailsExpanded()">
+        <div class="course-overview glass">
+          <div class="course-overview-main">
+            <p class="course-overview-label">Built for busy producers</p>
+            <h2 class="course-overview-title">A clearer route from keyboard basics to studio fluency</h2>
+            <p class="course-overview-copy">The course now reads in layers: understand the phase, spot the practice load, then open the exact section that moves you forward.</p>
+          </div>
+          <div class="course-overview-metrics" aria-label="Course overview metrics">
+            <div class="overview-metric">
+              <span class="overview-metric-value">{{ courseSnapshot().phases }}</span>
+              <span class="overview-metric-label">Phases</span>
+            </div>
+            <div class="overview-metric">
+              <span class="overview-metric-value">{{ courseSnapshot().sections }}</span>
+              <span class="overview-metric-label">Sections</span>
+            </div>
+            <div class="overview-metric">
+              <span class="overview-metric-value">{{ courseSnapshot().practiceSections }}</span>
+              <span class="overview-metric-label">Practice</span>
+            </div>
+            <div class="overview-metric">
+              <span class="overview-metric-value">{{ courseSnapshot().theorySections }}</span>
+              <span class="overview-metric-label">Theory</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="blueprint-grid">
+          <button *ngFor="let summary of phaseSummaries(); trackBy: trackByIndex"
+                  class="blueprint-card glass"
+                  [class.blueprint-card-locked]="!isUnlocked(summary.index)"
+                  [style.--accent]="summary.phase.accentColor"
+                  (click)="enterPhase(summary.index)"
+                  [attr.aria-label]="isUnlocked(summary.index) ? ('Open ' + summary.phase.label) : (summary.phase.label + ' locked')">
+            <div class="blueprint-topline">
+              <span class="blueprint-phase">{{ summary.phase.label }}</span>
+              <span class="blueprint-progress">{{ summary.progress.pct }}%</span>
+            </div>
+            <h3 class="blueprint-title">{{ summary.focus }}</h3>
+            <p class="blueprint-timeline"><i class="ti ti-clock"></i> {{ summary.phase.timeline }}</p>
+            <div class="blueprint-metrics">
+              <span><i class="ti ti-dumbbell"></i> {{ summary.practiceCount }} practice</span>
+              <span><i class="ti ti-brain"></i> {{ summary.theoryCount }} theory</span>
+              <span *ngIf="phaseRequiresFullKeys(summary.phase)"><i class="ti ti-piano"></i> 61-key moments</span>
+            </div>
+            <div class="blueprint-next">
+              <span class="blueprint-next-label">Starts with</span>
+              <span class="blueprint-next-title">{{ summary.nextSection }}</span>
+            </div>
+          </button>
+        </div>
+
+        <p class="eyebrow"><i class="ti ti-map-2"></i> SKILL MAP</p>
+        <div class="map-scroll-wrap">
+          <div class="phase-map">
+            <ng-container *ngFor="let p of phases; let i = index; trackBy: trackByIndex">
+              <button class="map-node"
+                      [class.node-done]="phaseProgress(p.id).pct === 100"
+                      [class.node-active]="i === currentPhaseIndex() && phaseProgress(p.id).pct < 100 && isUnlocked(i)"
+                      [class.node-locked]="!isUnlocked(i)"
+                      [style.--c]="isUnlocked(i) ? p.accentColor : 'rgba(255,255,255,0.18)'"
+                      (click)="enterPhase(i)" matRipple [matRippleColor]="'rgba(255,255,255,0.06)'"
+                      [attr.aria-label]="isUnlocked(i) ? ('Open ' + p.label) : (p.label + ' locked')">
+                <div class="node-ring">
+                  <i *ngIf="!isUnlocked(i)" class="ti ti-lock"></i>
+                  <i *ngIf="isUnlocked(i) && phaseProgress(p.id).pct === 100" class="ti ti-check"></i>
+                  <span *ngIf="isUnlocked(i) && phaseProgress(p.id).pct < 100">{{ p.id }}</span>
+                </div>
+                <div class="node-prog-ring" [style.--pct]="phaseProgress(p.id).pct" [style.--c]="p.accentColor">
+                  <svg viewBox="0 0 36 36" aria-hidden="true">
+                    <circle cx="18" cy="18" r="16" class="ring-track"/>
+                    <circle cx="18" cy="18" r="16" class="ring-fill"
+                            [style.stroke]="p.accentColor"
+                            [style.stroke-dasharray]="(phaseProgress(p.id).pct / 100 * 100.53) + ' 100.53'"/>
+                  </svg>
+                </div>
+                <span class="node-label">{{ p.label }}</span>
+                <span class="node-pct" [style.color]="p.accentColor">{{ phaseProgress(p.id).pct }}%</span>
+              </button>
+              <div *ngIf="i < phases.length - 1" class="map-connector"
+                   [class.connector-lit]="phaseProgress(p.id).pct === 100"></div>
+            </ng-container>
+          </div>
+        </div>
+      </ng-container>
+    </section>
+
+    <div class="bottom-controls">
+      <button class="keyboard-toggle" [class.kb-61]="keyboard() === 61" [attr.aria-pressed]="keyboard() === 61" (click)="toggleKeyboard()">
+        <i class="ti ti-music"></i>
+        <span class="kb-label">{{ keyboard() === 25 ? '25-key' : '61-key' }}</span>
+        <i class="ti" [class.ti-toggle-left]="keyboard() === 25" [class.ti-toggle-right]="keyboard() === 61"></i>
+      </button>
+      <button *ngIf="devToolsEnabled" class="dev-toggle" [class.dev-on]="devUnlocked()" [attr.aria-pressed]="devUnlocked()" (click)="toggleDevMode()">
+        <i class="ti" [class.ti-lock-open]="devUnlocked()" [class.ti-lock]="!devUnlocked()"></i>
+        {{ devUnlocked() ? 'Locked (dev off)' : 'Dev: unlock all' }}
+      </button>
+    </div>
+
+  </main>
+
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <!-- PHASE VIEW — Section List                                             -->
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <div *ngIf="currentView() === 'phase'" class="phase-view" [@viewIn]>
+
+    <!-- FIX 9: Simplified phase nav — Home | Phase N of 6 | compact dots -->
+    <div class="phase-nav-bar phase-nav-simple">
+      <button class="back-btn" (click)="goHome()" matRipple [matRippleColor]="'rgba(255,255,255,0.08)'" aria-label="Back">
+        <i class="ti ti-chevron-left"></i> Home
+      </button>
+      <span class="phase-nav-label">Phase {{ activeIndex() + 1 }} <span class="phase-nav-of">of {{ phases.length }}</span></span>
+      <div class="phase-dots-mini">
+        <button *ngFor="let p of phases; let i = index; trackBy: trackByIndex"
+                class="phase-dot-mini"
+                [class.dot-active]="activeIndex() === i"
+                [class.dot-locked]="!isUnlocked(i)"
+                [style.background]="activeIndex() === i && isUnlocked(i) ? p.accentColor : 'transparent'"
+                [style.border-color]="isUnlocked(i) ? p.accentColor : 'rgba(255,255,255,0.2)'"
+                (click)="setPhase(i)" matRipple [matRippleColor]="'rgba(255,255,255,0.08)'"
+          [attr.aria-current]="activeIndex() === i ? 'step' : null"
+                [attr.aria-label]="isUnlocked(i) ? ('Phase ' + p.id) : ('Phase ' + p.id + ' locked')">
+          <i *ngIf="!isUnlocked(i)" class="ti ti-lock" style="font-size:8px"></i>
+          <span *ngIf="isUnlocked(i)">{{ p.id }}</span>
+        </button>
+      </div>
+    </div>
+
+    <main class="content-area" *ngIf="activePhase() as phase">
+
+      <!-- FIX 4: Phase banner now includes description -->
+      <div class="phase-banner" [style.--accent]="phase.accentColor">
+        <div class="phase-banner-badge" [style]="phase.badgeStyle">{{ phase.id }}</div>
+        <div class="phase-banner-info">
+          <h2 class="phase-banner-title">{{ phase.title }}</h2>
+          <p class="phase-banner-desc">{{ phase.description }}</p>
+          <span class="phase-banner-time"><i class="ti ti-clock"></i> {{ phase.timeline }}</span>
+        </div>
+        <div class="phase-banner-prog">
+          <span class="phase-banner-pct" [style.color]="phase.accentColor">{{ phaseProgress(phase.id).pct }}%</span>
+          <div class="phase-banner-bar">
+            <div class="phase-banner-fill" [style.width]="phaseProgress(phase.id).pct + '%'" [style.background]="phase.accentColor"></div>
+          </div>
+        </div>
+      </div>
+
+      <button class="details-toggle phase-details-toggle" type="button" [attr.aria-expanded]="phaseGuidanceExpanded()" (click)="togglePhaseGuidance()">
+        <span><i class="ti ti-sparkles"></i> Guidance and metrics</span>
+        <i class="ti" [class.ti-chevron-down]="!phaseGuidanceExpanded()" [class.ti-chevron-up]="phaseGuidanceExpanded()"></i>
+      </button>
+
+      <ng-container *ngIf="phaseGuidanceExpanded()">
+        <section class="phase-at-a-glance glass">
+          <div class="phase-glance-copy">
+            <p class="phase-glance-label">At a glance</p>
+            <h3 class="phase-glance-title">{{ phaseFocusLabel(phase) }}</h3>
+            <p class="phase-glance-text">Use the filters to separate concept study from hands-on work, then follow the readiness check before moving on.</p>
+          </div>
+          <div class="phase-glance-stats">
+            <div class="phase-glance-stat">
+              <span class="phase-glance-value">{{ phase.sections.length }}</span>
+              <span class="phase-glance-name">Sections</span>
+            </div>
+            <div class="phase-glance-stat">
+              <span class="phase-glance-value">{{ theorySectionCount(phase) }}</span>
+              <span class="phase-glance-name">Theory</span>
+            </div>
+            <div class="phase-glance-stat">
+              <span class="phase-glance-value">{{ practiceSectionCount(phase) }}</span>
+              <span class="phase-glance-name">Practice</span>
+            </div>
+            <div class="phase-glance-stat">
+              <span class="phase-glance-value">{{ phase.checkList?.length ?? 0 }}</span>
+              <span class="phase-glance-name">Checks</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="phase-action-card glass" *ngIf="nextActionSection() as nextSection">
+          <div class="phase-action-copy">
+            <p class="phase-glance-label">Your next move</p>
+            <h3 class="phase-glance-title">{{ nextSection.title }}</h3>
+            <p class="phase-glance-text">{{ sectionPreview(nextSection) }}</p>
+          </div>
+          <div class="phase-action-buttons">
+            <button class="focus-enter-btn focus-primary" [style.--accent]="activePhase().accentColor" (click)="openNextActionSection()">
+              Open next section <i class="ti ti-arrow-right"></i>
+            </button>
+            <button class="focus-skip-btn" (click)="launchGuidedPractice()" title="Open practice section with a ready timer and drill">
+              <i class="ti ti-player-play"></i> Start guided practice
+            </button>
+          </div>
+        </section>
+      </ng-container>
+
+      <!-- Section list -->
+      <div class="section-list-wrap">
+
+        <!-- Filter pills -->
+        <div class="filter-row">
+          <button class="filter-pill" [class.filter-pill-on]="sectionFilter() === 'all'" [attr.aria-pressed]="sectionFilter() === 'all'" (click)="setSectionFilter('all')">All</button>
+          <button class="filter-pill" [class.filter-pill-on]="sectionFilter() === 'theory'" [attr.aria-pressed]="sectionFilter() === 'theory'" (click)="setSectionFilter('theory')">
+            <i class="ti ti-brain"></i> Theory
+          </button>
+          <button class="filter-pill" [class.filter-pill-on]="sectionFilter() === 'practice'" [attr.aria-pressed]="sectionFilter() === 'practice'" (click)="setSectionFilter('practice')">
+            <i class="ti ti-dumbbell"></i> Practice
+          </button>
+          <span class="filter-count">{{ filteredSections().length }} shown</span>
+        </div>
+
+        <!-- FIX 8: Empty filter state -->
+        <div *ngIf="filteredSections().length === 0" class="section-empty-state">
+          <i class="ti ti-filter-off"></i>
+          <p>No {{ sectionFilter() }} sections are available in this phase.</p>
+          <button class="filter-pill filter-pill-on" (click)="setSectionFilter('all')">Show all sections</button>
+        </div>
+
+        <!-- FIX 5: Section rows with visited dot + quiz badge -->
+        <div class="section-list" [@staggerList]="sectionFilter()">
+          <button *ngFor="let section of visibleSections(); let i = index; trackBy: trackByIndex"
+                  class="section-row"
+                  [class.section-row-practice]="section.sectionType === 'practice'"
+                  [class.section-row-visited]="isSectionVisited(section)"
+                  (click)="openSection(section)" matRipple [matRippleColor]="'rgba(255,255,255,0.06)'">
+
+            <div class="section-row-icon" [class.icon-practice]="section.sectionType === 'practice'">
+              <i class="ti {{ section.icon }}"></i>
+            </div>
+
+            <div class="section-row-body">
+              <span class="section-row-title">{{ section.title }}</span>
+              <span class="section-row-preview">{{ sectionPreview(section) }}</span>
+              <span class="section-row-meta">
+                <span class="type-badge" [class.badge-practice]="section.sectionType === 'practice'">
+                  <i class="ti {{ sectionTypeIcon(section) }}"></i> {{ sectionTypeLabel(section) }}
+                </span>
+                <span *ngIf="hasQuiz(section)" class="badge-quiz">
+                  <i class="ti ti-piano"></i> Quiz
+                </span>
+                <span *ngIf="section.keysNeeded === 61" class="badge-61">
+                  <i class="ti ti-piano"></i> 61-key
+                </span>
+                <span class="section-row-cards">{{ section.cards.length }} cards</span>
+              </span>
+            </div>
+
+            <!-- FIX 5: Visited indicator -->
+            <span *ngIf="isSectionVisited(section)" class="visited-dot" title="Previously visited">
+              <i class="ti ti-check"></i>
+            </span>
+            <i class="ti ti-chevron-right section-row-arrow"></i>
+          </button>
+
+          <button *ngIf="remainingSectionCount() > 0 && !showAllSections()"
+                  class="section-more-btn"
+                  (click)="showAllSections.set(true)">
+            <i class="ti ti-list-details"></i>
+            Show {{ remainingSectionCount() }} more sections
+          </button>
+
+          <button *ngIf="showAllSections() && filteredSections().length > 3"
+                  class="section-more-btn"
+                  (click)="showAllSections.set(false)">
+            <i class="ti ti-chevron-up"></i>
+            Show less
+          </button>
+        </div>
+
+        <!-- FIX 6: Collapsible phase readiness check -->
+        <div *ngIf="phase.checkList" class="glass-card readiness-card" style="margin-top:16px">
+          <button class="readiness-collapse-header" type="button" [attr.aria-expanded]="readinessExpanded()" (click)="toggleReadiness()">
+            <div class="section-title" style="margin-bottom:0">
+              <i class="ti ti-checkbox"></i> Readiness check
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <div class="readiness-score" [class.score-complete]="phaseProgress(phase.id).pct === 100">
+                {{ phaseProgress(phase.id).done }}<span class="score-total">/{{ phaseProgress(phase.id).total }}</span>
+              </div>
+              <i class="ti" [class.ti-chevron-down]="!readinessExpanded()" [class.ti-chevron-up]="readinessExpanded()"
+                 style="color:var(--text-muted);font-size:16px"></i>
+            </div>
+          </button>
+          <ng-container *ngIf="readinessExpanded()">
+            <div class="readiness-prog-bar" style="margin-top:10px">
+              <div class="readiness-prog-fill" [style.width]="phaseProgress(phase.id).pct + '%'" [style.background]="phase.accentColor"></div>
+            </div>
+            <ul class="check-list" style="margin-top: 14px;">
+              <li *ngFor="let item of phase.checkList; let i = index"
+                  class="check-item" [class.item-done]="progress.completedItems(phase.id).includes(i)"
+                  (click)="progress.toggleItem(phase.id, i)">
+                <span class="check-icon" [class.icon-done]="progress.completedItems(phase.id).includes(i)">
+                  <i class="ti ti-check"></i>
+                </span>
+                {{ item }}
+              </li>
+            </ul>
+          </ng-container>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <!-- SECTION VIEW — Focused content                                        -->
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <div *ngIf="currentView() === 'section' && activeSection() as section" class="section-view" [@slideUp]>
+
+    <!-- Sticky top bar (FIX 10: includes phase context) -->
+    <div class="section-top-bar">
+      <button class="back-btn" (click)="closeSection()" matRipple [matRippleColor]="'rgba(255,255,255,0.08)'">
+        <i class="ti ti-chevron-left"></i> Back
+      </button>
+      <div class="section-top-info">
+        <span class="section-top-phase">P{{ activePhase().id }}</span>
+        <span class="type-badge" [class.badge-practice]="section.sectionType === 'practice'">
+          <i class="ti {{ sectionTypeIcon(section) }}"></i> {{ sectionTypeLabel(section) }}
+        </span>
+        <span class="section-top-title">{{ section.title }}</span>
+      </div>
+      <span class="section-top-counter">{{ sectionIdx() + 1 }}/{{ filteredSections().length }}</span>
+    </div>
+
+    <app-section-content-cards
+      [section]="section"
+      [showScaleQuiz]="isScaleSection(section)"
+      [paddingBottom]="showFloatBar() ? '100px' : '32px'"
+      [isAtStart]="sectionIdx() === 0"
+      [isAtEnd]="sectionIdx() === filteredSections().length - 1"
+      (previous)="prevSection()"
+      (next)="nextSection()">
+    </app-section-content-cards>
+  </div>
+
+  <!-- Floating practice bar -->
+  <app-practice-float-bar *ngIf="showFloatBar()"
+    [drillLevels]="activeDrillItems()"
+    [phaseId]="activePhase().id"
+    [sectionTitle]="activeSectionTitle()"
+    [launchToken]="practiceLaunchToken()"
+    [launchMode]="practiceLaunchMode()"
+    [launchSessionMinutes]="practiceLaunchSessionMinutes()">
+  </app-practice-float-bar>
+
+  <!-- FIX 13: Footer shows live session info instead of static text -->
+  <footer class="site-footer" [style.padding-bottom]="showFloatBar() ? '80px' : null">
+    Practice a little each day. Consistency drives progress.
+  </footer>
+
+</div>

@@ -4,6 +4,7 @@ async function applyStableClientState(page: Page) {
   await page.addInitScript(() => {
     const today = new Date().toISOString().split('T')[0];
     localStorage.setItem('keys_app_keyboard', '25');
+    localStorage.setItem('keys_app_task_first', '0');
     localStorage.setItem('keys_app_progress', JSON.stringify({ completed: {} }));
     localStorage.setItem('keys_app_streak', JSON.stringify({
       lastSessionDate: today,
@@ -64,6 +65,8 @@ test.describe('Visual regression snapshots', () => {
 
     await page.goto('/');
     await page.getByRole('button', { name: /Open Phase/i }).first().click();
+    await expect(page.locator('.section-row').first()).toBeVisible({ timeout: 10000 });
+    await page.locator('.filter-row').getByRole('button', { name: 'All', exact: true }).click();
     await expect(page.locator('.section-row').first()).toBeVisible({ timeout: 10000 });
     await page.locator('.section-row').first().click();
     await expect(page.locator('.section-view')).toBeVisible({ timeout: 10000 });

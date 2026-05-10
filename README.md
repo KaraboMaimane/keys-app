@@ -23,7 +23,7 @@ A structured, interactive learning companion for keyboard players who want to pr
 
 Keys Lessons is a single-page Angular application that presents a curated, week-by-week keyboard curriculum aimed at aspiring producers. The curriculum is focused on the styles found in South African electronic music — deep house, amapiano, and sgidongo — and teaches the theory, technique, and genre-specific vocabulary needed to contribute meaningfully in a studio setting.
 
-The app is designed around a **glassmorphism dark UI** with smooth phase-transition animations and expandable section panels, optimised for desktop and tablet use.
+The app is designed around a **glassmorphism dark UI** with smooth phase-transition animations, task-first learning flow, and progressive disclosure so key actions stay visible while deeper detail stays optional.
 
 **Estimated total study time:** 6–8 months at 3–4 sessions per week (30–45 min each).
 
@@ -81,13 +81,16 @@ Takes your harmony beyond diatonic writing:
 
 ## Features
 
-- **Phase navigation bar** — jump between any of the 5 phases with a single click; an accent-coloured connector tracks your progress visually
-- **Expandable sections** — each phase is broken into focused topic sections using Material expansion panels (first section auto-expanded)
+- **Focus-first home dashboard** — one primary milestone card and compact stats keep first actions clear
+- **Progressive disclosure** — course blueprint and skill map are available on demand via a “Course details and map” toggle to reduce noise
+- **Task-first phase flow** — phase view prioritizes actionable section rows with optional guidance/metrics panels
+- **Guided practice launch** — one-tap and quick 10-minute launch options open practice with pre-configured timer and drill context
+- **Section-focused lesson view** — sticky context bar, concise card content, and move-on checklist for lower cognitive load
 - **Multiple card types** — content is rendered as `text`, `list`, `tag-list`, `two-col-drill`, `numeral-grid`, or `studio-milestone` cards depending on the content format
-- **Readiness checklists** — each phase ends with a checklist so you know exactly when you are ready to move on
+- **Readiness checklists** — phase and section checkpoints clarify when to progress
 - **Smooth animations** — phase transitions use Angular animations (`phaseIn`) and card stagger animations (`staggerCards`) with `cubic-bezier` easing
 - **Glassmorphism dark UI** — frosted-glass card surfaces on an animated dark background with drifting colour orbs
-- **Fully standalone Angular app** — no routing needed; one component, zero page reloads
+- **Routed standalone Angular app shell** — route-aware home/phase/section views with deep-link support and zero page reloads
 
 ---
 
@@ -170,6 +173,11 @@ Navigate to [http://localhost:4200](http://localhost:4200). The app reloads auto
 | `npm run build` | Production build — output in `dist/` |
 | `npm run watch` | Development build with file watching |
 | `npm test` | Run unit tests via Karma |
+| `npm run e2e` | Run full Playwright E2E suite |
+| `npm run e2e:smoke` | Run smoke journey tests |
+| `npm run e2e:mobile` | Run mobile browser E2E tests |
+| `npm run e2e:visual` | Run visual regression snapshots |
+| `npm run e2e:update-snapshots` | Intentionally refresh visual snapshots |
 
 ---
 
@@ -178,7 +186,9 @@ Navigate to [http://localhost:4200](http://localhost:4200). The app reloads auto
 - **Adding curriculum content:** All lesson data is defined in [`src/app/data/phases.data.ts`](src/app/data/phases.data.ts). Each `Phase` holds an array of `Section` objects, and each section holds an array of `CardBlock` objects. Adding a new section or card requires no changes to the component or template.
 - **Card types:** To render a new style of content block, add a new `type` value to the `CardBlock` interface and add the corresponding `*ngIf` branch in `app.component.html`.
 - **Theming:** Phase accent colours are driven by the `accentColor` field on each `Phase` object and injected as CSS custom properties (`--accent`) on the nav buttons and connectors.
-- **Animations:** The `phaseIn` trigger fires on every phase switch. The `staggerCards` trigger re-runs whenever `activeIndex()` changes, staggering `.glass-card` elements into view.
+- **State model:** The app uses view-state signals (`home`, `phase`, `section`) and localStorage-backed toggles for keyboard size, calm mode, task-first mode, and detail expansion.
+- **Animations:** The `viewIn`, `slideUp`, and list/card stagger triggers animate major transitions while respecting reduced-motion settings.
+- **Documentation sync:** If feature scope, user-visible workflow, UI architecture, or project scripts change, update this README in the same PR so commands and behavior stay accurate.
 
 ---
 

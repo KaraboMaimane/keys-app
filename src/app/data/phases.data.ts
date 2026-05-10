@@ -49,6 +49,11 @@ export const PHASES: Phase[] = [
             type: 'text',
             body: 'C major and A minor share the same notes — they are relative keys. Starting in C major gives you a visual anchor: the white keys only. A minor is equally valid but emotionally darker. For deep house and amapiano, you\'ll use both constantly — so learn C major first as your theory home, then treat Am as a free bonus later.'
           }
+        ],
+        checkList: [
+          'You can explain why C major and A minor share the same notes',
+          'You can find C instantly from any 2-black-key group',
+          'You can state why C major is the default training key in early phases',
         ]
       },
       {
@@ -80,6 +85,11 @@ export const PHASES: Phase[] = [
               'You can translate what you hear in your head to the keys — slowly, but reliably',
             ]
           }
+        ],
+        checkList: [
+          'You know your realistic timeline to studio basics and studio confidence',
+          'You can describe what Phase 3 readiness practically sounds like on keys',
+          'You can translate at least one curriculum goal into your weekly practice plan',
         ]
       },
       {
@@ -118,6 +128,11 @@ export const PHASES: Phase[] = [
             heading: 'What this fixes for you',
             body: 'You said you were pressing random C major, A minor, and 7th chords without knowing why. This ladder fixes that by forcing three things in order: shape accuracy, timing control, and harmonic purpose. By Level 3, every note you play has a role in the progression. By Level 4, you can use it creatively in production.'
           }
+        ],
+        checkList: [
+          'You can identify which ladder level your current drill belongs to',
+          'You only increase difficulty after two clean sessions in a row',
+          'You can explain the musical purpose of the notes you are playing in a progression',
         ]
       },
       {
@@ -172,11 +187,17 @@ export const PHASES: Phase[] = [
             heading: 'When do scales stop being a lesson and become a warm-up?',
             body: 'The moment you can play C major ascending and descending with both hands at 60 BPM 8th notes without counting or thinking about fingering, scales become a 5-minute warm-up — not a main exercise.\n\nFrom that point forward: open every single session with 2 octaves up and down, both hands, for 5 minutes. Then move on to whatever the current lesson is. You never stop doing scales — you just stop spending 20 minutes on them.\n\nDo not wait until you are perfect at 16th notes before moving to triads. Once 8th notes feel easy, start triads and keep working the 16th note ladder in your warm-up.'
           }
+        ],
+        checkList: [
+          'You can name all white keys without pausing',
+          'You can play C major with both hands at 60 BPM in 8th notes cleanly',
+          'You can complete one 20-minute Week 1 drill block without breaking form',
         ]
       },
       {
         icon: 'ti-moon',
         title: 'The A natural minor scale — your second home',
+        sectionType: 'practice',
         cards: [
           {
             type: 'text',
@@ -205,6 +226,11 @@ export const PHASES: Phase[] = [
               { title: 'Note naming pass', detail: 'One slow run at 40 BPM saying each note aloud. One fast run at 60 BPM in silence. Repeat.' },
             ]
           }
+        ],
+        checkList: [
+          'You can play A natural minor with correct fingering in both hands',
+          'You can audibly hear and describe the mood shift between C major and A minor',
+          'You can switch between C major and A minor without changing hand-map confidence',
         ]
       },
       {
@@ -245,11 +271,17 @@ export const PHASES: Phase[] = [
               { title: 'Major 7th (M7)', detail: 'C to B — the floating, dreamy sound. Defines maj7 chords.' },
             ]
           }
+        ],
+        checkList: [
+          'You can count semitones accurately from any white-key root',
+          'You can identify m3, M3, P5, m7, and M7 by ear on C-based examples',
+          'You can explain how interval quality changes chord emotion',
         ]
       },
       {
         icon: 'ti-calculator',
         title: 'Chord construction — building chords from intervals',
+        sectionType: 'theory',
         cards: [
           {
             type: 'text',
@@ -285,6 +317,11 @@ export const PHASES: Phase[] = [
               { title: 'Fmaj7', detail: 'F + M3 (A) + P5 (C) + M7 (E) = F–A–C–E ✓' },
             ]
           }
+        ],
+        checkList: [
+          'You can build any major or minor triad from interval formulas',
+          'You can build maj7, m7, and dominant 7th chords from a named root',
+          'You can verify your chord spelling by semitone counting instead of shape memory',
         ]
       },
       {

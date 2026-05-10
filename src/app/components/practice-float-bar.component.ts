@@ -1,4 +1,4 @@
-import { Component, inject, signal, computed, Input, OnDestroy } from '@angular/core';
+import { Component, inject, signal, computed, Input, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MetronomeService } from '../metronome.service';
 import { SessionTimerService } from '../session-timer.service';
@@ -141,6 +141,8 @@ type Panel = 'metro' | 'session' | 'drill' | null;
 
   <!-- Metronome pill -->
   <button class="pfb-pill" [class.pfb-pill-active]="open()==='metro' || metro.isPlaying()"
+    [attr.aria-pressed]="open()==='metro'"
+    [attr.aria-expanded]="open()==='metro'"
     (click)="toggle('metro')">
     <i class="ti ti-metronome pfb-pill-ico"></i>
     <span class="pfb-pill-val">{{metro.bpm()}}</span>
@@ -153,6 +155,8 @@ type Panel = 'metro' | 'session' | 'drill' | null;
   <!-- Session pill -->
   <button class="pfb-pill" [class.pfb-pill-active]="open()==='session' || timer.sessionRunning()"
     [class.pfb-pill-urgent]="sessionUrgent()"
+    [attr.aria-pressed]="open()==='session'"
+    [attr.aria-expanded]="open()==='session'"
     (click)="toggle('session')">
     <i class="ti ti-clock pfb-pill-ico"></i>
     <span class="pfb-pill-val">{{timer.sessionRunning() ? timer.sessionDisplay() : targetDisplay()}}</span>
@@ -165,6 +169,8 @@ type Panel = 'metro' | 'session' | 'drill' | null;
   <!-- Drill pill -->
   <button *ngIf="drillLevels.length" class="pfb-pill"
     [class.pfb-pill-active]="open()==='drill' || timer.drillRunning()"
+    [attr.aria-pressed]="open()==='drill'"
+    [attr.aria-expanded]="open()==='drill'"
     (click)="toggle('drill')">
     <i class="ti ti-layers-intersect pfb-pill-ico"></i>
     <span class="pfb-pill-val">{{timer.drillRunning() ? timer.drillLevelKey() : 'DRILL'}}</span>
@@ -183,7 +189,7 @@ type Panel = 'metro' | 'session' | 'drill' | null;
     /* ── Sheet panel ── */
     .pfb-sheet {
       position: fixed; bottom: 68px; left: 50%; transform: translateX(-50%);
-      width: min(480px, calc(100vw - 24px));
+      width: min(720px, calc(100vw - 24px));
       background: #16141e;
       border: 1px solid rgba(139,126,248,0.3);
       border-radius: 20px 20px 16px 16px;
@@ -206,7 +212,7 @@ type Panel = 'metro' | 'session' | 'drill' | null;
     /* ── Bottom bar ── */
     .pfb-bar {
       position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
-      width: min(480px, 100vw);
+      width: min(720px, 100vw);
       display: flex; align-items: center; justify-content: center;
       gap: 0;
       background: rgba(14,12,20,0.92);
@@ -225,8 +231,19 @@ type Panel = 'metro' | 'session' | 'drill' | null;
       gap: 6px; padding: 8px 6px; border-radius: 12px;
       background: none; border: none; cursor: pointer;
       transition: background 0.15s; position: relative;
+      min-height: 44px;
     }
     .pfb-pill:hover { background: rgba(255,255,255,0.06); }
+    .pfb-pill:focus-visible,
+    .pfb-play:focus-visible,
+    .pfb-tap:focus-visible,
+    .pfb-adj:focus-visible,
+    .pfb-preset:focus-visible,
+    .pfb-drill-lvl:focus-visible,
+    .pfb-bpb-btn:focus-visible {
+      outline: 2px solid color-mix(in srgb, #34d399 60%, #ffffff);
+      outline-offset: 2px;
+    }
     .pfb-pill-ico { font-size: 18px; color: var(--text-muted); transition: color 0.2s; }
     .pfb-pill-val {
       font-family: var(--font-display); font-size: 14px; font-weight: 900;
@@ -371,13 +388,16 @@ type Panel = 'metro' | 'session' | 'drill' | null;
     .pfb-drill-save { display: flex; gap: 8px; }
   `]
 })
-export class PracticeFloatBarComponent implements OnDestroy {
+export class PracticeFloatBarComponent implements OnDestroy, OnChanges {
   metro = inject(MetronomeService);
   timer = inject(SessionTimerService);
 
   @Input() drillLevels: { title: string; detail: string }[] = [];
   @Input() phaseId = 0;
   @Input() sectionTitle = '';
+  @Input() launchToken = 0;
+  @Input() launchMode: 'none' | 'guided-practice' = 'none';
+  @Input() launchSessionMinutes = 20;
 
   open = signal<Panel>(null);
   beats = computed(() => Array.from({ length: this.metro.beatsPerBar() }));
@@ -426,6 +446,23 @@ export class PracticeFloatBarComponent implements OnDestroy {
 
   fmtSec(s: number): string {
     return s < 60 ? `${s}s` : `${Math.floor(s/60)}m${s%60 ? ' '+s%60+'s' : ''}`;
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!changes['launchToken'] || this.launchMode !== 'guided-practice') return;
+
+    this.timer.sessionMinutes.set(this.launchSessionMinutes);
+    this.metro.setBpm(70);
+
+    if (!this.timer.sessionRunning()) this.timer.startSession();
+
+    if (this.drillLevels.length > 0) {
+      if (!this.timer.drillRunning()) this.timer.startDrill('L1');
+      this.open.set('drill');
+      return;
+    }
+
+    this.open.set('session');
   }
 
   ngOnDestroy(): void {
