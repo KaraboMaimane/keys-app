@@ -387,36 +387,14 @@
           </button>
         </div>
 
-        <!-- FIX 6: Collapsible phase readiness check -->
-        <div *ngIf="phase.checkList" class="glass-card readiness-card" style="margin-top:16px">
-          <button class="readiness-collapse-header" type="button" [attr.aria-expanded]="readinessExpanded()" (click)="toggleReadiness()">
-            <div class="section-title" style="margin-bottom:0">
-              <i class="ti ti-checkbox"></i> Readiness check
-            </div>
-            <div style="display:flex;align-items:center;gap:8px">
-              <div class="readiness-score" [class.score-complete]="phaseProgress(phase.id).pct === 100">
-                {{ phaseProgress(phase.id).done }}<span class="score-total">/{{ phaseProgress(phase.id).total }}</span>
-              </div>
-              <i class="ti" [class.ti-chevron-down]="!readinessExpanded()" [class.ti-chevron-up]="readinessExpanded()"
-                 style="color:var(--text-muted);font-size:16px"></i>
-            </div>
-          </button>
-          <ng-container *ngIf="readinessExpanded()">
-            <div class="readiness-prog-bar" style="margin-top:10px">
-              <div class="readiness-prog-fill" [style.width]="phaseProgress(phase.id).pct + '%'" [style.background]="phase.accentColor"></div>
-            </div>
-            <ul class="check-list" style="margin-top: 14px;">
-              <li *ngFor="let item of phase.checkList; let i = index"
-                  class="check-item" [class.item-done]="progress.completedItems(phase.id).includes(i)"
-                  (click)="progress.toggleItem(phase.id, i)">
-                <span class="check-icon" [class.icon-done]="progress.completedItems(phase.id).includes(i)">
-                  <i class="ti ti-check"></i>
-                </span>
-                {{ item }}
-              </li>
-            </ul>
-          </ng-container>
-        </div>
+        <app-phase-readiness-card
+          [phase]="phase"
+          [progress]="phaseProgress(phase.id)"
+          [completedItems]="progress.completedItems(phase.id)"
+          [readinessExpanded]="readinessExpanded()"
+          (toggleReadiness)="toggleReadiness()"
+          (toggleItem)="progress.toggleItem(phase.id, $event)">
+        </app-phase-readiness-card>
 
       </div>
     </main>
