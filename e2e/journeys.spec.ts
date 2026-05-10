@@ -10,6 +10,7 @@ async function applyStableClientState(page: Page) {
   await page.addInitScript(() => {
     const today = new Date().toISOString().split('T')[0];
     localStorage.setItem('keys_app_keyboard', '25');
+    localStorage.setItem('keys_app_task_first', '0');
     localStorage.setItem('keys_app_progress', JSON.stringify({ completed: {} }));
     localStorage.setItem('keys_app_streak', JSON.stringify({
       lastSessionDate: today,

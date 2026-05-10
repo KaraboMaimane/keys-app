@@ -47,8 +47,16 @@ $keys-theme: mat.define-theme((
   --phase-5:  #60a5fa;  // neon blue
 
   --text-primary:   rgba(255,255,255,0.95);
-  --text-secondary: rgba(255,255,255,0.7);
-  --text-muted:     rgba(255,255,255,0.4);
+  --text-secondary: rgba(255,255,255,0.82);
+  --text-muted:     rgba(255,255,255,0.62);
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
 
   --radius-sm:  4px;
   --radius-md:  8px;
@@ -93,8 +101,8 @@ h1, h2, h3, .phase-badge, .num, .brand-title, .phase-num {
 
 .glass-card {
   @extend .glass;
-  padding: 18px 20px;
-  margin-bottom: 10px;
+  padding: var(--space-4) var(--space-5);
+  margin-bottom: var(--space-3);
   position: relative;
   overflow: hidden;
   transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
@@ -120,7 +128,7 @@ h1, h2, h3, .phase-badge, .num, .brand-title, .phase-num {
     font-size: 14px;
     font-weight: 600;
     color: var(--text-primary);
-    margin-bottom: 10px;
+    margin-bottom: var(--space-3);
     letter-spacing: 0.01em;
   }
   p, li {
