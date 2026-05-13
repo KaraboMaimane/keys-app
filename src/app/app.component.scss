@@ -2,3 +2,300 @@
   display: block;
   min-height: 100vh;
 }
+
+// ─── Landing ─────────────────────────────────────────────────────────────────
+
+.landing {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(145deg, #040609 0%, #09101a 55%, #05080c 100%);
+  overflow: hidden;
+  padding: 24px 16px;
+}
+
+.landing-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.landing-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.18;
+}
+.landing-orb-a {
+  width: 700px; height: 700px;
+  background: #4c1fd9;
+  top: -200px; left: -150px;
+  animation: orbDrift 24s ease-in-out infinite alternate;
+}
+.landing-orb-b {
+  width: 500px; height: 500px;
+  background: #7c2d00;
+  bottom: -150px; right: -100px;
+  animation: orbDrift 18s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes orbDrift {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(40px, 30px) scale(1.08); }
+}
+
+.landing-inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 860px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+
+.landing-header {
+  text-align: center;
+}
+
+.landing-eyebrow {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  margin-bottom: 10px;
+}
+
+.landing-headline {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(24px, 5vw, 38px);
+  font-weight: 700;
+  color: rgba(255,255,255,0.92);
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+}
+
+// ─── Mode cards ───────────────────────────────────────────────────────────────
+
+.mode-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  width: 100%;
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mode-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 28px 24px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(15,20,30,0.5);
+  backdrop-filter: blur(20px) saturate(160%);
+  cursor: pointer;
+  text-align: left;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  font-family: 'Outfit', sans-serif;
+
+  &:hover {
+    transform: translateY(-4px);
+  }
+}
+
+.mode-card-badge {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 18px;
+  font-weight: 900;
+  color: rgba(255,255,255,0.15);
+  letter-spacing: -1px;
+}
+
+.mode-card-icon {
+  font-size: 36px;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+
+.mode-card-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.92);
+  line-height: 1.2;
+}
+
+.mode-card-desc {
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.6;
+  flex: 1;
+}
+
+.mode-card-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 7px 16px;
+  border-radius: 99px;
+  margin-top: 4px;
+  transition: all 0.2s ease;
+}
+
+// Keys card — purple
+.mode-card-keys {
+  --card-accent: #a78bfa;
+  --card-glow: rgba(124,58,237,0.35);
+
+  border-color: rgba(167,139,250,0.15);
+
+  &:hover {
+    border-color: rgba(167,139,250,0.4);
+    box-shadow: 0 20px 60px rgba(124,58,237,0.25), 0 0 0 1px rgba(167,139,250,0.15);
+  }
+
+  .mode-card-cta {
+    background: rgba(124,58,237,0.2);
+    border: 1px solid rgba(167,139,250,0.35);
+    color: #c4b5fd;
+  }
+  &:hover .mode-card-cta {
+    background: rgba(124,58,237,0.35);
+    color: #fff;
+  }
+  .mode-card-badge { color: rgba(167,139,250,0.2); }
+}
+
+// Launchpad card — orange
+.mode-card-launchpad {
+  --card-accent: #fb923c;
+  --card-glow: rgba(249,115,22,0.35);
+
+  border-color: rgba(249,115,22,0.15);
+
+  &:hover {
+    border-color: rgba(249,115,22,0.4);
+    box-shadow: 0 20px 60px rgba(249,115,22,0.2), 0 0 0 1px rgba(249,115,22,0.15);
+  }
+
+  .mode-card-icon i { color: #fb923c; }
+
+  .mode-card-cta {
+    background: rgba(180,83,9,0.2);
+    border: 1px solid rgba(249,115,22,0.35);
+    color: #fdba74;
+  }
+  &:hover .mode-card-cta {
+    background: rgba(180,83,9,0.35);
+    color: #fff;
+  }
+  .mode-card-badge { color: rgba(249,115,22,0.2); }
+}
+
+// ─── Floating mode switcher ───────────────────────────────────────────────────
+
+.mode-switcher {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  background: rgba(10,14,22,0.85);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 99px;
+  padding: 4px;
+  gap: 2px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04);
+}
+
+.switcher-divider {
+  width: 1px;
+  height: 20px;
+  background: rgba(255,255,255,0.1);
+  flex-shrink: 0;
+}
+
+.switcher-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 99px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: rgba(255,255,255,0.4);
+  font-family: 'Outfit', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+
+  &:hover:not(.switcher-active) {
+    color: rgba(255,255,255,0.7);
+    background: rgba(255,255,255,0.05);
+  }
+}
+
+.switcher-badge {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 9px;
+  font-weight: 900;
+  width: 16px; height: 16px;
+  border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.4);
+  flex-shrink: 0;
+}
+
+.switcher-icon {
+  font-size: 14px;
+  line-height: 1;
+}
+
+.switcher-label {
+  font-size: 12px;
+}
+
+// Active state per mode
+.switcher-btn.switcher-active {
+  color: #fff;
+}
+
+// When Keys is active
+.mode-switcher:has(.switcher-btn:first-child.switcher-active) {
+  .switcher-btn:first-child {
+    background: rgba(124,58,237,0.35);
+    border-color: rgba(167,139,250,0.4);
+    .switcher-badge { background: rgba(167,139,250,0.2); color: #c4b5fd; }
+  }
+}
+
+// When Launchpad is active
+.mode-switcher:has(.switcher-btn:last-child.switcher-active) {
+  .switcher-btn:last-child {
+    background: rgba(180,83,9,0.3);
+    border-color: rgba(249,115,22,0.4);
+    .switcher-badge { background: rgba(249,115,22,0.2); color: #fdba74; }
+  }
+}

@@ -1,1 +1,69 @@
-<router-outlet></router-outlet>
+<!-- ── Landing ──────────────────────────────────────────────────────────── -->
+<div class="landing" *ngIf="mode() === 'landing'">
+  <div class="landing-bg" aria-hidden="true">
+    <div class="landing-orb landing-orb-a"></div>
+    <div class="landing-orb landing-orb-b"></div>
+  </div>
+
+  <div class="landing-inner">
+    <div class="landing-header">
+      <p class="landing-eyebrow">Choose your section</p>
+      <h1 class="landing-headline">Where are you practising today?</h1>
+    </div>
+
+    <div class="mode-cards">
+
+      <!-- A — Keys Lessons -->
+      <button class="mode-card mode-card-keys" (click)="enter('keys')">
+        <div class="mode-card-badge">A</div>
+        <div class="mode-card-icon">🎹</div>
+        <h2 class="mode-card-title">Keys Lessons</h2>
+        <p class="mode-card-desc">Structured keyboard curriculum for SA house, amapiano and deep house. 5 phases, drills, theory and practice sessions.</p>
+        <span class="mode-card-cta">Enter Keys <i class="ti ti-arrow-right"></i></span>
+      </button>
+
+      <!-- B — Launchpad X -->
+      <button class="mode-card mode-card-launchpad" (click)="enter('launchpad')">
+        <div class="mode-card-badge">B</div>
+        <div class="mode-card-icon"><i class="ti ti-grid-dots"></i></div>
+        <h2 class="mode-card-title">Launchpad X</h2>
+        <p class="mode-card-desc">Visual pad-by-pad learning for the Novation Launchpad X. Scales, chords, licks, runs and progressions across all overlap settings.</p>
+        <span class="mode-card-cta">Enter Launchpad <i class="ti ti-arrow-right"></i></span>
+      </button>
+
+    </div>
+  </div>
+</div>
+
+<!-- ── Keys mode ────────────────────────────────────────────────────────── -->
+<ng-container *ngIf="mode() === 'keys'">
+  <router-outlet />
+</ng-container>
+
+<!-- ── Launchpad mode ───────────────────────────────────────────────────── -->
+<app-launchpad *ngIf="mode() === 'launchpad'" />
+
+<!-- ── Floating mode switcher (shown when inside a mode) ──────────────── -->
+<div class="mode-switcher" *ngIf="mode() !== 'landing'" role="navigation" aria-label="Switch app mode">
+  <button
+    class="switcher-btn"
+    [class.switcher-active]="mode() === 'keys'"
+    (click)="switchTo('keys')"
+    aria-label="Switch to Keys Lessons"
+  >
+    <span class="switcher-badge">A</span>
+    <span class="switcher-icon">🎹</span>
+    <span class="switcher-label">Keys</span>
+  </button>
+  <div class="switcher-divider"></div>
+  <button
+    class="switcher-btn"
+    [class.switcher-active]="mode() === 'launchpad'"
+    (click)="switchTo('launchpad')"
+    aria-label="Switch to Launchpad X"
+  >
+    <span class="switcher-badge">B</span>
+    <i class="ti ti-grid-dots switcher-icon" style="font-size:16px;"></i>
+    <span class="switcher-label">Launchpad</span>
+  </button>
+</div>
