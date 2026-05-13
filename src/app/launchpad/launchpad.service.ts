@@ -124,38 +124,45 @@ export class LaunchpadGridService {
     return found;
   }
 
-  // Returns in-scale pads for one octave with suggested finger numbers.
-  // Fingers reset at each row boundary — moving to a new row = shift the hand.
+  // Returns all in-scale pads across the full 8×8 grid with per-row finger numbers and hand assignment.
+  // Rows 0–3 = left hand (lower octaves), rows 4–7 = right hand (upper octaves).
+  // Fingers reset at every row boundary — each row is a new hand position.
   getScaleFingering(config: GridConfig): PadHighlight[] {
     const grid = this.computeGrid(config);
-    const inScale: Array<{ row: number; col: number; midi: number; isRoot: boolean }> = [];
+    const result: PadHighlight[] = [];
+    let fingerInRow = 0;
+    let lastRow = -1;
 
     for (let row = 0; row < 8; row++) {
       for (let col = 0; col < 8; col++) {
         const pad = grid[row][col];
         if (pad.isInScale) {
-          inScale.push({ row, col, midi: pad.midiNote, isRoot: pad.isRoot });
+          if (pad.row !== lastRow) { fingerInRow = 0; lastRow = pad.row; }
+          fingerInRow++;
+          result.push({
+            row: pad.row, col: pad.col,
+            status: pad.isRoot ? 'chord-root' : 'chord-tone',
+            finger: fingerInRow,
+            hand: row < 4 ? 'left' : 'right',
+          });
         }
       }
     }
-    inScale.sort((a, b) => a.midi - b.midi);
-
-    const rootMidi = inScale.find(p => p.isRoot)?.midi ?? inScale[0]?.midi ?? 0;
-    const oneOctave = inScale.filter(p => p.midi >= rootMidi && p.midi <= rootMidi + 12);
-
-    const result: PadHighlight[] = [];
-    let fingerInRow = 0;
-    let lastRow = -1;
-    for (const p of oneOctave) {
-      if (p.row !== lastRow) { fingerInRow = 0; lastRow = p.row; }
-      fingerInRow++;
-      result.push({
-        row: p.row, col: p.col,
-        status: p.isRoot ? 'chord-root' : 'chord-tone',
-        finger: fingerInRow,
-      });
-    }
     return result;
+  }
+
+  // Returns the MIDI start note, note name, octave, and hand for each of the 8 rows.
+  getOctaveMap(config: GridConfig): { row: number; startMidi: number; startNote: string; startOctave: number; hand: 'left' | 'right' }[] {
+    return Array.from({ length: 8 }, (_, row) => {
+      const startMidi = this.getMidiNote(row, 0, config);
+      return {
+        row,
+        startMidi,
+        startNote: ROOT_NAMES[startMidi % 12],
+        startOctave: Math.floor(startMidi / 12) - 1,
+        hand: (row < 4 ? 'left' : 'right') as 'left' | 'right',
+      };
+    });
   }
 
   // Returns all root-note pads for a given MIDI root

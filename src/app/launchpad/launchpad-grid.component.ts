@@ -150,6 +150,10 @@ import { PadState, PadHighlight, PadStatus } from './launchpad.models';
       border-color: rgba(255,255,255,0.04) !important;
     }
 
+    /* Hand zone top-border indicators — overlaid on any status */
+    .pad-hand-left  { border-top: 2px solid rgba(59,130,246,0.8)  !important; }
+    .pad-hand-right { border-top: 2px solid rgba(52,211,153,0.8) !important; }
+
     /* Legend */
     .pad-legend {
       display: flex;
@@ -214,6 +218,14 @@ import { PadState, PadHighlight, PadStatus } from './launchpad.models';
           <div class="legend-dot" style="background:rgba(14,165,233,0.18); border:1px solid rgba(56,189,248,0.45);"></div>Next chord
         </div>
       </ng-container>
+      <ng-container *ngIf="hasHandIndicators()">
+        <div class="legend-item">
+          <div class="legend-dot" style="border-top:3px solid rgba(59,130,246,0.8);background:transparent;border-radius:0;width:14px;height:10px;"></div>Left hand
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="border-top:3px solid rgba(52,211,153,0.8);background:transparent;border-radius:0;width:14px;height:10px;"></div>Right hand
+        </div>
+      </ng-container>
       <ng-container *ngIf="hasSequence()">
         <div class="legend-item">
           <div class="legend-dot" style="background:#c2410c;"></div>Active
@@ -268,7 +280,8 @@ export class LaunchpadGridComponent implements OnChanges {
     const key = `${pad.row},${pad.col}`;
     const hl = this.highlightMap.get(key);
     const status = hl ? hl.status : pad.status;
-    return `pad pad-${status}`;
+    const handClass = hl?.hand ? ` pad-hand-${hl.hand}` : '';
+    return `pad pad-${status}${handClass}`;
   }
 
   labelFor(pad: PadState): string | null {
@@ -281,6 +294,13 @@ export class LaunchpadGridComponent implements OnChanges {
     const key = `${pad.row},${pad.col}`;
     const hl = this.highlightMap.get(key);
     return hl?.finger ?? null;
+  }
+
+  hasHandIndicators(): boolean {
+    for (const h of this.highlightMap.values()) {
+      if (h.hand != null) return true;
+    }
+    return false;
   }
 
   hasHighlights(): boolean {

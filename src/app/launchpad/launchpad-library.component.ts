@@ -460,6 +460,120 @@ const OVERLAP_CARDS: { key: 'sequential' | 2 | 3 | 4 | 5; badge: string; name: s
       align-items: center;
       justify-content: center;
     }
+
+    /* ── Octave map table ── */
+    .octave-map-table {
+      display: grid;
+      grid-template-columns: 48px 1fr 70px 70px;
+      gap: 1px;
+      margin-bottom: 14px;
+      border-radius: 10px;
+      overflow: hidden;
+      font-family: 'Outfit', sans-serif;
+    }
+    .om-header { display: contents; }
+    .om-header > span {
+      padding: 6px 10px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: rgba(255,255,255,0.35);
+      background: rgba(255,255,255,0.06);
+    }
+    .om-row { display: contents; }
+    .om-row > span {
+      padding: 7px 10px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.7);
+    }
+    .om-left > span {
+      background: rgba(59,130,246,0.06);
+      border-top: 1px solid rgba(59,130,246,0.1);
+    }
+    .om-right > span {
+      background: rgba(52,211,153,0.06);
+      border-top: 1px solid rgba(52,211,153,0.1);
+    }
+    .hand-tag-left {
+      font-weight: 700;
+      color: rgba(147,197,253,0.9) !important;
+      font-family: 'Orbitron', monospace;
+      font-size: 10px;
+    }
+    .hand-tag-right {
+      font-weight: 700;
+      color: rgba(110,231,183,0.9) !important;
+      font-family: 'Orbitron', monospace;
+      font-size: 10px;
+    }
+
+    /* ── Hand legend ── */
+    .hand-legend-row {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 10px;
+    }
+    .hand-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.6);
+      font-family: 'Outfit', sans-serif;
+    }
+    .hand-badge {
+      font-family: 'Orbitron', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .hand-legend-item.lh .hand-badge {
+      background: rgba(59,130,246,0.2);
+      border: 1px solid rgba(59,130,246,0.5);
+      color: #93c5fd;
+    }
+    .hand-legend-item.rh .hand-badge {
+      background: rgba(52,211,153,0.2);
+      border: 1px solid rgba(52,211,153,0.5);
+      color: #6ee7b7;
+    }
+
+    /* ── Practice steps ── */
+    .practice-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .practice-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 13px;
+      padding: 11px 14px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      font-size: 13px;
+      color: rgba(255,255,255,0.65);
+      font-family: 'Outfit', sans-serif;
+      line-height: 1.5;
+    }
+    .practice-step-num {
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      background: rgba(124,58,237,0.3);
+      border: 1px solid rgba(167,139,250,0.4);
+      color: #a78bfa;
+      font-family: 'Orbitron', monospace;
+      font-size: 10px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .practice-step strong { color: rgba(255,255,255,0.9); }
   `],
   template: `
     <div class="lib-tabs">
@@ -575,12 +689,48 @@ const OVERLAP_CARDS: { key: 'sequential' | 2 | 3 | 4 | 5; badge: string; name: s
         </div>
       </div>
 
+      <!-- Hand Zones & Octave Map -->
+      <div class="tech-section">
+        <div class="tech-section-title">Hand Zones & Octave Map</div>
+        <div class="tech-section-sub">
+          The grid splits into two hand zones: <strong style="color:#93c5fd;">rows 0–3 (bottom half) = left hand</strong>, <strong style="color:#6ee7b7;">rows 4–7 (top half) = right hand</strong>.
+          The table below shows exactly which note and octave each row starts at for your current settings (overlap = {{ overlapSemitones() }} semitones per row). Row 7 is the top row of the device; row 0 is the bottom.
+        </div>
+        <div class="octave-map-table">
+          <div class="om-header">
+            <span>Row</span><span>First Note</span><span>Octave</span><span>Hand</span>
+          </div>
+          <div *ngFor="let r of octaveMap().slice().reverse()"
+               class="om-row"
+               [class.om-left]="r.hand === 'left'"
+               [class.om-right]="r.hand === 'right'">
+            <span>{{ r.row }}</span>
+            <span>{{ r.startNote }}</span>
+            <span>Oct {{ r.startOctave }}</span>
+            <span [class.hand-tag-left]="r.hand === 'left'"
+                  [class.hand-tag-right]="r.hand === 'right'">
+              {{ r.hand === 'left' ? 'L ←' : 'R →' }}
+            </span>
+          </div>
+        </div>
+        <div class="tech-rule-list">
+          <div class="tech-rule"><strong>Left hand</strong> — use for roots, bass notes, and lower chord tones. Anchor position: thumb on the root note of the key.</div>
+          <div class="tech-rule"><strong>Right hand</strong> — use for melody, upper extensions (7ths, 9ths), and improvised runs. Anchor position: thumb on the first in-scale note of row 4.</div>
+          <div class="tech-rule">This is a <em>default</em> hand boundary, not a rule. Advanced players shift the boundary up or down based on the register they want to play in.</div>
+        </div>
+      </div>
+
       <!-- Scale fingering live demo -->
       <div class="tech-section">
-        <div class="tech-section-title">Scale Fingering — {{ scaleName() }} / {{ rootName() }}</div>
+        <div class="tech-section-title">Scale Fingering — Full Grid · {{ scaleName() }} / {{ rootName() }}</div>
         <div class="tech-section-sub">
-          Numbers show suggested fingers for one ascending octave. Finger count resets at each row — moving to a new row means you shift your whole hand up.
+          <strong style="color:#93c5fd;">Blue top border</strong> = left hand (rows 0–3) · <strong style="color:#6ee7b7;">Green top border</strong> = right hand (rows 4–7).
+          Finger numbers reset at every row boundary — each row is a new hand position. When you reach row 3's last note, your <strong>right hand takes over at finger 1</strong> on row 4's first note.
           Row shift with current overlap: <strong>{{ overlapSemitones() }} semitones</strong>.
+        </div>
+        <div class="hand-legend-row">
+          <div class="hand-legend-item lh"><span class="hand-badge">L</span> Left hand — rows 0–3</div>
+          <div class="hand-legend-item rh"><span class="hand-badge">R</span> Right hand — rows 4–7</div>
         </div>
         <div class="finger-legend">
           <div class="finger-chip"><div class="finger-dot">1</div>Thumb</div>
@@ -590,6 +740,30 @@ const OVERLAP_CARDS: { key: 'sequential' | 2 | 3 | 4 | 5; badge: string; name: s
           <div class="finger-chip"><div class="finger-dot">5</div>Pinky</div>
         </div>
         <app-launchpad-grid [grid]="grid()" [highlights]="scaleFingering()" />
+      </div>
+
+      <!-- Practice sequence -->
+      <div class="tech-section">
+        <div class="tech-section-title">Practice Sequence for Scale Runs</div>
+        <div class="tech-section-sub">Work each hand separately before combining. Keep the finger-1 anchor consistent in every row.</div>
+        <div class="practice-steps">
+          <div class="practice-step">
+            <div class="practice-step-num">1</div>
+            <div><strong>Left hand only — rows 0–3, ascending.</strong> Start with thumb (1) on the first in-scale note of row 0. Fingers 1–N across the row, then shift your whole hand up to row 1 and reset thumb to finger 1 again. Repeat for rows 2 and 3.</div>
+          </div>
+          <div class="practice-step">
+            <div class="practice-step-num">2</div>
+            <div><strong>Right hand only — rows 4–7, ascending.</strong> Same rule: thumb (1) on the first in-scale note of row 4. Fingers 1–N per row, reset at each row boundary up to row 7.</div>
+          </div>
+          <div class="practice-step">
+            <div class="practice-step-num">3</div>
+            <div><strong>The handoff — row 3 → row 4.</strong> Left hand plays the last note of row 3 (see finger badge). Immediately after, right hand takes finger 1 on the first note of row 4. Practice just this one transition — slow and deliberate — until it feels seamless.</div>
+          </div>
+          <div class="practice-step">
+            <div class="practice-step-num">4</div>
+            <div><strong>Full ascending run</strong> — left hand rows 0–3, handoff, right hand rows 4–7. Then <strong>descend</strong>: right hand rows 7–4, handoff back to left on row 3's last note, left hand rows 3–0.</div>
+          </div>
+        </div>
       </div>
 
       <!-- Chord voicing rules -->
@@ -643,6 +817,7 @@ export class LaunchpadLibraryComponent implements OnChanges {
   overlapCards = OVERLAP_CARDS;
 
   private _scaleFingering: PadHighlight[] = [];
+  private _octaveMap: { row: number; startMidi: number; startNote: string; startOctave: number; hand: 'left' | 'right' }[] = [];
 
   constructor(private svc: LaunchpadGridService) {}
 
@@ -650,10 +825,12 @@ export class LaunchpadLibraryComponent implements OnChanges {
     if (changes['config']) {
       this._grid = this.svc.computeGrid(this.config);
       this._scaleFingering = this.svc.getScaleFingering(this.config);
+      this._octaveMap = this.svc.getOctaveMap(this.config);
     }
   }
 
   grid(): PadState[][] { return this._grid; }
+  octaveMap() { return this._octaveMap; }
 
   setTab(t: LibTab): void { this.tab.set(t); }
 

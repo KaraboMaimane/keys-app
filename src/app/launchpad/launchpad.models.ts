@@ -46,6 +46,7 @@ export interface PadHighlight {
   status: PadStatus;
   label?: string;
   finger?: number;
+  hand?: 'left' | 'right';
 }
 
 export interface LessonStep {
