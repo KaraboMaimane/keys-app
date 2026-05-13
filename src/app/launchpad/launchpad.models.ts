@@ -11,6 +11,7 @@ export type RootNote = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
 export type PadStatus =
   | 'root' | 'in-scale' | 'out-of-scale'
   | 'chord-root' | 'chord-tone'
+  | 'next-chord-root' | 'next-chord'
   | 'step-active' | 'step-next' | 'inactive';
 
 export type ChordType =
@@ -44,6 +45,7 @@ export interface PadHighlight {
   col: number;
   status: PadStatus;
   label?: string;
+  finger?: number;
 }
 
 export interface LessonStep {

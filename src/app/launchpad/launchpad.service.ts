@@ -118,7 +118,44 @@ export class LaunchpadGridService {
         }
       }
     }
+    // Sort lowest → highest pitch, then assign finger numbers (1 = thumb/lowest)
+    found.sort((a, b) => this.getMidiNote(a.row, a.col, config) - this.getMidiNote(b.row, b.col, config));
+    found.forEach((h, i) => { h.finger = i + 1; });
     return found;
+  }
+
+  // Returns in-scale pads for one octave with suggested finger numbers.
+  // Fingers reset at each row boundary — moving to a new row = shift the hand.
+  getScaleFingering(config: GridConfig): PadHighlight[] {
+    const grid = this.computeGrid(config);
+    const inScale: Array<{ row: number; col: number; midi: number; isRoot: boolean }> = [];
+
+    for (let row = 0; row < 8; row++) {
+      for (let col = 0; col < 8; col++) {
+        const pad = grid[row][col];
+        if (pad.isInScale) {
+          inScale.push({ row, col, midi: pad.midiNote, isRoot: pad.isRoot });
+        }
+      }
+    }
+    inScale.sort((a, b) => a.midi - b.midi);
+
+    const rootMidi = inScale.find(p => p.isRoot)?.midi ?? inScale[0]?.midi ?? 0;
+    const oneOctave = inScale.filter(p => p.midi >= rootMidi && p.midi <= rootMidi + 12);
+
+    const result: PadHighlight[] = [];
+    let fingerInRow = 0;
+    let lastRow = -1;
+    for (const p of oneOctave) {
+      if (p.row !== lastRow) { fingerInRow = 0; lastRow = p.row; }
+      fingerInRow++;
+      result.push({
+        row: p.row, col: p.col,
+        status: p.isRoot ? 'chord-root' : 'chord-tone',
+        finger: fingerInRow,
+      });
+    }
+    return result;
   }
 
   // Returns all root-note pads for a given MIDI root
@@ -163,12 +200,38 @@ export class LaunchpadGridService {
     return progression.map(({ label, semitones, chordType }) => {
       const chordRoot = rootMidi + semitones;
       const highlights = this.findChordShape(chordRoot, chordType, config);
+      const handSplit = this.getHandSplit(chordType);
       return {
         instruction: `Play the ${label} chord`,
-        subtext: `${ROOT_NAMES[chordRoot % 12]} ${chordType}`,
+        subtext: `${ROOT_NAMES[chordRoot % 12]} ${chordType}  ·  ${handSplit}`,
         highlights,
       };
     });
+  }
+
+  // Returns a hand-split suggestion for a given chord type.
+  // Standard practice: low notes (root/5th) in left hand, upper extensions in right.
+  getHandSplit(chordType: ChordType): string {
+    const splits: Partial<Record<ChordType, string>> = {
+      'major':       'One hand — root(1) · 3rd(2) · 5th(3)',
+      'minor':       'One hand — root(1) · 3rd(2) · 5th(3)',
+      'diminished':  'One hand — root(1) · m3rd(2) · dim5(3)',
+      'augmented':   'One hand — root(1) · M3rd(2) · aug5(3)',
+      'major7':      'L: root + 5th  ·  R: 3rd + 7th',
+      'minor7':      'L: root + 5th  ·  R: 3rd + 7th',
+      'dominant7':   'L: root + 5th  ·  R: 3rd + ♭7th',
+      'diminished7': 'L: root + dim5  ·  R: m3rd + dim7th',
+      'half-dim7':   'L: root + dim5  ·  R: m3rd + m7th',
+      'aug7':        'L: root + aug5  ·  R: M3rd + ♭7th',
+      'major9':      'L: root + 5th  ·  R: 3rd + 7th + 9th',
+      'minor9':      'L: root + 5th  ·  R: 3rd + 7th + 9th',
+      'dom9':        'L: root + 5th  ·  R: 3rd + ♭7th + 9th',
+      'add9':        'L: root + 5th  ·  R: 3rd + 9th',
+      'sus2':        'One hand — root(1) · 2nd(2) · 5th(3)',
+      'sus4':        'One hand — root(1) · 4th(2) · 5th(3)',
+      'dom7sus4':    'L: root + 5th  ·  R: 4th + ♭7th',
+    };
+    return splits[chordType] ?? 'L: root + 5th  ·  R: extensions';
   }
 
   getScaleIntervals(scale: ScaleType): number[] {

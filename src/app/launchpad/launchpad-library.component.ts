@@ -7,7 +7,7 @@ import {
   CHORD_LABELS, SCALE_LABELS, ROOT_NAMES, SCALE_FORMULA_LABELS,
 } from './launchpad.models';
 
-type LibTab = 'scales' | 'chords' | 'progressions';
+type LibTab = 'scales' | 'chords' | 'progressions' | 'technique';
 
 const CHORD_GROUPS: { label: string; chords: ChordType[] }[] = [
   { label: 'Triads', chords: ['major', 'minor', 'diminished', 'augmented'] },
@@ -64,6 +64,14 @@ const PROGRESSIONS: { label: string; name: string; chords: { semitones: number; 
       { semitones: 0, chordType: 'dominant7', degree: 'I7' },
     ],
   },
+];
+
+const OVERLAP_CARDS: { key: 'sequential' | 2 | 3 | 4 | 5; badge: string; name: string; interval: string; semitones: number; desc: string }[] = [
+  { key: 'sequential', badge: 'SEQ', name: 'Sequential', interval: 'Octave (8 st)', semitones: 8, desc: '64 unique notes — each row is one full octave. Best for a complete pitch reference or chromatic runs.' },
+  { key: 2, badge: '×2', name: '2-Finger', interval: 'Major 2nd (2 st)', semitones: 2, desc: 'Rows are very tightly spaced. Arpeggios cover many octaves across rows quickly. Patterns repeat every 6 rows.' },
+  { key: 3, badge: '×3', name: '3-Finger', interval: 'Minor 3rd (3 st)', semitones: 3, desc: 'Diminished 7th shapes form perfect squares across rows. Good for chromatic and symmetrical patterns.' },
+  { key: 4, badge: '×4', name: '4-Finger', interval: 'Major 3rd (4 st)', semitones: 4, desc: 'Major and minor triads fit cleanly in 2-row spans. Natural 3-finger chord voicings.' },
+  { key: 5, badge: '×5', name: '5-Finger', interval: 'Perfect 4th (5 st)', semitones: 5, desc: 'Mirrors guitar string tuning. Most intuitive for players with string instrument background.' },
 ];
 
 @Component({
@@ -251,6 +259,53 @@ const PROGRESSIONS: { label: string; name: string; chords: { semitones: number; 
     .step-btn:disabled { opacity: 0.3; cursor: default; }
     .step-info { font-size: 12px; color: rgba(255,255,255,0.6); font-family: 'Outfit',sans-serif; min-width: 80px; text-align: center; }
 
+    .hand-split-line {
+      font-size: 10px;
+      color: rgba(52,211,153,0.75);
+      margin-top: 5px;
+      font-family: 'Outfit', sans-serif;
+      line-height: 1.4;
+    }
+
+    .movement-hint {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-top: 10px;
+      padding: 9px 12px;
+      background: rgba(14,165,233,0.07);
+      border: 1px solid rgba(56,189,248,0.2);
+      border-radius: 8px;
+      font-size: 12px;
+      color: rgba(186,230,253,0.85);
+      font-family: 'Outfit', sans-serif;
+      line-height: 1.5;
+    }
+    .movement-hint i { flex-shrink: 0; font-size: 14px; margin-top: 1px; }
+    .movement-hint strong { color: rgba(186,230,253,1); }
+
+    .prog-ghost-key {
+      margin-top: 12px;
+      padding: 10px 12px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 11px;
+      color: rgba(255,255,255,0.5);
+      font-family: 'Outfit', sans-serif;
+    }
+    .ghost-key-row { display: flex; align-items: center; gap: 7px; }
+    .ghost-dot {
+      width: 12px; height: 12px;
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+    .ghost-dot.current { background: #b45309; border: 1px solid rgba(251,191,36,0.5); }
+    .ghost-dot.next { background: rgba(14,165,233,0.2); border: 1px solid rgba(56,189,248,0.45); }
+
     .overlap-tip {
       padding: 10px 12px;
       background: rgba(167,139,250,0.08);
@@ -262,12 +317,158 @@ const PROGRESSIONS: { label: string; name: string; chords: { semitones: number; 
       font-family: 'Outfit', sans-serif;
     }
     .overlap-tip strong { color: #a78bfa; }
+
+    /* ── Technique tab ── */
+    .iso-banner {
+      padding: 14px 16px;
+      background: linear-gradient(135deg, rgba(124,58,237,0.15), rgba(167,139,250,0.05));
+      border: 1px solid rgba(167,139,250,0.25);
+      border-radius: 12px;
+      margin-bottom: 20px;
+      font-family: 'Outfit', sans-serif;
+    }
+    .iso-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #a78bfa;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .iso-text {
+      font-size: 13px;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.6;
+    }
+
+    .overlap-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+    @media (max-width: 700px) {
+      .overlap-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    .ov-card {
+      padding: 10px 10px 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.07);
+      background: rgba(255,255,255,0.03);
+      font-family: 'Outfit', sans-serif;
+      transition: border-color 0.2s;
+    }
+    .ov-card.active {
+      border-color: rgba(167,139,250,0.45);
+      background: rgba(124,58,237,0.1);
+    }
+    .ov-badge {
+      font-family: 'Orbitron', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      color: #a78bfa;
+      margin-bottom: 5px;
+      letter-spacing: 0.5px;
+    }
+    .ov-name {
+      font-size: 12px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.85);
+      margin-bottom: 3px;
+    }
+    .ov-interval {
+      font-size: 10px;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 6px;
+    }
+    .ov-desc {
+      font-size: 11px;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.5;
+    }
+
+    .tech-section {
+      margin-bottom: 24px;
+    }
+    .tech-section-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.85);
+      margin-bottom: 4px;
+      font-family: 'Outfit', sans-serif;
+    }
+    .tech-section-sub {
+      font-size: 12px;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 12px;
+      font-family: 'Outfit', sans-serif;
+      line-height: 1.5;
+    }
+    .tech-rule-list {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+    .tech-rule {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.6);
+      font-family: 'Outfit', sans-serif;
+      line-height: 1.5;
+      padding: 9px 12px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .tech-rule strong { color: rgba(255,255,255,0.9); }
+    .tech-rule::before {
+      content: '→';
+      color: #a78bfa;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .finger-legend {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+    .finger-chip {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.6);
+      font-family: 'Outfit', sans-serif;
+    }
+    .finger-dot {
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      background: rgba(0,0,0,0.45);
+      border: 1px solid rgba(255,255,255,0.15);
+      font-family: 'Orbitron', monospace;
+      font-size: 9px;
+      font-weight: 900;
+      color: rgba(255,255,255,0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   `],
   template: `
     <div class="lib-tabs">
       <button class="lib-tab" [class.active]="tab() === 'scales'" (click)="setTab('scales')">Scales</button>
       <button class="lib-tab" [class.active]="tab() === 'chords'" (click)="setTab('chords')">Chords</button>
       <button class="lib-tab" [class.active]="tab() === 'progressions'" (click)="setTab('progressions')">Progressions</button>
+      <button class="lib-tab" [class.active]="tab() === 'technique'" (click)="setTab('technique')">
+        <i class="ti ti-hand-finger" style="margin-right:4px;"></i>How to Play
+      </button>
     </div>
 
     <!-- SCALES TAB -->
@@ -314,12 +515,19 @@ const PROGRESSIONS: { label: string; name: string; chords: { semitones: number; 
         <div class="prog-stepper" *ngIf="selectedProg() !== null">
           <button class="step-btn" (click)="prevProgStep()" [disabled]="progStep() === 0">‹</button>
           <div class="step-info">
-            <div style="font-weight:700;color:rgba(255,255,255,0.85);font-size:13px;">
+            <div style="font-weight:700;color:rgba(255,255,255,0.85);font-size:14px;">
               {{ currentProgChord() }}
             </div>
-            <div>Step {{ progStep() + 1 }} / {{ selectedProgChords().length }}</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.45);margin-top:2px;">
+              Step {{ progStep() + 1 }} / {{ selectedProgChords().length }}
+            </div>
+            <div class="hand-split-line" *ngIf="currentHandSplit() as hs">{{ hs }}</div>
           </div>
           <button class="step-btn" (click)="nextProgStep()" [disabled]="progStep() >= selectedProgChords().length - 1">›</button>
+        </div>
+        <div class="movement-hint" *ngIf="progMovementText() as mv">
+          <i class="ti ti-arrows-right-left"></i>
+          <span [innerHTML]="mv"></span>
         </div>
       </div>
       <div class="side-panel">
@@ -332,7 +540,91 @@ const PROGRESSIONS: { label: string; name: string; chords: { semitones: number; 
             <span class="prog-name">{{ p.name }}</span>
           </button>
         </div>
+        <div class="prog-ghost-key" *ngIf="selectedProg() !== null && progStep() < selectedProgChords().length - 1">
+          <div class="ghost-key-row">
+            <div class="ghost-dot current"></div><span>Current chord</span>
+          </div>
+          <div class="ghost-key-row">
+            <div class="ghost-dot next"></div><span>Next chord (preview)</span>
+          </div>
+        </div>
       </div>
+    </div>
+    <!-- TECHNIQUE TAB -->
+    <div *ngIf="tab() === 'technique'">
+
+      <!-- Isomorphic principle -->
+      <div class="iso-banner">
+        <div class="iso-title"><i class="ti ti-infinity"></i> The Isomorphic Grid</div>
+        <div class="iso-text">
+          Every adjacent pair of pads has a fixed interval. This means <strong>every chord and scale has exactly one shape per overlap setting</strong> — learn that shape once and it works in every key. To transpose: slide the shape to a different root pad. Nothing else changes.
+        </div>
+      </div>
+
+      <!-- Overlap reference cards -->
+      <div class="tech-section">
+        <div class="tech-section-title">What Each Overlap Setting Means</div>
+        <div class="tech-section-sub">Moving up one row = the interval shown below. Your current setting is highlighted.</div>
+        <div class="overlap-grid">
+          <div class="ov-card" *ngFor="let ov of overlapCards" [class.active]="isCurrentOverlap(ov.key)">
+            <div class="ov-badge">{{ ov.badge }}</div>
+            <div class="ov-name">{{ ov.name }}</div>
+            <div class="ov-interval">{{ ov.interval }}</div>
+            <div class="ov-desc">{{ ov.desc }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scale fingering live demo -->
+      <div class="tech-section">
+        <div class="tech-section-title">Scale Fingering — {{ scaleName() }} / {{ rootName() }}</div>
+        <div class="tech-section-sub">
+          Numbers show suggested fingers for one ascending octave. Finger count resets at each row — moving to a new row means you shift your whole hand up.
+          Row shift with current overlap: <strong>{{ overlapSemitones() }} semitones</strong>.
+        </div>
+        <div class="finger-legend">
+          <div class="finger-chip"><div class="finger-dot">1</div>Thumb</div>
+          <div class="finger-chip"><div class="finger-dot">2</div>Index</div>
+          <div class="finger-chip"><div class="finger-dot">3</div>Middle</div>
+          <div class="finger-chip"><div class="finger-dot">4</div>Ring</div>
+          <div class="finger-chip"><div class="finger-dot">5</div>Pinky</div>
+        </div>
+        <app-launchpad-grid [grid]="grid()" [highlights]="scaleFingering()" />
+      </div>
+
+      <!-- Chord voicing rules -->
+      <div class="tech-section">
+        <div class="tech-section-title">Chord Voicing</div>
+        <div class="tech-section-sub">Go to the Chords tab — every highlighted pad now shows a finger number. Rules below explain the physical approach.</div>
+        <div class="tech-rule-list">
+          <div class="tech-rule">Triads (3 pads): one hand, fingers 1–2–3. Root always on finger 1 (lowest pitch pad).</div>
+          <div class="tech-rule">7th chords (4 pads): one hand, fingers 1–2–3–4. Pads may span two rows — flatten your hand slightly to reach both rows.</div>
+          <div class="tech-rule">9th / extended chords (5+ pads): split across both hands. Left hand = root + 5th, right hand = 7th + upper extensions.</div>
+          <div class="tech-rule">For any chord: <strong>keep the root under thumb (1)</strong>. Stretch or close spacing depends on overlap — try 4-finger or 5-finger overlap for the most compact triad shapes.</div>
+        </div>
+      </div>
+
+      <!-- Moving shapes -->
+      <div class="tech-section">
+        <div class="tech-section-title">Transposing a Shape</div>
+        <div class="tech-rule-list">
+          <div class="tech-rule">To change key: <strong>move the entire shape to a different root pad</strong>. Every finger keeps the same relative position.</div>
+          <div class="tech-rule">Horizontal shift = chromatic transposition (1 semitone per pad in chromatic mode, 1 scale step in scale mode).</div>
+          <div class="tech-rule">Vertical shift (up one row) = {{ overlapSemitones() }}-semitone jump with current overlap. Use this to play the same chord an interval higher without moving horizontally.</div>
+          <div class="tech-rule">Diagonal movement combines both: up-right = up {{ overlapSemitones() }} semitones + 1. Useful for smooth voice leading across a progression.</div>
+        </div>
+      </div>
+
+      <!-- Scale mode vs chromatic mode -->
+      <div class="tech-section">
+        <div class="tech-section-title">Scale Mode vs Chromatic Mode</div>
+        <div class="tech-rule-list">
+          <div class="tech-rule"><strong>Chromatic mode:</strong> every pad is a semitone. Out-of-scale pads (dark) exist. You can reach any note, but must know which to avoid.</div>
+          <div class="tech-rule"><strong>Scale mode:</strong> every pad is a scale degree — no wrong notes. Perfect for beginners or improvising. The same fingering principle applies; row shift still equals {{ overlapSemitones() }} semitones but only hits scale steps.</div>
+          <div class="tech-rule">Switching modes does not change the overlap finger numbers — the physical hand shapes remain identical in structure.</div>
+        </div>
+      </div>
+
     </div>
   `,
 })
@@ -348,12 +640,16 @@ export class LaunchpadLibraryComponent implements OnChanges {
 
   chordGroups = CHORD_GROUPS;
   progs = PROGRESSIONS;
+  overlapCards = OVERLAP_CARDS;
+
+  private _scaleFingering: PadHighlight[] = [];
 
   constructor(private svc: LaunchpadGridService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['config']) {
       this._grid = this.svc.computeGrid(this.config);
+      this._scaleFingering = this.svc.getScaleFingering(this.config);
     }
   }
 
@@ -380,6 +676,17 @@ export class LaunchpadLibraryComponent implements OnChanges {
     };
     return tips[String(this.config.overlap)] ?? '';
   }
+
+  isCurrentOverlap(key: 'sequential' | 2 | 3 | 4 | 5): boolean {
+    return this.config.overlap === key;
+  }
+
+  overlapSemitones(): number {
+    if (this.config.overlap === 'sequential') return 8;
+    return this.config.overlap as number;
+  }
+
+  scaleFingering(): PadHighlight[] { return this._scaleFingering; }
 
   // Chords
   selectChord(c: ChordType): void {
@@ -423,10 +730,61 @@ export class LaunchpadLibraryComponent implements OnChanges {
   progHighlights(): PadHighlight[] {
     const idx = this.selectedProg();
     if (idx === null) return [];
-    const chord = PROGRESSIONS[idx].chords[this.progStep()];
+    const prog = PROGRESSIONS[idx];
+    const step = this.progStep();
+    const chord = prog.chords[step];
     if (!chord) return [];
+
+    const result: PadHighlight[] = [];
+
+    // Add next chord first (lower priority — current chord overwrites shared pads)
+    if (step < prog.chords.length - 1) {
+      const nextChord = prog.chords[step + 1];
+      const nextRoot = this.config.startNote + this.config.rootNote + nextChord.semitones;
+      const nextHighlights = this.svc.findChordShape(nextRoot, nextChord.chordType, this.config);
+      for (const h of nextHighlights) {
+        result.push({ ...h, status: h.status === 'chord-root' ? 'next-chord-root' : 'next-chord', finger: undefined, label: undefined });
+      }
+    }
+
+    // Current chord on top (overwrites any shared pads)
     const rootMidi = this.config.startNote + this.config.rootNote + chord.semitones;
-    return this.svc.findChordShape(rootMidi, chord.chordType, this.config);
+    result.push(...this.svc.findChordShape(rootMidi, chord.chordType, this.config));
+    return result;
+  }
+
+  currentHandSplit(): string {
+    const chords = this.selectedProgChords();
+    const ch = chords[this.progStep()];
+    if (!ch) return '';
+    return this.svc.getHandSplit(ch.chordType);
+  }
+
+  progMovementText(): string {
+    const idx = this.selectedProg();
+    if (idx === null) return '';
+    const chords = PROGRESSIONS[idx].chords;
+    const step = this.progStep();
+    if (step >= chords.length - 1) return '';
+
+    const currentRoot = this.config.rootNote + chords[step].semitones;
+    const nextChord = chords[step + 1];
+    const nextRoot = this.config.rootNote + nextChord.semitones;
+    const diff = nextRoot - currentRoot;
+    const absDiff = Math.abs(diff);
+    const intervalNames: Record<number, string> = {
+      0: 'unison', 1: 'm2', 2: 'M2', 3: 'm3', 4: 'M3',
+      5: 'P4', 6: 'tritone', 7: 'P5', 8: 'm6', 9: 'M6', 10: 'm7', 11: 'M7', 12: 'oct',
+    };
+    const name = intervalNames[absDiff % 12] ?? `${absDiff % 12}st`;
+    const nextChordName = `${ROOT_NAMES[(nextRoot + 12) % 12]} ${CHORD_LABELS[nextChord.chordType]}`;
+
+    if (diff === 0) {
+      return `Root stays — chord quality changes to <strong>${nextChordName}</strong>. Reshape fingers in place.`;
+    }
+    const dir = diff > 0 ? 'up' : 'down';
+    const semitones = Math.abs(diff);
+    return `Next: <strong>${nextChordName}</strong> — root moves <strong>${semitones} semitones ${dir}</strong> (${name}). Slide the shape ${dir} on the grid.`;
   }
 
   prevProgStep(): void {

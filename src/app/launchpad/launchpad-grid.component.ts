@@ -65,6 +65,20 @@ import { PadState, PadHighlight, PadStatus } from './launchpad.models';
       line-height: 1;
     }
 
+    .pad-finger {
+      position: absolute;
+      bottom: 3px;
+      left: 4px;
+      font-size: 8px;
+      font-weight: 900;
+      font-family: 'Orbitron', monospace;
+      color: rgba(255,255,255,0.95);
+      background: rgba(0,0,0,0.45);
+      border-radius: 3px;
+      padding: 0 3px;
+      line-height: 13px;
+    }
+
     /* ── Base status styles ── */
     .pad-root {
       background: #7c3aed;
@@ -102,6 +116,20 @@ import { PadState, PadHighlight, PadStatus } from './launchpad.models';
       box-shadow: 0 0 10px rgba(52,211,153,0.4) !important;
     }
     .pad-chord-tone .pad-note { color: #fff !important; }
+
+    /* Next-chord ghost — cool sky-blue, muted, so current chord reads on top */
+    .pad-next-chord-root {
+      background: rgba(14,165,233,0.18) !important;
+      border-color: rgba(56,189,248,0.45) !important;
+      box-shadow: 0 0 8px rgba(56,189,248,0.25) !important;
+    }
+    .pad-next-chord-root .pad-note { color: rgba(186,230,253,0.9) !important; }
+
+    .pad-next-chord {
+      background: rgba(14,165,233,0.08) !important;
+      border-color: rgba(56,189,248,0.25) !important;
+    }
+    .pad-next-chord .pad-note { color: rgba(186,230,253,0.7) !important; }
 
     .pad-step-active {
       background: #c2410c !important;
@@ -158,6 +186,7 @@ import { PadState, PadHighlight, PadStatus } from './launchpad.models';
           <span class="pad-note">{{ pad.noteName }}</span>
           <span class="pad-octave" *ngIf="pad.isInScale || pad.status === 'root'">{{ pad.octave }}</span>
           <span class="pad-label" *ngIf="labelFor(pad) as lbl">{{ lbl }}</span>
+          <span class="pad-finger" *ngIf="fingerFor(pad) as f">{{ f }}</span>
         </div>
       </div>
     </div>
@@ -178,6 +207,11 @@ import { PadState, PadHighlight, PadStatus } from './launchpad.models';
         </div>
         <div class="legend-item">
           <div class="legend-dot" style="background:#065f46;"></div>Chord tone
+        </div>
+      </ng-container>
+      <ng-container *ngIf="hasNextChordGhost()">
+        <div class="legend-item">
+          <div class="legend-dot" style="background:rgba(14,165,233,0.18); border:1px solid rgba(56,189,248,0.45);"></div>Next chord
         </div>
       </ng-container>
       <ng-container *ngIf="hasSequence()">
@@ -243,8 +277,18 @@ export class LaunchpadGridComponent implements OnChanges {
     return hl?.label ?? null;
   }
 
+  fingerFor(pad: PadState): number | null {
+    const key = `${pad.row},${pad.col}`;
+    const hl = this.highlightMap.get(key);
+    return hl?.finger ?? null;
+  }
+
   hasHighlights(): boolean {
-    return this.highlights.length > 0;
+    return this.highlights.some(h => h.status === 'chord-root' || h.status === 'chord-tone');
+  }
+
+  hasNextChordGhost(): boolean {
+    return this.highlights.some(h => h.status === 'next-chord-root' || h.status === 'next-chord');
   }
 
   hasSequence(): boolean {
